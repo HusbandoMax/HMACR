@@ -33,7 +33,6 @@ Profile.Settings = {
 }
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
-
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
@@ -70,11 +69,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Target.pos, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
-		-- Fancy Shit
 		{
 			["Type"] = 1, ["Name"] = "Communio", ["ID"] = 24398, ["Range"] = 25, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] > 0 and GaugeData1[4] < 2, ["OtherCheck"] = (PlayerMoving == false),
 		},
-
 		{
 			["Type"] = 1, ["Name"] = "Plentiful Harvest", ["ID"] = 24385, ["Range"] = 15, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
 			["Buff"] = self.TargetBuff2(Player,2592,0,"Has",PlayerID,PartySize) or (self.TargetBuff2(Player,2599,-1,"Missing",PlayerID) and self.TargetBuff2(Player,2592,0,"Has",PlayerID)),
@@ -152,8 +149,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Lemure's Slice", ["ID"] = 24399, ["Range"] = 3, ["TargetCast"] = true,
 		},
 
-
-
 		{
 			["Type"] = 1, ["Name"] = "Gluttony", ["ID"] = 24393, ["Range"] = 25, ["TargetCast"] = true,
 		},
@@ -168,7 +163,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Enshroud", ["ID"] = 24394, ["Range"] = 3, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[2] >= 50,
 		},
 
-
 		{
 			["Type"] = 1, ["Name"] = "Arcane Circle", ["ID"] = 24405, ["Range"] = 15, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 15, ["MaxDistance"] = 15, },
@@ -180,15 +174,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Bloodbath", ["ID"] = 7542, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 60 and PlayerInCombat == true,
 		},
 
-
-
-
 		{
 			["Type"] = 1, ["Name"] = "Soulsow", ["ID"] = 24387, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,2594,-1,"Missing",PlayerID), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = Player.incombat == false,
 		},
-
-
-
 
 		-- Shared CDS
 		{
