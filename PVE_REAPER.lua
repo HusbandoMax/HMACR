@@ -50,6 +50,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
 
+		d("NEW REAPER")
 	self.SendConsoleMessage("REAPER PROFILE",1)
 	local Gluttony = ActionList:Get(1,24393)
 	local GluttonyHold = Gluttony.usable == true and (Gluttony.isoncd == false or Gluttony.cd > 50)
