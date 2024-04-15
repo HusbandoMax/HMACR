@@ -33,6 +33,7 @@ Profile.Settings = {
 }
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
+	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
@@ -49,9 +50,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CurrentChannel = Data.CurrentChannel
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
-
-		d("NEW REAPER")
-	self.SendConsoleMessage("REAPER PROFILE",1)
+	
 	local Gluttony = ActionList:Get(1,24393)
 	local GluttonyHold = Gluttony.usable == true and (Gluttony.isoncd == false or Gluttony.cd > 50)
 	--d("GluttonyHold: "..tostring(GluttonyHold))
@@ -190,6 +189,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Seccond Wind", ["ID"] = 7541, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true and PlayerHP < 30,
 		},
 	}
+	self.SendConsoleMessage(ClassTypeID.."PROFILE END",1)
 
     return SkillList
 end
