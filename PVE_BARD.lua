@@ -71,6 +71,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CurrentChannel = Data.CurrentChannel
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
+    local PHasDispellableDebuff = Data.PHasDispellableDebuff
 
 	local Current = GaugeData1[1]
 	local Time = GaugeData1[3]
@@ -88,27 +89,20 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	for _, songData in ipairs(OptimalSongOrder) do
 		local song = songData.Song
 		local timeLeft = songData.PriorSongExpire
-		--d("Song "..song.." - "..tostring(GaugeState[song]))
 		-- Check if any song is not active
 		if GaugeState[song] ~= true then
 			allActive = false
 		end
 		-- Check if the song is not active and the remaining time passes
-        --d("song: "..song)
-        --d("timeLeft: "..timeLeft)
 		if GaugeState[song] ~= true and timeLeft >= Time then
-            --d("Next Found: "..song)
-            --d(timeLeft.." >= "..Time)
 			NextAction = song
 		end
 		if GaugeState[song] ~= true then break end
 	end
-	--d("allActive: "..tostring(allActive))	
 	-- Check if all songs are active and time is under 3 seconds (3000 milliseconds)
 	if allActive == true and Time <= 6000 then
 		NextAction = "Finale"
 	end
-	--d("NextAction: "..tostring(NextAction))
 
     local SkillList = {
         {
@@ -260,7 +254,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
         {
             ["Type"] = 1, ["Name"] = "The Warden's Paean", ["ID"] = 107, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Paean") == 1, ["OtherCheck"] = PlayerInCombat == true,
-            ["Buff"] = PHasDebuff,
+            ["Buff"] = PHasDispellableDebuff,
         },
 
         -- Shared CDS
