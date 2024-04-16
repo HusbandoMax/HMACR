@@ -220,6 +220,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 	}
 
+	self.SendConsoleMessage(ClassTypeID.."PROFILE END",1)
     return SkillList
 end
 

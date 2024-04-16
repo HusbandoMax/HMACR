@@ -56,7 +56,7 @@ Profile.Settings = {
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
-
+    d(self)
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
@@ -183,6 +183,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 	}
 
+	self.SendConsoleMessage(ClassTypeID.."PROFILE END",1)
     return SkillList
 end
 
