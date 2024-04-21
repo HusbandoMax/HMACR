@@ -173,20 +173,20 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
+            ["Type"] = 1, ["Name"] = "Venomous Bite", ["ID"] = 100, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,124,0,"Missing",PlayerID),
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["Level"] = self.SkillAccessCheck(100,7406,PlayerLevel),
+        },
+        {
             ["Type"] = 1, ["Name"] = "Caustic Bite", ["ID"] = 7406, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,1200,0,"Missing",PlayerID),
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1,
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["Level"] = self.SkillAccessCheck(7406,nil,PlayerLevel),
+        },
+        {
+            ["Type"] = 1, ["Name"] = "Windbite", ["ID"] = 113, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,129,0,"Missing",PlayerID),
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["Level"] = self.SkillAccessCheck(113,7407,PlayerLevel),
         },
         {
             ["Type"] = 1, ["Name"] = "Stormbite", ["ID"] = 7407, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,1201,0,"Missing",PlayerID),
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1,
-        },
-        {
-            ["Type"] = 1, ["Name"] = "Venomous Bite", ["ID"] = 124, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,124,0,"Missing",PlayerID),
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1,
-        },
-        {
-            ["Type"] = 1, ["Name"] = "Windbite", ["ID"] = 129, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,129,0,"Missing",PlayerID),
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1,
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["Level"] = self.SkillAccessCheck(7407,nil,PlayerLevel),
         },
         {
             ["Type"] = 1, ["Name"] = "Heavy Shot", ["ID"] = 97, ["Level"] = PlayerLevel < 76, ["Range"] = 25, ["TargetCast"] = true,
