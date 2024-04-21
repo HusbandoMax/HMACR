@@ -113,7 +113,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{ -- 35
-			["Type"] = 2, ["Name"] = "Mangetsu", ["ID"] = 7484, ["ss"] = { [25780] = true, [7483] = true, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["GaugeCheck"] = GaugeData1[2] == 0 or TargetID == 0 and BestNextAction == 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Mangetsu", ["ID"] = 7484, ["ComboID"] = { [25780] = true, [7483] = true, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["GaugeCheck"] = GaugeData1[2] == 0 or TargetID == 0 and BestNextAction == 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{ -- 45
