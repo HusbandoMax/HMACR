@@ -7,6 +7,9 @@ Profile.Settings = {
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
 
+    local PlayerPOS = Data.PlayerPOS
+    local TargetPOS = Data.TargetPOS
+    local TargetCastingInterruptible = Data.TargetCastingInterruptible
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
@@ -23,6 +26,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CurrentChannel = Data.CurrentChannel
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
+    local AOETimeout = Data.AOETimeout
+    local JumpTimeout = Data.JumpTimeout
+    local CastTimeout = Data.CastTimeout
 
 	
 	local SkillList = {

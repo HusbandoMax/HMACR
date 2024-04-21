@@ -72,11 +72,16 @@ Profile.Settings = {
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
+	
+    local PlayerPOS = Data.PlayerPOS
+    local TargetPOS = Data.TargetPOS
+    local TargetCastingInterruptible = Data.TargetCastingInterruptible
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
     local TargetID = Data.TargetID
     local TargetDistance = Data.TargetDistance
+    local TargetInCombat = Data.TargetInCombat
     local TargetHP = Data.TargetHP
     local PlayerHP = Data.PlayerHP
     local PartySize = Data.PartySize
@@ -88,6 +93,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CurrentChannel = Data.CurrentChannel
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
+    local AOETimeout = Data.AOETimeout
+    local JumpTimeout = Data.JumpTimeout
+    local CastTimeout = Data.CastTimeout
 
 	local SkillList = {
 		{
@@ -106,23 +114,23 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Holy Circle", ["ID"] = 16458, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,2673,0,"Has",PlayerID,0), ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 2, ["Name"] = "Holy Circle", ["ID"] = 16458, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,2673,0,"Has",PlayerID,0), ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Total Eclipse", ["ID"] = 7381, ["ComboIDNOT"] = { [7381] = PlayerLevel >= 40, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 2, ["Name"] = "Total Eclipse", ["ID"] = 7381, ["ComboIDNOT"] = { [7381] = PlayerLevel >= 40, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Prominence", ["ID"] = 16457, ["ComboID"] = { [7381] = true }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 2, ["Name"] = "Prominence", ["ID"] = 16457, ["ComboID"] = { [7381] = true }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
 		{
 			["Type"] = 1, ["Name"] = "Shield Lob", ["ID"] = 24, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Intervene", ["ID"] = 16461, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = self.JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
+			["Type"] = 1, ["Name"] = "Intervene", ["ID"] = 16461, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
 		},
 		{
@@ -197,11 +205,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- Shared CDS
 		{
 			["Type"] = 1, ["Name"] = "Provoke", ["ID"] = 7533, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"ProvokePull") == 2, 
-			["OtherCheck"] = Player.incombat == false and table.valid(Target) == true and Target.incombat == false,
+			["OtherCheck"] = PlayerInCombat == false and table.valid(Target) == true and PlayerInCombat == false,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Interject", ["ID"] = 7538, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Interrupts") == 1, 
-			["OtherCheck"] = PlayerInCombat == true and table.valid(Target) == true and Target.castinginfo.channelingid ~= 0 and Target.castinginfo.castinginterruptible == true,
+			["OtherCheck"] = PlayerInCombat == true and TargetCastingInterruptible == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 5, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,

@@ -55,6 +55,9 @@ Profile.Settings = {
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
 
+    local PlayerPOS = Data.PlayerPOS
+    local TargetPOS = Data.TargetPOS
+    local TargetCastingInterruptible = Data.TargetCastingInterruptible
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
@@ -72,6 +75,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
     local PHasDispellableDebuff = Data.PHasDispellableDebuff
+    local AOETimeout = Data.AOETimeout
+    local JumpTimeout = Data.JumpTimeout
+    local CastTimeout = Data.CastTimeout
+
+
 
 	local Current = GaugeData1[1]
 	local Time = GaugeData1[3]
@@ -106,7 +114,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
     local SkillList = {
         {
-            ["Type"] = 2, ["Name"] = "Peloton", ["ID"] = 7557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Peloton") == 1, ["OtherCheck"] = PlayerMoving == true and Player.incombat == false, ["Buff"] = self.TargetBuff2(Player,1199,3,"Missing") == true,
+            ["Type"] = 2, ["Name"] = "Peloton", ["ID"] = 7557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Peloton") == 1, ["OtherCheck"] = PlayerMoving == true and PlayerInCombat == false, ["Buff"] = self.TargetBuff2(Player,1199,3,"Missing") == true,
         },
 
         {
@@ -117,8 +125,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Shadowbite", ["ID"] = 16494, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = Player.pos, ["AOERange"] = 25, ["LineWidth"] = 5, },
+            ["Type"] = 1, ["Name"] = "Shadowbite", ["ID"] = 16494, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 25, ["LineWidth"] = 5, },
         },
         {
             ["Type"] = 1, ["Name"] = "Refulgent Arrow", ["ID"] = 7409, ["Range"] = 25, ["TargetCast"] = true,
@@ -139,14 +147,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
         {
             ["Type"] = 1, ["Name"] = "Apex Arrow", ["ID"] = 16496, ["Range"] = 25, ["Level"] = PlayerLevel < 86, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"ApexArrow") == 1,
-            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = Player.pos, ["AOERange"] = 25, ["MaxDistance"] = 25, ["LineWidth"] = 4,},
+            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 25, ["MaxDistance"] = 25, ["LineWidth"] = 4,},
         },
         {
             ["Type"] = 1, ["Name"] = "Apex Arrow", ["ID"] = 16496, ["Range"] = 25, ["Level"] = PlayerLevel < 86, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[4] >= 20, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"ApexArrow") == 2,
         },
         {
             ["Type"] = 1, ["Name"] = "Apex Arrow", ["ID"] = 16496, ["Range"] = 25, ["Level"] = PlayerLevel >= 86, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"ApexArrow") == 1,
-            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = Player.pos, ["AOERange"] = 25, ["MaxDistance"] = 25, ["LineWidth"] = 4,}, ["GaugeCheck"] = GaugeData1[4] >= 80,
+            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 25, ["MaxDistance"] = 25, ["LineWidth"] = 4,}, ["GaugeCheck"] = GaugeData1[4] >= 80,
         },
         {
             ["Type"] = 1, ["Name"] = "Apex Arrow", ["ID"] = 16496, ["Range"] = 25, ["Level"] = PlayerLevel >= 86, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"ApexArrow") == 2, ["GaugeCheck"] = GaugeData1[4] >= 80,
@@ -156,12 +164,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Ladonsbite", ["ID"] = 25783, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = Player.pos, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
+            ["Type"] = 1, ["Name"] = "Ladonsbite", ["ID"] = 25783, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
         },
         {
-            ["Type"] = 1, ["Name"] = "Quick Nock", ["ID"] = 106, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = Player.pos, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
+            ["Type"] = 1, ["Name"] = "Quick Nock", ["ID"] = 106, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
         },
 
         {
@@ -190,8 +198,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Rain of Death", ["ID"] = 117, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Target.pos, ["AOERange"] = 8, ["MaxDistance"] = 25,},
+            ["Type"] = 1, ["Name"] = "Rain of Death", ["ID"] = 117, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 8, ["MaxDistance"] = 25,},
         },
         {
             ["Type"] = 1, ["Name"] = "Bloodletter", ["ID"] = 110, ["Range"] = 25, ["TargetCast"] = true,
@@ -260,7 +268,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- Shared CDS
         {
             ["Type"] = 1, ["Name"] = "Head Graze", ["ID"] = 7551, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Interrupts") == 1, 
-            ["OtherCheck"] = PlayerInCombat == true and table.valid(Target) == true and Target.castinginfo.channelingid ~= 0 and Target.castinginfo.castinginterruptible == true,
+            ["OtherCheck"] = PlayerInCombat == true and TargetCastingInterruptible == true,
         },
         {
             ["Type"] = 1, ["Name"] = "Feint", ["ID"] = 7549, ["Range"] = 0, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
@@ -269,7 +277,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
             ["Type"] = 1, ["Name"] = "Bloodbath", ["ID"] = 7542, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true and PlayerHP < 50,
         },
         {
-			["Type"] = 1, ["Name"] = "Seccond Wind", ["ID"] = 7541, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = Settings.self[ClassTypeID.."CDs"] == 1, ["OtherCheck"] = PlayerInCombat == true and PlayerHP < 30,
+			["Type"] = 1, ["Name"] = "Seccond Wind", ["ID"] = 7541, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true and PlayerHP < 30,
 		},
 	}
 

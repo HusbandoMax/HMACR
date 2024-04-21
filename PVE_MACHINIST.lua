@@ -34,6 +34,9 @@ Profile.Settings = {
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
 
+    local PlayerPOS = Data.PlayerPOS
+    local TargetPOS = Data.TargetPOS
+    local TargetCastingInterruptible = Data.TargetCastingInterruptible
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
@@ -51,6 +54,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CurrentChannel = Data.CurrentChannel
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
+    local AOETimeout = Data.AOETimeout
+    local JumpTimeout = Data.JumpTimeout
+    local CastTimeout = Data.CastTimeout
 
 	local HasReassembleBuff = self.TargetBuff2(Player,851,0,"Has",PlayerID)
 	local HasFlamethrowerBuff = self.TargetBuff2(Player,1205,0,"Has",PlayerID)
@@ -74,11 +80,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 	local SkillList = {
 		{
-			["Type"] = 2, ["Name"] = "Flamethrower", ["ID"] = 7418, ["Range"] = 25, ["TargetCast"] = false, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876, ["OtherCheck"] = PlayerMoving == false and PlayerInCombat == true and GaugeData1[3] == 0 and GaugeData1[1] < 40, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = Player.pos, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
+			["Type"] = 2, ["Name"] = "Flamethrower", ["ID"] = 7418, ["Range"] = 25, ["TargetCast"] = false, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876, ["OtherCheck"] = PlayerMoving == false and PlayerInCombat == true and GaugeData1[3] == 0 and GaugeData1[1] < 40, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Peloton", ["ID"] = 7557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Peloton") == 1, ["OtherCheck"] = PlayerMoving == true and Player.incombat == false, ["Buff"] = self.TargetBuff2(Player,1199,3,"Missing") == true,
+			["Type"] = 2, ["Name"] = "Peloton", ["ID"] = 7557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Peloton") == 1, ["OtherCheck"] = PlayerMoving == true and PlayerInCombat == false, ["Buff"] = self.TargetBuff2(Player,1199,3,"Missing") == true,
 		},
 
 		{
@@ -134,8 +140,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		-- Extra Skills Level Based
 		{
-			["Type"] = 1, ["Name"] = "Bioblaster", ["ID"] = 16499, ["Range"] = 12, ["Level"] = PlayerLevel >= 76, ["TargetCast"] = true, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = Player.pos, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
+			["Type"] = 1, ["Name"] = "Bioblaster", ["ID"] = 16499, ["Range"] = 12, ["Level"] = PlayerLevel >= 76, ["TargetCast"] = true, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Drill", ["ID"] = 16498, ["Range"] = 25, ["Level"] = PlayerLevel >= 76, ["TargetCast"] = true, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
@@ -145,8 +151,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
         
 		{
-			["Type"] = 1, ["Name"] = "Auto Crossbow", ["ID"] = 16497, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = Player.pos, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
+			["Type"] = 1, ["Name"] = "Auto Crossbow", ["ID"] = 16497, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Heat Blast", ["ID"] = 7410, ["Range"] = 25, ["TargetCast"] = true,
@@ -155,13 +161,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- Filler Rotation
 
 		{
-			["Type"] = 1, ["Name"] = "Spread Shot", ["ID"] = 2870, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = Player.pos, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
+			["Type"] = 1, ["Name"] = "Spread Shot", ["ID"] = 2870, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
 			["OtherCheck"] = LastCast ~= 2878 and CurrentCast ~= 2878 and LastCast ~= 17209 and CurrentCast ~= 17209 and GaugeData1[3] == 0,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Scattergun", ["ID"] = 25786, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = Player.pos, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
+			["Type"] = 1, ["Name"] = "Scattergun", ["ID"] = 25786, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
 			["OtherCheck"] = LastCast ~= 2878 and CurrentCast ~= 2878 and LastCast ~= 17209 and CurrentCast ~= 17209 and GaugeData1[3] == 0,
 		},
 
@@ -224,7 +230,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- Shared CDS
 		{
 			["Type"] = 1, ["Name"] = "Head Graze", ["ID"] = 7551, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Interrupts") == 1, 
-			["OtherCheck"] = PlayerInCombat == true and table.valid(Target) == true and Target.castinginfo.channelingid ~= 0 and Target.castinginfo.castinginterruptible == true,
+			["OtherCheck"] = PlayerInCombat == true and TargetCastingInterruptible == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Feint", ["ID"] = 7549, ["Range"] = 0, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,

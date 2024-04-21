@@ -56,13 +56,17 @@ Profile.Settings = {
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
-    d(self)
+    
+    local PlayerPOS = Data.PlayerPOS
+    local TargetPOS = Data.TargetPOS
+    local TargetCastingInterruptible = Data.TargetCastingInterruptible
     local PlayerMoving = Data.PlayerMoving
     local PlayerInCombat = Data.PlayerInCombat
     local PlayerID = Data.PlayerID
     local TargetID = Data.TargetID
     local TargetDistance = Data.TargetDistance
     local TargetHP = Data.TargetHP
+    local TargetInCombat = Data.TargetInCombat
     local PlayerHP = Data.PlayerHP
     local PartySize = Data.PartySize
     local PlayerLevel = Data.PlayerLevel
@@ -73,6 +77,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CurrentChannel = Data.CurrentChannel
     local GaugeData1 = Data.GaugeData1
     local GaugeData2 = Data.GaugeData2
+    local AOETimeout = Data.AOETimeout
+    local JumpTimeout = Data.JumpTimeout
+    local CastTimeout = Data.CastTimeout
 
 	local SkillList = {
 		{
@@ -93,8 +100,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Carve and Spit", ["ID"] = 3643, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Flood of Shadow", ["ID"] = 16469, ["Range"] = 0, ["TargetCast"] = true, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = Target.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 3, ["Angle"] = 0, }, ["GaugeCheck"] = GaugeData1[2] <= 29999,
+			["Type"] = 1, ["Name"] = "Flood of Shadow", ["ID"] = 16469, ["Range"] = 0, ["TargetCast"] = true, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 3, ["Angle"] = 0, }, ["GaugeCheck"] = GaugeData1[2] <= 29999,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Edge of Shadow", ["ID"] = 16470, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[2] <= 29999,
@@ -105,16 +112,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 		--AOE STuff
 		{
-			["Type"] = 2, ["Name"] = "Quietus", ["ID"] = 7391, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 2, ["Name"] = "Quietus", ["ID"] = 7391, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Unleash", ["ID"] = 3621, ["ComboIDNOT"] = { [3621] = PlayerLevel >= 72, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 2, ["Name"] = "Unleash", ["ID"] = 3621, ["ComboIDNOT"] = { [3621] = PlayerLevel >= 72, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Stalwart", ["ID"] = 16468, ["ComboID"] = { [3621] = true, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 2, ["Name"] = "Stalwart", ["ID"] = 16468, ["ComboID"] = { [3621] = true, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
 		--Single Target
@@ -132,13 +139,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Unmend", ["ID"] = 3624, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Plunge", ["ID"] = 3640, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = self.JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
+			["Type"] = 1, ["Name"] = "Plunge", ["ID"] = 3640, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
 		},
 		-- OGCD
 		{
-			["Type"] = 1, ["Name"] = "Abyssal Drain", ["ID"] = 3641, ["Range"] = 20, ["TargetCast"] = true, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Target.pos, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 1, ["Name"] = "Abyssal Drain", ["ID"] = 3641, ["Range"] = 20, ["TargetCast"] = true, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Living Shadow", ["ID"] =16472, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
@@ -169,11 +176,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- Shared CDS
 		{
 			["Type"] = 1, ["Name"] = "Provoke", ["ID"] = 7533, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"ProvokePull") == 2, 
-			["OtherCheck"] = Player.incombat == false and table.valid(Target) == true and Target.incombat == false,
+			["OtherCheck"] = PlayerInCombat == false and table.valid(Target) == true and PlayerInCombat == false,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Interject", ["ID"] = 7538, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Interrupts") == 1, 
-			["OtherCheck"] = PlayerInCombat == true and table.valid(Target) == true and Target.castinginfo.channelingid ~= 0 and Target.castinginfo.castinginterruptible == true,
+			["OtherCheck"] = PlayerInCombat == true and TargetCastingInterruptible == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 5, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
