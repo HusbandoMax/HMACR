@@ -217,7 +217,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,144,3,"Missing",PlayerID) == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Dia", ["ID"] = 16532, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 72,
+			["Type"] = 1, ["Name"] = "Dia", ["ID"] = 16532, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 72, ["DOTCheck"] = true,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,1871,3,"Missing",PlayerID) == true,
 		},
 

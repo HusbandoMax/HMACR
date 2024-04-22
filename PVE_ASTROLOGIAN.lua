@@ -360,15 +360,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- DOT
         {
 			["Type"] = 1, ["Name"] = "Combust", ["ID"] = 3599, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(3599,3608,PlayerLevel),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyCombust == true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyCombust == true, ["DOTCheck"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Combust II", ["ID"] = 3608, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(3608,16554,PlayerLevel),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyCombust == true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyCombust == true, ["DOTCheck"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Combust III", ["ID"] = 16554, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(16554,nil,PlayerLevel),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyCombust == true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyCombust == true, ["DOTCheck"] = true,
 		},
         -- AOE DPS
         {

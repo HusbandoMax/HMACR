@@ -226,13 +226,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Bio", ["ID"] = 17864, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(17864,17865,PlayerLevel), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyBio == true,
+            ["Type"] = 1, ["Name"] = "Bio", ["ID"] = 17864, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(17864,17865,PlayerLevel), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyBio == true, ["DOTCheck"] = true,
         },
         {
-            ["Type"] = 1, ["Name"] = "Bio II", ["ID"] = 17865, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(17865,16540,PlayerLevel), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyBio == true,
+            ["Type"] = 1, ["Name"] = "Bio II", ["ID"] = 17865, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(17865,16540,PlayerLevel), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyBio == true, ["DOTCheck"] = true,
         },
         {
-            ["Type"] = 1, ["Name"] = "Biolysis", ["ID"] = 16540, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(16540,nil,PlayerLevel), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyBio == true,
+            ["Type"] = 1, ["Name"] = "Biolysis", ["ID"] = 16540, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(16540,nil,PlayerLevel), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = ShouldApplyBio == true, ["DOTCheck"] = true,
         },
 
         {
