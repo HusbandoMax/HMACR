@@ -132,7 +132,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Slice", ["ID"] = 24373, ["ComboID"] = { [0] = true, [24375] = true, [24376] = true, [24377] = true, }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Slice", ["ID"] = 24373, ["ComboID"] = { [0] = true, [24373] = PlayerLevel < 5, [24374] = PlayerLevel < 30, [24375] = true, [24376] = true, [24377] = true, }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Waxing Slice", ["ID"] = 24374, ["ComboID"] = { [24373] = true }, ["Range"] = 3, ["TargetCast"] = true,
