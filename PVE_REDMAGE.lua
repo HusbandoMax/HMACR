@@ -65,6 +65,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local TargetDistance = Data.TargetDistance
     local TargetHP = Data.TargetHP
     local PlayerHP = Data.PlayerHP
+    local PlayerMP = Data.PlayerMP
     local PartySize = Data.PartySize
     local PlayerLevel = Data.PlayerLevel
     local CastingInfo = Data.CastingInfo
