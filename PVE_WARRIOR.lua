@@ -162,10 +162,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Maim", ["ID"] = 37, ["ComboID"] = { [31] = true }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Storm's Path", ["ID"] = 42, ["ComboID"] = { [37] = true }, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = (PlayerLevel < 50 or PlayerHP < 50),
+			["Type"] = 1, ["Name"] = "Storm's Eye", ["ID"] = 45, ["ComboID"] = { [37] = true }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,2677,30,"Missing",PlayerID),
 		},
 		{
-			["Type"] = 1, ["Name"] = "Storm's Eye", ["ID"] = 45, ["ComboID"] = { [37] = true }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Storm's Path", ["ID"] = 42, ["ComboID"] = { [37] = true }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Onsluaght", ["ID"] = 7386, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
@@ -174,9 +174,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Tomahawk", ["ID"] = 46, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
 		},
-
-
-
+		
 		-- OGCD
 		{
 			["Type"] = 1, ["Name"] = "Orogeny", ["ID"] = 25752, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,

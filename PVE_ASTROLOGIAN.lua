@@ -347,7 +347,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 3, ["Name"] = "Aspected Benefic", ["ID"] = 3595, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 95, ["HPAbove"] = 85, ["PartyOnly"] = true,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["Buff2"] = { ["Target"] = nil, ["BuffID"] = {3595}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["Buff2"] = { ["Target"] = nil, ["BuffID"] = {835}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
 		},
 
         {
