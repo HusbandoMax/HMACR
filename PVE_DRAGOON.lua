@@ -79,26 +79,26 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Piercing Talon", ["ID"] = 90, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Draconian Fury", ["ID"] = 25770, ["ComboIDNOT"] = { [16479] = true, [7397] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
+			["Type"] = 1, ["Name"] = "Doom Spike", ["ID"] = 86, ["ComboIDNOT"] = { [86] = PlayerLevel >= 62, [7397] = PlayerLevel >= 72, [16477] = PlayerLevel >= 82, [25770] = PlayerLevel >= 82, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line2", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Doom Spike", ["ID"] = 86, ["ComboIDNOT"] = { [86] = true, [7397] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
+			["Type"] = 1, ["Name"] = "Sonic Thrust", ["ID"] = 7397, ["ComboID"] = { [86] = true, [25770] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line2", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Sonic Thrust", ["ID"] = 7397, ["ComboID"] = { [86] = true, [25770] = true }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
+			["Type"] = 1, ["Name"] = "Coerthan Torment", ["ID"] = 16477, ["ComboID"] = { [7397] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line2", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Coerthan Torment", ["ID"] = 16477, ["ComboID"] = { [7397] = true }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
+			["Type"] = 1, ["Name"] = "Draconian Fury", ["ID"] = 25770, ["ComboID"] = { [16477] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line2", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Raiden Thrust", ["ID"] = 16479, ["ComboIDNOT"] = { [16479] = true, [78] = true, [87] = true, }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "True Thrust", ["ID"] = 75, ["ComboIDNOT"] = { [75] = PlayerLevel >= 4, [78] = PlayerLevel >= 26, [87] = PlayerLevel >= 50, }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "True Thrust", ["ID"] = 75, ["ComboIDNOT"] = { [75] = PlayerLevel >= 4, [78] = PlayerLevel >= 26, [87] = PlayerLevel >= 50, [16479] = PlayerLevel >= 76 }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Disembowel", ["ID"] = 87, ["ComboID"] = { [75] = true }, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,2720,0,"Missing",PlayerID), ["TargetCast"] = true,
@@ -110,7 +110,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Chaotic Spring", ["ID"] = 25772, ["ComboID"] = { [87] = true }, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Vorpal Thrust", ["ID"] = 78, ["ComboID"] = { [75] = true }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Vorpal Thrust", ["ID"] = 78, ["ComboID"] = { [75] = true, [16479] = true }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Full Thrust", ["ID"] = 84, ["ComboID"] = { [78] = true }, ["Range"] = 3, ["TargetCast"] = true,
