@@ -74,6 +74,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local HasTenChiJinBuff = self.TargetBuff2(Player,1186,0,"Has",PlayerID)
 	local HasMeisuiBuff = self.TargetBuff2(Player,2689,0,"Has",PlayerID)
 
+	local HasActiveMudraSkill = ActionList:Get(1,2265):CanCastResult() ~= 572
+
 	for i,e in pairs(Player.buffs) do
 		local BuffID = e.id
 		if e.ownerid == PlayerID then
@@ -119,15 +121,28 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	}
 
 	local LastActionWasMudra = MudraActions[CurrentCast] ~= nil or MudraActions[LastCast] ~= nil
-	self.SendConsoleMessage("NinjaLastMudra: "..self.NinjaLastMudra,3)
 
+	--d("HasActiveMudraSkill: "..tostring(HasActiveMudraSkill))
+	--d("HasMudraBuff: "..tostring(HasMudraBuff))
+	--d("HasKassatsuBuff: "..tostring(HasKassatsuBuff))
+	--d("LastActionWasMudra: "..tostring(LastActionWasMudra))
+	--d("LastCastTime: "..LastCastTime)
+	if HasMudraBuff == false and HasKassatsuBuff == false and (LastActionWasMudra == false or LastCastTime > 500) then 
+		--d("---------------------- RESET 1")
+		self.NinjaLastMudra = 0 
+		LastActionWasMudra = false 
+	end
 
-	if HasMudraBuff == false and HasKassatsuBuff == false and (LastActionWasMudra == false or LastCastTime > 500) then self.NinjaLastMudra = 0 end
+	if HasMudraBuff == true and LastActionWasMudra == true and (LastCastTime > 5000 or (LastCastTime > 1500 and HasActiveMudraSkill)) then 
+		--d("---------------------- RESET 2")
+		self.NinjaLastMudra = 0 
+		LastActionWasMudra = false 
+	end
 
 	local TrickAttack = ActionList:Get(1,2258)
 	if self.NinjaLastMudra == 2 and TrickAttack.cd + 5 < TrickAttack.cdmax then
 		self.NinjaLastMudra = 0
-		d("Trick Mudra Clear")
+		--d("Trick Mudra Clear")
 	end
 
 
@@ -139,38 +154,37 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	if self.NinjaLastMudra == 0 then
 		--local MudraCharges = ActionList:Get(1,2259).charges
 
-		d("MudraCurrentCharges: "..tostring(MudraCurrentCharges))
+		--d("MudraCurrentCharges: "..tostring(MudraCurrentCharges))
 		local AOEType = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }
 		local EnemiesAroundSelf = self.EntityInCount(AOEType)
 
 		local EnemiesAroundTarget = 0
 		if table.valid(Target) == true then
-			d("Valid Target")
-			d(Target)
-			d(Target.name)
+			--d("Valid Target")
+			--d(Target)
+			--d(Target.name)
 			local AOEType2 = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 20, ["LineWidth"] = 0, ["Angle"] = 0, }
 			EnemiesAroundTarget = self.EntityInCount(AOEType2)
 		end
 
-		d("EnemiesAroundSelf: "..tostring(EnemiesAroundSelf))
-		d("EnemiesAroundTarget: "..tostring(EnemiesAroundTarget))
+		--d("EnemiesAroundSelf: "..tostring(EnemiesAroundSelf))
+		--d("EnemiesAroundTarget: "..tostring(EnemiesAroundTarget))
 
 
-		d("TrickAttack.cd: "..TrickAttack.cd)
-		d("TrickAttack.cdmax: "..TrickAttack.cdmax)
+		--d("TrickAttack.cd: "..TrickAttack.cd)
+		--d("TrickAttack.cdmax: "..TrickAttack.cdmax)
 
-
-		d("PlayerLevel: "..tostring(PlayerLevel >= 32))
-		d("AttackableTarget: "..tostring(AttackableTarget))
-		d("HasSuitonBuff: "..tostring(HasSuitonBuff))
-		d("TrickAttack1: "..tostring(TrickAttack.cd ~= 0))
-		d("TrickAttack2: "..tostring(TrickAttack.cd + 10 < TrickAttack.cdmax))
-		d("MudraType: "..tostring(self.GetSettingsValue(ClassTypeID,"MudraType") == 1))
+		--d("PlayerLevel: "..tostring(PlayerLevel >= 32))
+		--d("AttackableTarget: "..tostring(AttackableTarget))
+		--d("HasSuitonBuff: "..tostring(HasSuitonBuff))
+		--d("TrickAttack1: "..tostring(TrickAttack.cd ~= 0))
+		--d("TrickAttack2: "..tostring(TrickAttack.cd + 10 < TrickAttack.cdmax))
+		--d("MudraType: "..tostring(self.GetSettingsValue(ClassTypeID,"MudraType") == 1))
 
 		local GeneralCheck = HasSuitonBuff == false and MudraCurrentCharges > 0 and TrickAttack.cd ~= 0 and TrickAttack.cd + 10 < TrickAttack.cdmax
-		if PlayerLevel >= 45 and GaugeData1[2] == 0 then
+		if PlayerLevel >= 45 and GaugeData1[2] == 0 and MudraCurrentCharges > 0 then
 			self.NinjaLastMudra = 1
-		elseif PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax then
+		elseif PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
 			self.NinjaLastMudra = 2
 		elseif PlayerLevel >= 35 and EnemiesAroundSelf > 2 and (PlayerLevel < 76 or HasKassatsuBuff == false) and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"MudraType2") == 2 then
 			self.NinjaLastMudra = 6
@@ -185,7 +199,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		end
 	end
 
-	d("self.NinjaLastMudra: "..tostring(self.NinjaLastMudra))
+	--d("self.NinjaLastMudra: "..tostring(self.NinjaLastMudra))
 
 
 
@@ -209,7 +223,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	-- Raiton
 	-- Ten > Chi - 2259 > 18805
 	-- Jin > Chi - 2263 > 18805
-
+	--d(" ------------------ ")
+	--d("self.NinjaLastMudra: "..tostring(self.NinjaLastMudra))
+	--d("LastActionWasMudra: "..tostring(LastActionWasMudra))
+	--d(" ------------------ ")
+	self.SendConsoleMessage("NinjaLastMudra: "..self.NinjaLastMudra,3)
+	self.SendConsoleMessage("LastActionWasMudra: "..tostring(LastActionWasMudra),3)
+	
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Kassatsu", ["ID"] = 2264, ["Range"] = 0, ["TargetCast"] = false, --["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
