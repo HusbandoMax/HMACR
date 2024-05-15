@@ -200,7 +200,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	end
 
 	--d("self.NinjaLastMudra: "..tostring(self.NinjaLastMudra))
-
+	local hasBhavacakra = PlayerLevel >= 68
+	local hellfrogAoeCount = 3
+	if hasBhavacakra == false then hellfrogAoeCount = 1 end
 
 
 
@@ -471,7 +473,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "HellFrog Medium", ["ID"] = 7401, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
 			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
-			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["AOECount"] = hellfrogAoeCount, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Bhavacakra", ["ID"] = 7402, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
