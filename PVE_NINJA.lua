@@ -89,7 +89,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	end
 
 	--d("Ten Chi Jin - HasTenChiJinBuff: "..tostring(HasTenChiJinBuff))
-	local TargetHasTrickAttack = 0
+	local TargetHasTrickAttack = false
 	local AttackableTarget = false
 	if table.valid(Target) == true then
 		AttackableTarget = Target.attackable
@@ -100,11 +100,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		for i,e in pairs(Target.buffs) do
 			local BuffID = e.id
 			if e.ownerid == PlayerID then
-				if BuffID == 3254 then TargetHasTrickAttack = e.duration end
-				if BuffID == 638 then TargetHasTrickAttack = e.duration end
+				if BuffID == 3254 then TargetHasTrickAttack = e.duration > 1 end
+				if BuffID == 638 then TargetHasTrickAttack = e.duration > 1 end
 			end
 		end
 	end
+	
 
 	local MudraActions = {
 		[2259] = "Ten",
@@ -228,7 +229,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	--d("LastActionWasMudra: "..tostring(LastActionWasMudra))
 	--d(" ------------------ ")
 	self.SendConsoleMessage("NinjaLastMudra: "..self.NinjaLastMudra,3)
-	self.SendConsoleMessage("LastActionWasMudra: "..tostring(LastActionWasMudra),3)
+	self.SendConsoleMessage("LastActionWasMudra: "..tostring(LastActionWasMudra),3)	
+	self.SendConsoleMessage("TargetHasTrickAttack: "..tostring(TargetHasTrickAttack),3)
 	
 	local SkillList = {
 		{
@@ -456,7 +458,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		{
-			["Type"] = 1, ["Name"] = "Muh", ["ID"] = 2248, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = GaugeData1[1] < 50 and self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+			["Type"] = 1, ["Name"] = "Mug", ["ID"] = 2248, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = GaugeData1[1] < 50 and self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 
 		{
@@ -469,7 +471,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "HellFrog Medium", ["ID"] = 7401, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
+			["Type"] = 1, ["Name"] = "Hellfrog Medium", ["ID"] = 7401, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
 			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
@@ -486,7 +488,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Bloodbath", ["ID"] = 7542, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true and PlayerHP < 50, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Seccond Wind", ["ID"] = 7541, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true and PlayerHP < 30, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
+			["Type"] = 1, ["Name"] = "Second Wind", ["ID"] = 7541, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true and PlayerHP < 30, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
 		},
 	}
 
