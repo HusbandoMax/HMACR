@@ -65,47 +65,29 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local AOETimeout = Data.AOETimeout
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
-
 	
-    local HasDotonBuff = self.TargetBuff2(Player,497,0,"Has",PlayerID)
+    local HasDotonBuff = self.TargetBuff2(Player,501,0,"Has",PlayerID)
 	local HasMudraBuff = self.TargetBuff2(Player,{496,497},0,"Has",PlayerID)
 	local HasSuitonBuff = self.TargetBuff2(Player,507,0,"Has",PlayerID)
-	local HasKassatsuBuff = self.TargetBuff2(Player,501,0,"Has",PlayerID)
+	local HasKassatsuBuff = self.TargetBuff2(Player,497,0,"Has",PlayerID)
 	local HasTenChiJinBuff = self.TargetBuff2(Player,1186,0,"Has",PlayerID)
 	local HasMeisuiBuff = self.TargetBuff2(Player,2689,0,"Has",PlayerID)
+	local HasActiveMudraSkill = self.TargetBuff2(Player,2689,0,"Has",PlayerID)
+	local TargetHasTrickAttack = self.TargetBuff2(Target,{3254,638},1,"Has",PlayerID)
 
-	local HasActiveMudraSkill = ActionList:Get(1,2265):CanCastResult() ~= 572
-
-	for i,e in pairs(Player.buffs) do
-		local BuffID = e.id
-		if e.ownerid == PlayerID then
-			if BuffID == 497 then HasKassatsuBuff = true end
-			if BuffID == 496 or BuffID == 497 then HasMudraBuff = true end
-			if BuffID == 507 then HasSuitonBuff = true end
-			if BuffID == 501 then HasDotonBuff = true end
-			if BuffID == 1186 then HasTenChiJinBuff = true end
-			if BuffID == 2689 then HasMeisuiBuff = true end
-		end
-	end
-
-	--d("Ten Chi Jin - HasTenChiJinBuff: "..tostring(HasTenChiJinBuff))
-	local TargetHasTrickAttack = false
+	--d("HasDotonBuff: "..tostring(HasDotonBuff))
+	--d("HasMudraBuff: "..tostring(HasMudraBuff))	
+	--d("HasSuitonBuff: "..tostring(HasSuitonBuff))
+	--d("HasKassatsuBuff: "..tostring(HasKassatsuBuff))
+	--d("HasTenChiJinBuff: "..tostring(HasTenChiJinBuff))
+	--d("HasMeisuiBuff: "..tostring(HasMeisuiBuff))
+	--d("HasActiveMudraSkill: "..tostring(HasActiveMudraSkill))
+	--d("TargetHasTrickAttack: "..tostring(TargetHasTrickAttack))
+	
 	local AttackableTarget = false
 	if table.valid(Target) == true then
 		AttackableTarget = Target.attackable
-		PlayerID = Player.id
-		TargetID = Target.id
-		TargetDistance = Target.distance2d
-		TargetHP = Target.hp.percent
-		for i,e in pairs(Target.buffs) do
-			local BuffID = e.id
-			if e.ownerid == PlayerID then
-				if BuffID == 3254 then TargetHasTrickAttack = e.duration > 1 end
-				if BuffID == 638 then TargetHasTrickAttack = e.duration > 1 end
-			end
-		end
 	end
-	
 
 	local MudraActions = {
 		[2259] = "Ten",
@@ -122,12 +104,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	}
 
 	local LastActionWasMudra = MudraActions[CurrentCast] ~= nil or MudraActions[LastCast] ~= nil
-
-	--d("HasActiveMudraSkill: "..tostring(HasActiveMudraSkill))
-	--d("HasMudraBuff: "..tostring(HasMudraBuff))
-	--d("HasKassatsuBuff: "..tostring(HasKassatsuBuff))
-	--d("LastActionWasMudra: "..tostring(LastActionWasMudra))
-	--d("LastCastTime: "..LastCastTime)
+	
 	if HasMudraBuff == false and HasKassatsuBuff == false and (LastActionWasMudra == false or LastCastTime > 500) then 
 		--d("---------------------- RESET 1")
 		self.NinjaLastMudra = 0 
@@ -146,7 +123,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		--d("Trick Mudra Clear")
 	end
 
-
 	local Kassatsu = ActionList:Get(1,2264)
 	local Ten = ActionList:Get(1,2259)
 	local MudraCurrentCharges = math.floor((Ten.cdmax /Ten.recasttime) - ((Ten.cdmax - Ten.cd) / Ten.recasttime))
@@ -154,40 +130,22 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 	if self.NinjaLastMudra == 0 then
 		--local MudraCharges = ActionList:Get(1,2259).charges
-
 		--d("MudraCurrentCharges: "..tostring(MudraCurrentCharges))
 		local AOEType = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }
 		local EnemiesAroundSelf = self.EntityInCount(AOEType)
 
 		local EnemiesAroundTarget = 0
 		if table.valid(Target) == true then
-			--d("Valid Target")
-			--d(Target)
-			--d(Target.name)
 			local AOEType2 = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 20, ["LineWidth"] = 0, ["Angle"] = 0, }
 			EnemiesAroundTarget = self.EntityInCount(AOEType2)
 		end
-
-		--d("EnemiesAroundSelf: "..tostring(EnemiesAroundSelf))
-		--d("EnemiesAroundTarget: "..tostring(EnemiesAroundTarget))
-
-
-		--d("TrickAttack.cd: "..TrickAttack.cd)
-		--d("TrickAttack.cdmax: "..TrickAttack.cdmax)
-
-		--d("PlayerLevel: "..tostring(PlayerLevel >= 32))
-		--d("AttackableTarget: "..tostring(AttackableTarget))
-		--d("HasSuitonBuff: "..tostring(HasSuitonBuff))
-		--d("TrickAttack1: "..tostring(TrickAttack.cd ~= 0))
-		--d("TrickAttack2: "..tostring(TrickAttack.cd + 10 < TrickAttack.cdmax))
-		--d("MudraType: "..tostring(self.GetSettingsValue(ClassTypeID,"MudraType") == 1))
 
 		local GeneralCheck = HasSuitonBuff == false and MudraCurrentCharges > 0 and TrickAttack.cd ~= 0 and TrickAttack.cd + 10 < TrickAttack.cdmax
 		if PlayerLevel >= 45 and GaugeData1[2] == 0 and MudraCurrentCharges > 0 then
 			self.NinjaLastMudra = 1
 		elseif PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
 			self.NinjaLastMudra = 2
-		elseif PlayerLevel >= 35 and EnemiesAroundSelf > 2 and (PlayerLevel < 76 or HasKassatsuBuff == false) and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"MudraType2") == 2 then
+		elseif PlayerLevel >= 35 and LastCast ~= 2270 and EnemiesAroundSelf > 2 and (PlayerLevel < 76 or HasKassatsuBuff == false) and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"MudraType2") == 2 then
 			self.NinjaLastMudra = 6
 		elseif PlayerLevel >= 35 and AttackableTarget == true and EnemiesAroundTarget > 2 and GeneralCheck == true and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false then
 			self.NinjaLastMudra = 5
@@ -199,39 +157,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			self.NinjaLastMudra = 7
 		end
 	end
-
-	--d("self.NinjaLastMudra: "..tostring(self.NinjaLastMudra))
-	local hasBhavacakra = PlayerLevel >= 68
-	local hellfrogAoeCount = 3
-	if hasBhavacakra == false then hellfrogAoeCount = 1 end
-
-
-
-	-- Ten 2259, Chi 2261, Jin 2263
-	-- Ten 18805, Chi 18806, Jin 18807
-
-	-- Huton
-	-- Jin > Chi > Ten - 2263 > 18806 > 18805
-	-- Chi > Jin > Ten - 2261 > 18807 > 18805
-
-	-- Suiton
-	-- Ten > Chi > Jin - 2259 > 18806 > 18807
-	-- Chi > Ten > Jin - 2261 > 18805 > 18807
-
-
-	-- Doton
-	-- Ten > Jin > Chi -
-	-- Jin > Ten > Chi -
-
-	-- Raiton
-	-- Ten > Chi - 2259 > 18805
-	-- Jin > Chi - 2263 > 18805
 	--d(" ------------------ ")
 	--d("self.NinjaLastMudra: "..tostring(self.NinjaLastMudra))
 	--d("LastActionWasMudra: "..tostring(LastActionWasMudra))
 	--d(" ------------------ ")
 	self.SendConsoleMessage("NinjaLastMudra: "..self.NinjaLastMudra,3)
 	self.SendConsoleMessage("LastActionWasMudra: "..tostring(LastActionWasMudra),3)	
+	self.SendConsoleMessage("LastCast: "..tostring(LastCast),3)	
+	self.SendConsoleMessage("LastCastTime: "..tostring(LastCastTime),3)	
 	self.SendConsoleMessage("TargetHasTrickAttack: "..tostring(TargetHasTrickAttack),3)
 	
 	local SkillList = {
@@ -293,9 +226,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
  		-- Mudras
-		-- Buff Lock Actions?
-		-- Track Mudra Type Reset Off Buff?
-
 		{
 			["Type"] = 1, ["Name"] = "Trick Attack", ["ID"] = 2258, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 			["Buff"] = HasSuitonBuff, ["OtherCheck"] = PlayerInCombat == true,
@@ -475,7 +405,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Hellfrog Medium", ["ID"] = 7401, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
 			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
-			["AOECount"] = hellfrogAoeCount, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["AOECount"] = PlayerLevel >= 68 and 1 or 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Bhavacakra", ["ID"] = 7402, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
@@ -493,7 +423,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Second Wind", ["ID"] = 7541, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true and PlayerHP < 30, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
 		},
 	}
-
 
 	self.SendConsoleMessage(ClassTypeID.."PROFILE END",1)
     return SkillList
