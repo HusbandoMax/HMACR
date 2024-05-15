@@ -83,7 +83,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Doom Spike", ["ID"] = 86, ["ComboIDNOT"] = { [86] = true, [7397] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Doom Spike", ["ID"] = 86, ["ComboIDNOT"] = { [86] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 4, ["Angle"] = 0, },
 		},
 		{
