@@ -139,6 +139,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Shoha", ["ID"] = 16487, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
+			["Type"] = 1, ["Name"] = "Hissatsu: Gyoten", ["ID"] = 7492, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") == 1, ["OtherCheck"] = TargetDistance > 15,
+		},
+		{
 			["Type"] = 1, ["Name"] = "Ogi Namikiri", ["ID"] = 25781, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
