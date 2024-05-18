@@ -110,11 +110,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Double Down Burn", ["ID"] = 25760, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] >= 2, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Double Down Burn", ["ID"] = 25760, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] >= 2, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Bow Shock Burn", ["ID"] = 16159, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Bow Shock Burn", ["ID"] = 16159, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
