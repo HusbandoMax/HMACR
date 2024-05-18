@@ -145,17 +145,17 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Thunder", ["ID"] = 144, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,{161,162,163,1210},6,"Missing",PlayerID),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["Level"] = self.SkillAccessCheck(144,nil,PlayerLevel), 
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["DOTCheck"] = true, ["Level"] = self.SkillAccessCheck(144,nil,PlayerLevel), 
             ["LastActionTimeout"] = "BLMThunder", ["LastActionTime"] = 3500, ["GaugeCheck"] = GaugeData1[2] > 0, ["OtherCheck"] = (PlayerMoving == false or HasThundercloudCast == true),
 		},
 		{
 			["Type"] = 1, ["Name"] = "Thunder II", ["ID"] = 7447, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,{161,162,163,1210},6,"Missing",PlayerID),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["Level"] = self.SkillAccessCheck(7447,nil,PlayerLevel), 
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["DOTCheck"] = true, ["Level"] = self.SkillAccessCheck(7447,nil,PlayerLevel), 
             ["LastActionTimeout"] = "BLMThunder", ["LastActionTime"] = 3500, ["GaugeCheck"] = GaugeData1[2] > 0, ["OtherCheck"] = (PlayerMoving == false or HasThundercloudCast == true),
 		},
 		{
 			["Type"] = 1, ["Name"] = "Thunder III", ["ID"] = 153, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,{161,162,163,1210},6,"Missing",PlayerID),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["Level"] = self.SkillAccessCheck(153,nil,PlayerLevel), 
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["DOTCheck"] = true, ["Level"] = self.SkillAccessCheck(153,nil,PlayerLevel), 
             ["LastActionTimeout"] = "BLMThunder", ["LastActionTime"] = 3500, ["GaugeCheck"] = GaugeData1[2] > 0, ["OtherCheck"] = (PlayerMoving == false or HasThundercloudCast == true),
 		},
 

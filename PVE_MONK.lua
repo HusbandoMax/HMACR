@@ -57,7 +57,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 
-
 	--local HasKardiaBuff = false
 	local CurrentForm = 1
 	for i,e in pairs(Player.buffs) do
@@ -78,15 +77,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	end
 
 	self.SendConsoleMessage("CurrentForm: "..tostring(CurrentForm),3)
-	--local EukrasianDosisBuff = 0
-
-	-- 1 = Cour 2 = Ra 3 = Op
-	-- GaugeData1[2]
-	-- GaugeData1[3]
-	-- GaugeData1[4]
-
-	-- GaugeData1[5] == 2
-	-- GaugeData1[6] == 2
 
 	local SkillList = {
 		{
@@ -121,11 +111,18 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- if BuffID == 210 then CurrentForm = 6 end -- Perfect Balance
 
 		{
-			["Type"] = 1, ["Name"] = "Enlightenment", ["ID"] = 16474, ["Range"] = 10, ["TargetCast"] = true,  ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Howling Fist", ["ID"] = 25763, ["Range"] = 10, ["TargetCast"] = true,  ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["Level"] = self.SkillAccessCheck(25763,16474,PlayerLevel),
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 2, ["Angle"] = 160, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "The Forbidden Chakra", ["ID"] = 3546, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Enlightenment", ["ID"] = 16474, ["Range"] = 10, ["TargetCast"] = true,  ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["Level"] = self.SkillAccessCheck(16474,nil,PlayerLevel),
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 10, ["LineWidth"] = 2, ["Angle"] = 160, },
+		},
+		{
+			["Type"] = 1, ["Name"] = "Steel Peak", ["ID"] = 25761, ["Range"] = 3, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25761,3547,PlayerLevel),
+		},
+		{
+			["Type"] = 1, ["Name"] = "The Forbidden Chakra", ["ID"] = 3546, ["Range"] = 3, ["TargetCast"] = true, -- Meditation ID
 		},
 		{
 			["Type"] = 1, ["Name"] = "The Forbidden Chakra", ["ID"] = 3547, ["Range"] = 3, ["TargetCast"] = true,
