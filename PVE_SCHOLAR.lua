@@ -217,11 +217,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 2, ["Name"] = "Art of War", ["ID"] = 16539, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
+            ["Type"] = 2, ["Name"] = "Art of War", ["ID"] = 16539, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
             ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["Level"] = self.SkillAccessCheck(16539,25866,PlayerLevel), 
         },
         {
-            ["Type"] = 2, ["Name"] = "Art of War II", ["ID"] = 25866, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
+            ["Type"] = 2, ["Name"] = "Art of War II", ["ID"] = 25866, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
             ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["Level"] = self.SkillAccessCheck(25866,nil,PlayerLevel), 
         },
 
