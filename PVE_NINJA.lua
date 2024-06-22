@@ -386,7 +386,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Throwing Dagger", ["ID"] = 2247, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Dream Within a Dream", ["ID"] = 3566, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false and TargetHasTrickAttack == true,
+			["Type"] = 1, ["Name"] = "Dream Within a Dream", ["ID"] = 3566, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and TrickAttack.isoncd and TrickAttack.cd < 15, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 
 		{
