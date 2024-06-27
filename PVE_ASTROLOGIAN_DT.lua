@@ -154,6 +154,59 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     end
     --d("ShouldRedraw: "..tostring(ShouldRedraw))
 
+	--[[
+        3594	Benefic
+        3595	Aspected Benefic
+        3596	Malefic
+        3598	Malefic II
+        3599	Combust
+        3600	Helios
+        3601	Aspected Helios
+        3603	Ascend
+        3606	Lightspeed
+        3608	Combust II
+        3610	Benefic II
+        3612	Synastry
+        3613	Collective Unconscious
+        3614	Essential Dignity
+        3615	Gravity
+        7439	Earthly Star
+        7440	Stellar Burst
+        7441	Stellar Explosion
+        7442	Malefic III
+        7444	Lord of Crowns
+        7445	Lady of Crowns
+        8324	Stellar Detonation
+        16552	Divination
+        16553	Celestial Opposition
+        16554	Combust III
+        16555	Malefic IV
+        16556	Celestial Intersection
+        16557	Horoscope
+        16558	Horoscope
+        16559	Neutral Sect
+        25871	Fall Malefic
+        25872	Gravity II
+        25873	Exaltation
+        25874	Macrocosmos
+        25875	Microcosmos
+        37017	Astral Draw
+        37018	Umbral Draw
+        37019	Play I
+        37020	Play II
+        37021	Play III
+        37022	Minor Arcana
+        37023	the Balance
+        37024	the Arrow
+        37025	the Spire
+        37026	the Spear
+        37027	the Bole
+        37028	the Ewer
+        37029	Oracle
+        37030	Helios Conjunction
+        37031	Sun Sign
+	]]--
+
 	local SkillList = {
         -- Draw Cards
         {

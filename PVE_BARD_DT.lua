@@ -112,6 +112,43 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		NextAction = "Finale"
 	end
 
+    --[[
+        97      Heavy Shot              ARC BRD
+        98      Straight Shot           ARC BRD
+        100     Venomous Bite           ARC BRD
+        101     Raging Strikes          ARC BRD
+        106     Quick Nock              ARC BRD
+        107     Barrage                 ARC BRD
+        110     Bloodletter             ARC BRD
+        112     Repelling Shot          ARC BRD
+        113     Windbite                ARC BRD
+        114     Mage's Ballad           BRD
+        116     Army's Paeon            BRD
+        117     Rain of Death           BRD
+        118     Battle Voice            BRD
+        3558    Empyreal Arrow          BRD
+        3559    the Wanderer's Minuet   BRD
+        3560    Iron Jaws               BRD
+        3561    the Warden's Paean      BRD
+        3562    Sidewinder              BRD
+        7404    Pitch Perfect           BRD
+        7405    Troubadour              BRD
+        7406    Caustic Bite            BRD
+        7407    Stormbite               BRD
+        7408    Nature's Minne          BRD
+        7409    Refulgent Arrow         BRD
+        16494   Shadowbite              BRD
+        16495   Burst Shot              BRD
+        16496   Apex Arrow              BRD
+        25783   Ladonsbite              BRD
+        25784   Blast Arrow             BRD
+        25785   Radiant Finale          BRD
+        36974   Wide Volley             ARC BRD
+        36975   Heartbreak Shot         BRD
+        36976   Resonant Arrow          BRD
+        36977   Radiant Encore          BRD
+    ]]
+
     local SkillList = {
         {
             ["Type"] = 2, ["Name"] = "Peloton", ["ID"] = 7557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Peloton") == 1, ["OtherCheck"] = PlayerMoving == true and PlayerInCombat == false, ["Buff"] = self.TargetBuff2(Player,1199,3,"Missing") == true,

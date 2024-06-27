@@ -50,6 +50,54 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 	
+	--[[
+        34606	Steel Fangs
+		34607	Dread Fangs
+		34608	Hunter's Sting
+		34609	Swiftskin's Sting
+		34610	Flanksting Strike
+		34611	Flanksbane Fang
+		34612	Hindsting Strike
+		34613	Hindsbane Fang
+		34614	Steel Maw
+		34615	Dread Maw
+		34616	Hunter's Bite
+		34617	Swiftskin's Bite
+		34618	Jagged Maw
+		34619	Bloodied Maw
+		34620	Dreadwinder
+		34621	Hunter's Coil
+		34622	Swiftskin's Coil
+		34623	Pit of Dread
+		34624	Hunter's Den
+		34625	Swiftskin's Den
+		34626	Reawaken
+		34627	First Generation
+		34628	Second Generation
+		34629	Third Generation
+		34630	Fourth Generation
+		34631	Ouroboros
+		34632	Writhing Snap
+		34633	Uncoiled Fury
+		34634	Death Rattle
+		34635	Last Lash
+		34636	Twinfang Bite
+		34637	Twinblood Bite
+		34638	Twinfang Thresh
+		34639	Twinblood Thresh
+		34640	First Legacy
+		34641	Second Legacy
+		34642	Third Legacy
+		34643	Fourth Legacy
+		34644	Uncoiled Twinfang
+		34645	Uncoiled Twinblood
+		34646	Slither
+		34647	Serpent's Ire
+		35920	Serpent's Tail
+		35921	Twinfang
+		35922	Twinblood
+	]]--
+
 	local SkillList = {
 
 

@@ -78,6 +78,49 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local OGCDTime = ActionList:Get(1,2866).cd
 	self.SendConsoleMessage("OGCDTime: "..tostring(OGCDTime),3)
 
+	--[[
+		2864	Rook Autoturret
+		2866	Split Shot
+		2868	Slug Shot
+		2870	Spread Shot
+		2872	Hot Shot
+		2873	Clean Shot
+		2874	Gauss Round
+		2876	Reassemble
+		2878	Wildfire
+		2887	Dismantle
+		2890	Ricochet
+		7410	Heat Blast
+		7411	Heated Split Shot
+		7412	Heated Slug Shot
+		7413	Heated Clean Shot
+		7414	Barrel Stabilizer
+		7415	Rook Overdrive
+		7416	Rook Overload
+		7418	Flamethrower
+		16497	Auto Crossbow
+		16498	Drill
+		16499	Bioblaster
+		16500	Air Anchor
+		16501	Automaton Queen
+		16502	Queen Overdrive
+		16503	Pile Bunker
+		16504	Arm Punch
+		16766	Detonator
+		16889	Tactician
+		17206	Roller Dash
+		17209	Hypercharge
+		25786	Scattergun
+		25787	Crowned Collider
+		25788	Chain Saw
+		36978	Blazing Shot
+		36979	Double Check
+		36980	Checkmate
+		36981	Excavator
+		36982	Full Metal Field
+		40102	Dismantle
+	]]--
+
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Flamethrower", ["ID"] = 7418, ["Range"] = 25, ["TargetCast"] = false, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876, ["OtherCheck"] = PlayerMoving == false and PlayerInCombat == true and GaugeData1[3] == 0 and GaugeData1[1] < 40, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,

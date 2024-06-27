@@ -83,6 +83,52 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 	local OGCDTime = ActionList:Get(1,7505).cd
 
+	--[[
+		7503	Jolt
+		7504	Riposte
+		7505	Verthunder
+		7506	Corps-a-corps
+		7507	Veraero
+		7509	Scatter
+		7510	Verfire
+		7511	Verstone
+		7512	Zwerchhau
+		7513	Moulinet
+		7514	Vercure
+		7515	Displacement
+		7516	Redoublement
+		7517	Fleche
+		7518	Acceleration
+		7519	Contre Sixte
+		7520	Embolden
+		7521	Manafication
+		7523	Verraise
+		7524	Jolt II
+		7525	Verflare
+		7526	Verholy
+		7527	Enchanted Riposte
+		7528	Enchanted Zwerchhau
+		7529	Enchanted Redoublement
+		7530	Enchanted Moulinet
+		16524	Verthunder II
+		16525	Veraero II
+		16526	Impact
+		16527	Engagement
+		16528	Enchanted Reprise
+		16529	Reprise
+		16530	Scorch
+		25855	Verthunder III
+		25856	Veraero III
+		25857	Magick Barrier
+		25858	Resolution
+		37002	Enchanted Moulinet Deux
+		37003	Enchanted Moulinet Trois
+		37004	Jolt III
+		37005	Vice of Thorns
+		37006	Grand Impact
+		37007	Prefulgence
+	]]--
+
 	local SkillList = {
 		{
 			["Type"] = 3, ["Name"] = "Vercure", ["ID"] = 7514, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 50, ["PartyOnly"] = false, ["OtherCheck"] = PlayerMoving == false and HasDualcastBuff == false,

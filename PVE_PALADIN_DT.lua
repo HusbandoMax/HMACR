@@ -97,6 +97,48 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 
+	--[[
+		9       Fast Blade              GLA PLD
+		15      Riot Blade              GLA PLD
+		16      Shield Bash             GLA PLD
+		17      Sentinel                GLA PLD
+		20      Fight or Flight         GLA PLD
+		21      Rage of Halone          GLA PLD
+		22      Bulwark                 PLD
+		23      Circle of Scorn         GLA PLD
+		24      Shield Lob              GLA PLD
+		27      Cover                   PLD
+		28      Iron Will               GLA PLD
+		29      Spirits Within          PLD
+		30      Hallowed Ground         PLD
+		3538    Goring Blade            PLD
+		3539    Royal Authority         PLD
+		3540    Divine Veil             PLD
+		3541    Clemency                PLD
+		3542    Sheltron                PLD
+		7381    Total Eclipse           GLA PLD
+		7382    Intervention            PLD
+		7383    Requiescat              PLD
+		7384    Holy Spirit             PLD
+		7385    Passage of Arms         PLD
+		16457   Prominence              PLD
+		16458   Holy Circle             PLD
+		16459   Confiteor               PLD
+		16460   Atonement               PLD
+		16461   Intervene               PLD
+		25746   Holy Sheltron           PLD
+		25747   Expiacion               PLD
+		25748   Blade of Faith          PLD
+		25749   Blade of Truth          PLD
+		25750   Blade of Valor          PLD
+		32065   Release Iron Will       GLA PLD
+		36918   Supplication            PLD
+		36919   Sepulchre               PLD
+		36920   Guardian                PLD
+		36921   Imperator               PLD
+		36922   Blade of Honor          PLD
+	]]
+
 	local SkillList = {
 		{
 			["Type"] = 3, ["Name"] = "Clemency", ["ID"] = 3541, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 50, ["PartyOnly"] = true,

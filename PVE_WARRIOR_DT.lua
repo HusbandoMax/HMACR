@@ -81,7 +81,42 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 
-	
+	--[[
+		31      Heavy Swing             MRD WAR
+		37      Maim                    MRD WAR
+		38      Berserk                 MRD WAR
+		40      Thrill of Battle        MRD WAR
+		41      Overpower               MRD WAR
+		42      Storm's Path            MRD WAR
+		43      Holmgang                MRD WAR
+		44      Vengeance               MRD WAR
+		45      Storm's Eye             MRD WAR
+		46      Tomahawk                MRD WAR
+		48      Defiance                MRD WAR
+		49      Inner Beast             WAR
+		51      Steel Cyclone           WAR
+		52      Infuriate               WAR
+		3549    Fell Cleave             WAR
+		3550    Decimate                WAR
+		3551    Raw Intuition           WAR
+		3552    Equilibrium             WAR
+		7386    Onslaught               WAR
+		7387    Upheaval                WAR
+		7388    Shake It Off            WAR
+		7389    Inner Release           WAR
+		16462   Mythril Tempest         WAR
+		16463   Chaotic Cyclone         WAR
+		16464   Nascent Flash           WAR
+		16465   Inner Chaos             WAR
+		25751   Bloodwhetting           WAR
+		25752   Orogeny                 WAR
+		25753   Primal Rend             WAR
+		32066   Release Defiance        MRD WAR
+		36923   Damnation               WAR
+		36924   Primal Wrath            WAR
+		36925   Primal Ruination        WAR
+	]]
+
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Defiance", ["ID"] = 48, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 1, ["Buff"] = self.TargetBuff2(Player,91,-1,"Missing",PlayerID),

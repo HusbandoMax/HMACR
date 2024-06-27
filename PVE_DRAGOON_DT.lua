@@ -65,6 +65,42 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 
+	--[[
+		75      True Thrust             LNC DRG
+		78      Vorpal Thrust           LNC DRG
+		83      Life Surge              LNC DRG
+		84      Full Thrust             LNC DRG
+		85      Lance Charge            LNC DRG
+		86      Doom Spike              DRG
+		87      Disembowel              LNC DRG
+		88      Chaos Thrust            LNC DRG
+		90      Piercing Talon          LNC DRG
+		92      Jump                    DRG
+		94      Elusive Jump            DRG
+		96      Dragonfire Dive         DRG
+		3554    Fang and Claw           DRG
+		3555    Geirskogul              DRG
+		3556    Wheeling Thrust         DRG
+		3557    Battle Litany           DRG
+		7397    Sonic Thrust            DRG
+		7399    Mirage Dive             DRG
+		7400    Nastrond                DRG
+		16477   Coerthan Torment        DRG
+		16478   High Jump               DRG
+		16479   Raiden Thrust           DRG
+		16480   Stardiver               DRG
+		25770   Draconian Fury          DRG
+		25771   Heavens' Thrust         DRG
+		25772   Chaotic Spring          DRG
+		25773   Wyrmwind Thrust         DRG
+		36951   Winged Glide            DRG
+		36952   Drakesbane              DRG
+		36953   Rise of the Dragon      DRG
+		36954   Lance Barrage           DRG
+		36955   Spiral Blow             DRG
+		36956   Starcross               DRG
+	]]
+
 	local SkillList = {
 		{
 			["Type"] = 1, ["Name"] = "Wyrmwind Thrust", ["ID"] = 25773, ["Range"] = 15, ["TargetCast"] = true,

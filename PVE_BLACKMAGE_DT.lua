@@ -70,7 +70,44 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local HasTripleCast = self.TargetBuff2(Player,1211,0,"Has",PlayerID)
     local HasFirestarterCast = self.TargetBuff2(Player,165,0,"Has",PlayerID)
     local HasThundercloudCast = self.TargetBuff2(Player,164,0,"Has",PlayerID)
-	
+
+    --[[
+        141     Fire                    THM BLM
+        142     Blizzard                THM BLM
+        144     Thunder                 THM BLM
+        147     Fire II                 THM BLM
+        149     Transpose               THM BLM
+        152     Fire III                THM BLM
+        153     Thunder III             BLM
+        154     Blizzard III            BLM
+        155     Aetherial Manipulation  THM BLM
+        156     Scathe                  THM BLM
+        157     Manaward                THM BLM
+        158     Manafont                BLM
+        159     Freeze                  BLM
+        162     Flare                   BLM
+        3573    Ley Lines               BLM
+        3576    Blizzard IV             BLM
+        3577    Fire IV                 BLM
+        7419    Between the Lines       BLM
+        7420    Thunder IV              BLM
+        7421    Triplecast              BLM
+        7422    Foul                    BLM
+        7447    Thunder II              THM BLM
+        16505   Despair                 BLM
+        16506   Umbral Soul             BLM
+        16507   Xenoglossy              BLM
+        25793   Blizzard II             THM BLM
+        25794   High Fire II            BLM
+        25795   High Blizzard II        BLM
+        25796   Amplifier               BLM
+        25797   Paradox                 BLM
+        36986   High Thunder            BLM
+        36987   High Thunder II         BLM
+        36988   Retrace                 BLM
+        36989   Flare Star              BLM
+    ]]
+
 	local SkillList = {
 		
         -- OOC Start

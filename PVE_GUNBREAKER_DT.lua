@@ -81,6 +81,47 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 	
+	--[[
+		16137	Keen Edge
+		16138	No Mercy
+		16139	Brutal Shell
+		16140	Camouflage
+		16141	Demon Slice
+		16142	Royal Guard
+		16143	Lightning Shot
+		16144	Danger Zone
+		16145	Solid Barrel
+		16146	Gnashing Fang
+		16147	Savage Claw
+		16148	Nebula
+		16149	Demon Slaughter
+		16150	Wicked Talon
+		16151	Aurora
+		16152	Superbolide
+		16153	Sonic Break
+		16155	Continuation
+		16156	Jugular Rip
+		16157	Abdomen Tear
+		16158	Eye Gouge
+		16159	Bow Shock
+		16160	Heart of Light
+		16161	Heart of Stone
+		16162	Burst Strike
+		16163	Fated Circle
+		16164	Bloodfest
+		16165	Blasting Zone
+		25758	Heart of Corundum
+		25759	Hypervelocity
+		25760	Double Down
+		32068	Release Royal Guard
+		36934	Trajectory
+		36935	Great Nebula
+		36936	Fated Brand
+		36937	Reign of Beasts
+		36938	Noble Blood
+		36939	Lion Heart
+	]]--
+
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Royal Guard", ["ID"] = 16142, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 1, ["Buff"] = self.TargetBuff2(Player,1833,-1,"Missing",PlayerID),

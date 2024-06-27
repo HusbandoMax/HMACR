@@ -106,6 +106,54 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	Yellow = 4
 	]]--
 
+	--[[
+		15989	Cascade
+		15990	Fountain
+		15991	Reverse Cascade
+		15992	Fountainfall
+		15993	Windmill
+		15994	Bladeshower
+		15995	Rising Windmill
+		15996	Bloodshower
+		15997	Standard Step
+		15998	Technical Step
+		15999	Emboite
+		16000	Entrechat
+		16001	Jete
+		16002	Pirouette
+		16003	Standard Finish
+		16004	Technical Finish
+		16005	Saber Dance
+		16006	Closed Position
+		16007	Fan Dance
+		16008	Fan Dance II
+		16009	Fan Dance III
+		16010	En Avant
+		16011	Devilment
+		16012	Shield Samba
+		16013	Flourish
+		16014	Improvisation
+		16015	Curing Waltz
+		16191	Single Standard Finish
+		16192	Double Standard Finish
+		16193	Single Technical Finish
+		16194	Double Technical Finish
+		16195	Triple Technical Finish
+		16196	Quadruple Technical Finish
+		18073	Ending
+		25789	Improvised Finish
+		25790	Tillana
+		25791	Fan Dance IV
+		25792	Starfall Dance
+		33215	Single Technical Finish
+		33216	Double Technical Finish
+		33217	Triple Technical Finish
+		33218	Quadruple Technical Finish
+		36983	Last Dance
+		36984	Finishing Move
+		36985	Dance of the Dawn
+	]]--
+
 	local SkillList = {
         {
 			["Type"] = 2, ["Name"] = "Tillana", ["ID"] = 25790, ["Range"] = 25, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,

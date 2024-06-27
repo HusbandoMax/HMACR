@@ -78,6 +78,50 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 	self.SendConsoleMessage("CurrentForm: "..tostring(CurrentForm),3)
 
+	--[[
+		53      Bootshine                   PGL MNK
+		54      True Strike                 PGL MNK
+		56      Snap Punch                  PGL MNK
+		61      Twin Snakes                 PGL MNK
+		62      Arm of the Destroyer        PGL MNK
+		65      Mantra                      PGL MNK
+		66      Demolish                    PGL MNK
+		69      Perfect Balance             MNK
+		70      Rockbreaker                 MNK
+		74      Dragon Kick                 PGL MNK
+		3543    Tornado Kick                MNK
+		3545    Elixir Field                MNK
+		3547    the Forbidden Chakra        MNK
+		4262    Form Shift                  MNK
+		7394    Riddle of Earth             MNK
+		7395    Riddle of Fire              MNK
+		7396    Brotherhood                 MNK
+		16473   Four-point Fury             MNK
+		16474   Enlightenment               MNK
+		16476   Six-sided Star              MNK
+		25761   Steel Peak                  PGL MNK
+		25762   Thunderclap                 MNK
+		25763   Howling Fist                MNK
+		25764   Masterful Blitz             MNK
+		25765   Celestial Revolution        MNK
+		25766   Riddle of Wind              MNK
+		25767   Shadow of the Destroyer     MNK
+		25768   Rising Phoenix              MNK
+		25769   Phantom Rush                MNK
+		25882   Flint Strike                MNK
+		36940   Steeled Meditation          PGL MNK
+		36941   Inspirited Meditation       MNK
+		36942   Forbidden Meditation        MNK
+		36943   Enlightened Meditation      MNK
+		36944   Earth's Reply               MNK
+		36945   Leaping Opo                 MNK
+		36946   Rising Raptor               MNK
+		36947   Pouncing Coeurl             MNK
+		36948   Elixir Burst                MNK
+		36949   Wind's Reply                MNK
+		36950   Fire's Reply                MNK
+	]]
+
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Meditation", ["ID"] = 3546, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Meditation") == 1, ["OtherCheck"] = PlayerInCombat == false,

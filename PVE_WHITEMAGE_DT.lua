@@ -86,6 +86,48 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 
+	--[[
+		119     Stone                CNJ WHM
+		120     Cure                 CNJ WHM
+		121     Aero                 CNJ WHM
+		124     Medica               CNJ WHM
+		125     Raise                CNJ WHM
+		127     Stone II             CNJ WHM
+		131     Cure III             WHM
+		132     Aero II              CNJ WHM
+		133     Medica II            CNJ WHM
+		135     Cure II              CNJ WHM
+		136     Presence of Mind     WHM
+		137     Regen                WHM
+		139     Holy                 WHM
+		140     Benediction          WHM
+		3568    Stone III            WHM
+		3569    Asylum               WHM
+		3570    Tetragrammaton       WHM
+		3571    Assize               WHM
+		7430    Thin Air             WHM
+		7431    Stone IV             WHM
+		7432    Divine Benison       WHM
+		7433    Plenary Indulgence   WHM
+		16531   Afflatus Solace      WHM
+		16532   Dia                  WHM
+		16533   Glare                WHM
+		16534   Afflatus Rapture     WHM
+		16535   Afflatus Misery      WHM
+		16536   Temperance           WHM
+		25859   Glare III            WHM
+		25860   Holy III             WHM
+		25861   Aquaveil             WHM
+		25862   Liturgy of the Bell  WHM
+		25863   Liturgy of the Bell  WHM
+		25864   Liturgy of the Bell  WHM
+		28509   Liturgy of the Bell  WHM
+		37008   Aetherial Shift      WHM
+		37009   Glare IV             WHM
+		37010   Medica III           WHM
+		37011   Divine Caress        WHM
+	]]--
+
 	local SkillList = {
         {
 			["Type"] = 2, ["Name"] = "Holy", ["ID"] = 139, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,

@@ -147,6 +147,52 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		end
 	end
 
+	--[[
+        24283	Dosis
+		24284	Diagnosis
+		24285	Kardia
+		24286	Prognosis
+		24287	Egeiro
+		24288	Physis
+		24289	Phlegma
+		24290	Eukrasia
+		24291	Eukrasian Diagnosis
+		24292	Eukrasian Prognosis
+		24293	Eukrasian Dosis
+		24294	Soteria
+		24295	Icarus
+		24296	Druochole
+		24297	Dyskrasia
+		24298	Kerachole
+		24299	Ixochole
+		24300	Zoe
+		24301	Pepsis
+		24302	Physis II
+		24303	Taurochole
+		24304	Toxikon
+		24305	Haima
+		24306	Dosis II
+		24307	Phlegma II
+		24308	Eukrasian Dosis II
+		24309	Rhizomata
+		24310	Holos
+		24311	Panhaima
+		24312	Dosis III
+		24313	Phlegma III
+		24314	Eukrasian Dosis III
+		24315	Dyskrasia II
+		24316	Toxikon II
+		24317	Krasis
+		24318	Pneuma
+		27524	Pneuma
+		28119	Kardia
+		37032	Eukrasian Dyskrasia
+		37033	Psyche
+		37034	Eukrasian Prognosis II
+		37035	Philosophia
+		37036	Eudaimonia
+	]]--
+
 	local SkillList = {
         -- Bigger Heals
 		{

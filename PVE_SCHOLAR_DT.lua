@@ -101,6 +101,59 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	
     local AetherflowCD = self.GetActionCD(166,true)
     
+	--[[
+        166	Aetherflow
+        167	Energy Drain
+        185	Adloquium
+        186	Succor
+        188	Sacred Soil
+        189	Lustrate
+        190	Physick
+        802	Embrace
+        803	Whispering Dawn
+        805	Fey Illumination
+        3583	Indomitability
+        3584	Broil
+        3585	Deployment Tactics
+        3586	Emergency Tactics
+        3587	Dissipation
+        7434	Excogitation
+        7435	Broil II
+        7436	Chain Stratagem
+        7437	Aetherpact
+        7438	Fey Union
+        7869	Dissolve Union
+        16537	Whispering Dawn
+        16538	Fey Illumination
+        16539	Art of War
+        16540	Biolysis
+        16541	Broil III
+        16542	Recitation
+        16543	Fey Blessing
+        16544	Fey Blessing
+        16545	Summon Seraph
+        16546	Consolation
+        16547	Consolation
+        16548	Seraphic Veil
+        16550	Angel's Whisper
+        16551	Seraphic Illumination
+        17215	Summon Eos
+        17864	Bio
+        17865	Bio II
+        17869	Ruin
+        17870	Ruin II
+        25865	Broil IV
+        25866	Art of War II
+        25867	Protraction
+        25868	Expedient
+        37012	Baneful Impaction
+        37013	Concitation
+        37014	Seraphism
+        37015	Manifestation
+        37016	Accession
+        37037	Emergency Tactics
+	]]--
+
 	local SkillList = {
         
         -- Bigger Heals

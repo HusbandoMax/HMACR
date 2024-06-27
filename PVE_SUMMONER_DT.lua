@@ -62,6 +62,100 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local AetherflowCD = self.GetActionCD(166,true)
     local GCD = self.GetActionCD(163,true)
 
+    --[[
+        163     Ruin                    ACN SMN
+        172     Ruin II                 ACN SMN
+        181     Fester                  ACN SMN
+        3578    Painflare               SMN
+        3579    Ruin III                SMN
+        3581    Dreadwyrm Trance        SMN
+        3582    Deathflare              SMN
+        7426    Ruin IV                 SMN
+        7427    Summon Bahamut          SMN
+        7428    Wyrmwave                SMN
+        7429    Enkindle Bahamut        SMN
+        7449    Akh Morn                SMN
+        16230   Physick                 ACN SMN
+        16508   Energy Drain            ACN SMN
+        16510   Energy Siphon           SMN
+        16511   Outburst                ACN SMN
+        16514   Fountain of Fire        SMN
+        16515   Brand of Purgatory      SMN
+        16516   Enkindle Phoenix        SMN
+        16517   Everlasting Flight      SMN
+        16518   Revelation              SMN
+        16519   Scarlet Flame           SMN
+        25798   Summon Carbuncle        ACN SMN
+        25799   Radiant Aegis           ACN SMN
+        25800   Aethercharge            ACN SMN
+        25801   Searing Light           SMN
+        25802   Summon Ruby             ACN SMN
+        25803   Summon Topaz            ACN SMN
+        25804   Summon Emerald          ACN SMN
+        25805   Summon Ifrit            SMN
+        25806   Summon Titan            SMN
+        25807   Summon Garuda           SMN
+        25808   Ruby Ruin               ACN SMN
+        25809   Topaz Ruin              ACN SMN
+        25810   Emerald Ruin            ACN SMN
+        25811   Ruby Ruin II            ACN SMN
+        25812   Topaz Ruin II           ACN SMN
+        25813   Emerald Ruin II         ACN SMN
+        25814   Ruby Outburst           ACN SMN
+        25815   Topaz Outburst          ACN SMN
+        25816   Emerald Outburst        ACN SMN
+        25817   Ruby Ruin III           SMN
+        25818   Topaz Ruin III          SMN
+        25819   Emerald Ruin III        SMN
+        25820   Astral Impulse          SMN
+        25821   Astral Flare            SMN
+        25822   Astral Flow             SMN
+        25823   Ruby Rite               SMN
+        25824   Topaz Rite              SMN
+        25825   Emerald Rite            SMN
+        25826   Tri-disaster            SMN
+        25827   Ruby Disaster           SMN
+        25828   Topaz Disaster          SMN
+        25829   Emerald Disaster        SMN
+        25830   Rekindle                SMN
+        25831   Summon Phoenix          SMN
+        25832   Ruby Catastrophe        SMN
+        25833   Topaz Catastrophe       SMN
+        25834   Emerald Catastrophe     SMN
+        25835   Crimson Cyclone         SMN
+        25836   Mountain Buster         SMN
+        25837   Slipstream              SMN
+        25838   Summon Ifrit II         SMN
+        25839   Summon Titan II         SMN
+        25840   Summon Garuda II        SMN
+        25841   Radiant Aegis           ACN SMN
+        25843   Glittering Ruby         ACN SMN
+        25844   Glittering Topaz        ACN SMN
+        25845   Glittering Emerald      ACN SMN
+        25846   Burning Strike          SMN
+        25847   Rock Buster             SMN
+        25848   Aerial Slash            SMN
+        25849   Inferno                 SMN
+        25850   Earthen Fury            SMN
+        25851   Aerial Blast            SMN
+        25852   Inferno                 SMN
+        25853   Earthen Fury            SMN
+        25854   Aerial Blast            SMN
+        25883   Gemshine                ACN SMN
+        25884   Precious Brilliance     ACN SMN
+        25885   Crimson Strike          SMN
+        36990   Necrotize               SMN
+        36991   Searing Flash           SMN
+        36992   Summon Solar Bahamut    SMN
+        36993   Luxwave                 SMN
+        36994   Umbral Impulse          SMN
+        36995   Umbral Flare            SMN
+        36996   Sunflare                SMN
+        36997   Lux Solaris             SMN
+        36998   Enkindle Solar Bahamut  SMN
+        36999   Exodus                  SMN
+    ]]
+
 	local SkillList = {
 
         -- Prio GCD

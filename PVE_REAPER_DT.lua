@@ -62,6 +62,48 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local GluttonyHold = Gluttony.usable == true and (Gluttony.isoncd == false or Gluttony.cd > 50)
 	--d("GluttonyHold: "..tostring(GluttonyHold))
     -- Type 1 = Target, 2 = Self (OOC), 3 = Party/Ally/NPC (Heals Ect)
+
+	--[[
+		24373	Slice
+		24374	Waxing Slice
+		24375	Infernal Slice
+		24376	Spinning Scythe
+		24377	Nightmare Scythe
+		24378	Shadow of Death
+		24379	Whorl of Death
+		24380	Soul Slice
+		24381	Soul Scythe
+		24382	Gibbet
+		24383	Gallows
+		24384	Guillotine
+		24385	Plentiful Harvest
+		24386	Harpe
+		24387	Soulsow
+		24388	Harvest Moon
+		24389	Blood Stalk
+		24390	Unveiled Gibbet
+		24391	Unveiled Gallows
+		24392	Grim Swathe
+		24393	Gluttony
+		24394	Enshroud
+		24395	Void Reaping
+		24396	Cross Reaping
+		24397	Grim Reaping
+		24398	Communio
+		24399	Lemure's Slice
+		24400	Lemure's Scythe
+		24401	Hell's Ingress
+		24402	Hell's Egress
+		24403	Regress
+		24404	Arcane Crest
+		24405	Arcane Circle
+		36969	Sacrificium
+		36970	Executioner's Gibbet
+		36971	Executioner's Gallows
+		36972	Executioner's Guillotine
+		36973	Perfectio
+	]]--
+	
 	local SkillList = {
 		{
 			["Type"] = 1, ["Name"] = "Whorl of Death", ["ID"] = 24379, ["Range"] = 5, ["TargetCast"] = false, ["Buff"] = (self.EnemyWithBuff2(PlayerPOS,5,2586,15,"Missing",PlayerID) > 2),

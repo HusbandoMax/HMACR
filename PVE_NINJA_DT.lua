@@ -167,6 +167,74 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage("LastCastTime: "..tostring(LastCastTime),3)	
 	self.SendConsoleMessage("TargetHasTrickAttack: "..tostring(TargetHasTrickAttack),3)
 	
+	--[[
+		2240    Spinning Edge           ROG NIN
+		2241    Shade Shift             ROG NIN
+		2242    Gust Slash              ROG NIN
+		2245    Hide                    ROG NIN
+		2246    Assassinate             NIN
+		2247    Throwing Dagger         ROG NIN
+		2248    Mug                     ROG NIN
+		2254    Death Blossom           ROG NIN
+		2255    Aeolian Edge            ROG NIN
+		2258    Trick Attack            ROG NIN
+		2259    Ten                     NIN
+		2260    Ninjutsu                NIN
+		2261    Chi                     NIN
+		2262    Shukuchi                NIN
+		2263    Jin                     NIN
+		2264    Kassatsu                NIN
+		2265    Fuma Shuriken           NIN
+		2266    Katon                   NIN
+		2267    Raiton                  NIN
+		2268    Hyoton                  NIN
+		2269    Huton                   NIN
+		2270    Doton                   NIN
+		2271    Suiton                  NIN
+		2272    Rabbit Medium           NIN
+		3563    Armor Crush             NIN
+		3566    Dream Within a Dream    NIN
+		7401    Hellfrog Medium         NIN
+		7402    Bhavacakra              NIN
+		7403    Ten Chi Jin             NIN
+		16488   Hakke Mujinsatsu        NIN
+		16489   Meisui                  NIN
+		16491   Goka Mekkyaku           NIN
+		16492   Hyosho Ranryu           NIN
+		16493   Bunshin                 NIN
+		17413   Spinning Edge           NIN
+		17414   Gust Slash              NIN
+		17415   Aeolian Edge            NIN
+		17417   Armor Crush             NIN
+		17418   Throwing Dagger         NIN
+		17419   Death Blossom           NIN
+		17420   Hakke Mujinsatsu        NIN
+		18805   Ten                     NIN
+		18806   Chi                     NIN
+		18807   Jin                     NIN
+		18873   Fuma Shuriken           NIN
+		18874   Fuma Shuriken           NIN
+		18875   Fuma Shuriken           NIN
+		18876   Katon                   NIN
+		18877   Raiton                  NIN
+		18878   Hyoton                  NIN
+		18879   Huton                   NIN
+		18880   Doton                   NIN
+		18881   Suiton                  NIN
+		25774   Phantom Kamaitachi      NIN
+		25775   Phantom Kamaitachi      NIN
+		25776   Hollow Nozuchi          NIN
+		25777   Forked Raiju            NIN
+		25778   Fleeting Raiju          NIN
+		25878   Forked Raiju            NIN
+		25879   Fleeting Raiju          NIN
+		36957   Dokumori                NIN
+		36958   Kunai's Bane            NIN
+		36959   Deathfrog Medium        NIN
+		36960   Zesho Meppo             NIN
+		36961   Tenri Jindo             NIN
+	]]
+
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Kassatsu", ["ID"] = 2264, ["Range"] = 0, ["TargetCast"] = false, --["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,

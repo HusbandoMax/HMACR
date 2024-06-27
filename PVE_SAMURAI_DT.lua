@@ -81,6 +81,48 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	end
 	if FugetsuTime > FukaTime then BestNextAction = 2 end
 	
+	--[[
+		7477	Hakaze
+		7478	Jinpu
+		7479	Shifu
+		7480	Yukikaze
+		7481	Gekko
+		7482	Kasha
+		7483	Fuga
+		7484	Mangetsu
+		7485	Oka
+		7486	Enpi
+		7487	Midare Setsugekka
+		7488	Tenka Goken
+		7489	Higanbana
+		7490	Hissatsu: Shinten
+		7491	Hissatsu: Kyuten
+		7492	Hissatsu: Gyoten
+		7493	Hissatsu: Yaten
+		7495	Hagakure
+		7496	Hissatsu: Guren
+		7497	Meditate
+		7498	Third Eye
+		7499	Meikyo Shisui
+		7867	Iaijutsu
+		16481	Hissatsu: Senei
+		16482	Ikishoten
+		16483	Tsubame-gaeshi
+		16485	Kaeshi: Goken
+		16486	Kaeshi: Setsugekka
+		16487	Shoha
+		25780	Fuko
+		25781	Ogi Namikiri
+		25782	Kaeshi: Namikiri
+		36962	Tengetsu
+		36963	Gyofu
+		36964	Zanshin
+		36965	Tendo Goken
+		36966	Tendo Setsugekka
+		36967	Tendo Kaeshi Goken
+		36968	Tendo Kaeshi Setsugekka
+	]]--
+
 	local SkillList = {
 		-- Ikishoten
 		{

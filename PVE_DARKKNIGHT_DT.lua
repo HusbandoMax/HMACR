@@ -81,6 +81,45 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
 
+	--[[
+		3617	Hard Slash
+		3621	Unleash
+		3623	Syphon Strike
+		3624	Unmend
+		3625	Blood Weapon
+		3629	Grit
+		3632	Souleater
+		3634	Dark Mind
+		3636	Shadow Wall
+		3638	Living Dead
+		3639	Salted Earth
+		3641	Abyssal Drain
+		3643	Carve and Spit
+		7390	Delirium
+		7391	Quietus
+		7392	Bloodspiller
+		7393	The Blackest Night
+		16466	Flood of Darkness
+		16467	Edge of Darkness
+		16468	Stalwart Soul
+		16469	Flood of Shadow
+		16470	Edge of Shadow
+		16471	Dark Missionary
+		16472	Living Shadow
+		25754	Oblation
+		25755	Salt and Darkness
+		25756	Salt and Darkness
+		25757	Shadowbringer
+		32067	Release Grit
+		36926	Shadowstride
+		36927	Shadowed Vigil
+		36928	Scarlet Delirium
+		36929	Comeuppance
+		36930	Torcleaver
+		36931	Impalement
+		36932	Disesteem
+	]]--
+
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Grit", ["ID"] = 3629, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 1, ["Buff"] = self.TargetBuff2(Player,743,-1,"Missing",PlayerID),
