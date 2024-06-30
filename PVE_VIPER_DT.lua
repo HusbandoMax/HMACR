@@ -23,6 +23,13 @@ Profile.Settings = {
         },
     },
     {
+        ["Setting"] = "Uncoiled",
+        ["Options"] = {
+            { ["Name"] = "Uncoiled Burn", ["Tooltip"] = "Uncoiled Burn", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Uncoiled AOE", ["Tooltip"] = "Uncoiled AOE", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    {
         ["Setting"] = "Jumps",
         ["Options"] = {
             { ["Name"] = "Jumps > 5", ["Tooltip"] = "Plunge > 5y", ["Colour"] = { ["r"] = 1, ["g"] = 0.6, ["b"] = 0, ["a"] = 1 }, },
@@ -223,6 +230,18 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		
+			
+		{
+			["Type"] = 1, ["Name"] = "Uncoiled Fury", ["ID"] = 34633, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] > 0, 
+			["ComboIDNOT"] = { [34609] = true, [34608] = true, [34607] = true, [34606] = true, [34616] = true, [34617] = true, [34615] = true, [34614] = true, },
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Uncoiled") == 2 and AOETimeout == false,
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 20, ["LineWidth"] = 0, ["Angle"] = 0,  },
+		},
+		{
+			["Type"] = 1, ["Name"] = "Uncoiled Fury", ["ID"] = 34633, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] > 0, 
+			["ComboIDNOT"] = { [34609] = true, [34608] = true, [34607] = true, [34606] = true, [34616] = true, [34617] = true, [34615] = true, [34614] = true, },
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Uncoiled") == 1 and AOETimeout == false,
+		},
 
 		-- AOE Combo
 		{
@@ -309,6 +328,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Writhing Snap", ["ID"] = 34632, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = GaugeData1[3] == 0,
 		},
+		{
+			["Type"] = 2, ["Name"] = "Serpent's Ire", ["ID"] = 34647, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = GaugeData1[1] == 0,
+		},
+
 		-- Shared CDS
 		{
 			["Type"] = 1, ["Name"] = "Feint", ["ID"] = 7549, ["Range"] = 0, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
