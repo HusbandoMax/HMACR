@@ -196,6 +196,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Atonement", ["ID"] = 16460, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Has",PlayerID),
 		},
+		{
+			["Type"] = 1, ["Name"] = "Supplication", ["ID"] = 36918, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,3827,0,"Has",PlayerID),
+		},
+		{
+			["Type"] = 1, ["Name"] = "Sepulchre", ["ID"] = 36919, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,3828,0,"Has",PlayerID),
+		},
+		{
+			["Type"] = 1, ["Name"] = "Atonement", ["ID"] = 16460, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Has",PlayerID),
+		},
 
 		{
 			["Type"] = 1, ["Name"] = "Fast Blade", ["ID"] = 9, ["ComboIDNOT"] = { [9] = PlayerLevel >= 4, [15] = PlayerLevel >= 26, }, ["Range"] = 3, ["TargetCast"] = true,
@@ -222,13 +231,19 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Circle of Scorn", ["ID"] = 23, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = TargetDistance < 5 and PlayerInCombat == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Requiescat", ["ID"] = 7383, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,76,0,"Missing",PlayerID) and self.TargetBuff2(Player,1902,0,"Missing",PlayerID), ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
+			["Type"] = 1, ["Name"] = "Requiescat", ["ID"] = 7383, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Missing",PlayerID), ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,  -- self.TargetBuff2(Player,76,0,"Missing",PlayerID) and
 		},
+		{
+			["Type"] = 1, ["Name"] = "Imperator", ["ID"] = 36921, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Missing",PlayerID), ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
+		},		
 		{
 			["Type"] = 1, ["Name"] = "Fight or Flight", ["ID"] = 20, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true, ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		},		
 		{
 			["Type"] = 1, ["Name"] = "Sentinel", ["ID"] = 17, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Guardian", ["ID"] = 36920, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Sheltron", ["ID"] = 3542, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1 and (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 1 or (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 2 and GaugeData2[1] == 100)), ["OtherCheck"] = PlayerInCombat == true,
