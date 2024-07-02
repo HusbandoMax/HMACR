@@ -184,7 +184,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Gnashing Fang", ["ID"] = 16146, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = NoMercy.isoncd and NoMercy.cd < 40, 
 		},
 		{
-			["Type"] = 1, ["Name"] = "Burst Strike", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges and Bloodfest.cd > 20) or not Bloodfest.isoncd or Bloodfest.cd > 100,
+			["Type"] = 1, ["Name"] = "Burst Strike Low Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= MaxCartridges, ["OtherCheck"] = PlayerLevel < 76
+		},
+		{
+			["Type"] = 1, ["Name"] = "Burst Strike High Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges and Bloodfest.cd > 20) or not Bloodfest.isoncd or Bloodfest.cd > 100, ["OtherCheck"] = PlayerLevel >= 76
 		},
 		{
 			["Type"] = 1, ["Name"] = "Jugular Rip", ["ID"] = 16156, ["Range"] = 3, ["TargetCast"] = true,
