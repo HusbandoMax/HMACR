@@ -205,6 +205,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Eye Gouge", ["ID"] = 16158, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
+			["Type"] = 2, ["Name"] = "Fated Brand", ["ID"] = 36936, ["Range"] = 0, ["TargetCast"] = false,
+			["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
 			["Type"] = 1, ["Name"] = "Hypervelocity", ["ID"] = 25759, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
