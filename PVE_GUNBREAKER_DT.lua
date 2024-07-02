@@ -123,6 +123,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	]]--
 	local Bloodfest = ActionList:Get(1,16164)
 	local NoMercy = ActionList:Get(1,16138)
+	local GnashingFang = ActionList:Get(1,16146)
 
 	local MaxCartridges = PlayerLevel >= 88 and 3 or 2
 
@@ -171,6 +172,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 2, ["Name"] = "Fated Circle", ["ID"] = 16163, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["GaugeCheck"] = GaugeData1[1] >= 2,
 		},
+		--[[ Finish Lion Heart combo if already started --]]
+		{
+			["Type"] = 1, ["Name"] = "Noble Blood", ["ID"] = 36938, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Lion Heart", ["ID"] = 36939, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		--[[ Prefer starting GF to starting Lion Heart -- ]]
 		{
 			["Type"] = 1, ["Name"] = "Gnashing Fang", ["ID"] = 16146, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = NoMercy.isoncd and NoMercy.cd < 40, 
 		},
@@ -194,6 +203,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Hypervelocity", ["ID"] = 25759, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Reign of Beasts", ["ID"] = 36937, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = GnashingFang.isoncd
 		},
 
         -- AOE
