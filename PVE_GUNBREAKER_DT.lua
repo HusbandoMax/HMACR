@@ -124,8 +124,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local Bloodfest = ActionList:Get(1,16164)
 	local NoMercy = ActionList:Get(1,16138)
 	local GnashingFang = ActionList:Get(1,16146)
+	
+	local HasNoMercyBuff = self.TargetBuff2(Player,1831,0,"Has",PlayerID)
 
 	local MaxCartridges = PlayerLevel >= 88 and 3 or 2
+	local HasBloodfest = PlayerLevel >= 76
 
 	local SkillList = {
 		{
@@ -158,12 +161,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 2, ["Name"] = "Double Down Burn", ["ID"] = 25760, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] >= 2, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-			["Buff"] = self.TargetBuff2(Player,1831,0,"Has",PlayerID),
+			["Buff"] = HasNoMercyBuff,
 		},
 		{
 			["Type"] = 2, ["Name"] = "Bow Shock Burn", ["ID"] = 16159, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-			["Buff"] = self.TargetBuff2(Player,1831,0,"Has",PlayerID),
+			["Buff"] = HasNoMercyBuff,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Sonic Break", ["ID"] = 16153, ["Range"] = 3, ["TargetCast"] = true,
@@ -184,10 +187,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Gnashing Fang", ["ID"] = 16146, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = NoMercy.isoncd and NoMercy.cd < 40, 
 		},
 		{
-			["Type"] = 1, ["Name"] = "Burst Strike Low Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= MaxCartridges, ["OtherCheck"] = PlayerLevel < 76
+			["Type"] = 1, ["Name"] = "Burst Strike Low Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= MaxCartridges, ["OtherCheck"] = not HasBloodfest
 		},
 		{
-			["Type"] = 1, ["Name"] = "Burst Strike High Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges and Bloodfest.cd > 20) or not Bloodfest.isoncd or Bloodfest.cd > 100, ["OtherCheck"] = PlayerLevel >= 76
+			["Type"] = 1, ["Name"] = "Burst Strike High Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges and Bloodfest.cd > 20) or not Bloodfest.isoncd or Bloodfest.cd > 100, ["OtherCheck"] = HasBloodfest
 		},
 		{
 			["Type"] = 1, ["Name"] = "Jugular Rip", ["ID"] = 16156, ["Range"] = 3, ["TargetCast"] = true,
