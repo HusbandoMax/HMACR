@@ -156,42 +156,44 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Holy Circle", ["ID"] = 16458, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,2673,0,"Has",PlayerID,0), ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Goring Blade", ["ID"] = 3538, ["Range"] = 3, ["TargetCast"] = true,
+		},		
+		{
+			["Type"] = 2, ["Name"] = "Holy Circle", ["ID"] = 16458, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,2673,0,"Has",PlayerID,0) and self.TargetBuff2(Player,1368,0,"Missing",PlayerID), ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Total Eclipse", ["ID"] = 7381, ["ComboIDNOT"] = { [7381] = PlayerLevel >= 40, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Total Eclipse", ["ID"] = 7381, ["ComboIDNOT"] = { [7381] = PlayerLevel >= 40, }, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1368,0,"Missing",PlayerID), ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Prominence", ["ID"] = 16457, ["ComboID"] = { [7381] = true }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Prominence", ["ID"] = 16457, ["ComboID"] = { [7381] = true }, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1368,0,"Missing",PlayerID), ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-		{
-			["Type"] = 1, ["Name"] = "Shield Lob", ["ID"] = 24, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Intervene", ["ID"] = 16461, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
-		},
+		},	
 		{
 			["Type"] = 1, ["Name"] = "Blade of Truth", ["ID"] = 25749, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
+		},
+		{
+			["Type"] = 1, ["Name"] = "Blade of Faith", ["ID"] = 25748, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
 		},
 		{
 			["Type"] = 1, ["Name"] = "Blade of Valor", ["ID"] = 25750, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
 		},
 		{
+			["Type"] = 1, ["Name"] = "Blade of Honor", ["ID"] = 36922, ["Range"] = 25, ["TargetCast"] = true, 
+		},		
+		{
 			["Type"] = 1, ["Name"] = "Confiteor", ["ID"] = 16459, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
 		},
 		{
-			["Type"] = 1, ["Name"] = "Goring Blade", ["ID"] = 3538, ["Range"] = 3, ["TargetCast"] = true,
-		},		
+			["Type"] = 1, ["Name"] = "Shield Lob", ["ID"] = 24, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
+		},	
 		{
 			["Type"] = 1, ["Name"] = "Holy Spirit", ["ID"] = 7384, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,2673,0,"Has",PlayerID,0),
-		},
-		{
-			["Type"] = 1, ["Name"] = "Blade of Faith", ["ID"] = 25748, ["Range"] = 25, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Atonement", ["ID"] = 16460, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Has",PlayerID),
