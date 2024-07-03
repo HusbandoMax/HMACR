@@ -264,6 +264,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Nebula", ["ID"] = 16148, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
 		},
 		{
+			["Type"] = 1, ["Name"] = "Great Nebula", ["ID"] = 36935, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
+		},
+		{
 			["Type"] = 1, ["Name"] = "Aurora", ["ID"] = 16151, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1835,0,"Missing",PlayerID), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 65 and PlayerInCombat == true,
 		},
 		{
