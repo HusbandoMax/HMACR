@@ -127,25 +127,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 2, ["Name"] = "Holmgang", ["ID"] = 43, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Holmgang") == 1, ["OtherCheck"] = PlayerHP < 15 and PlayerInCombat == true,
 		},
-
 		{
-			["Type"] = 1, ["Name"] = "Primal Rend", ["ID"] = 25753, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,2624,0,"Has",PlayerID), ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
-			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
+			["Type"] = 1, ["Name"] = "Primal Ruination", ["ID"] = 36925, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 		},
-		--Chaotic Cyclone and Decimate with Inner Release
 		{
-			["Type"] = 2, ["Name"] = "Chaotic Cyclone", ["ID"] = 16463, ["Range"] = 0, ["Buff"] = self.TargetBuff2(Player,1897,0,"Has",PlayerID) and self.TargetBuff2(Player,1177,0,"Has",PlayerID), ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Primal Wrath", ["ID"] = 36924, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 1, 
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
-		{
-			["Type"] = 2, ["Name"] = "Steel Cyclone", ["ID"] = 51, ["Range"] = 0, ["Buff"] = self.TargetBuff2(Player,1177,0,"Has",PlayerID), ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-		{
-			["Type"] = 2, ["Name"] = "Decimate", ["ID"] = 3550, ["Range"] = 0, ["Buff"] = self.TargetBuff2(Player,1177,0,"Has",PlayerID), ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-		--Chaotic Cyclone and Decimate without Inner Release
 		{
 			["Type"] = 2, ["Name"] = "Chaotic Cyclone", ["ID"] = 16463, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
@@ -158,25 +146,20 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 2, ["Name"] = "Decimate", ["ID"] = 3550, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
-		--Fell Inner Chaos and Fell Cleve with Inner Release
 		{
-			["Type"] = 1, ["Name"] = "Inner Chaos", ["ID"] = 16465, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1897,0,"Has",PlayerID) and self.TargetBuff2(Player,1177,0,"Has",PlayerID), ["TargetCast"] = true,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Inner Beast", ["ID"] = 49, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1177,0,"Has",PlayerID), ["TargetCast"] = true,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Fell Cleve", ["ID"] = 16465, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1177,0,"Has",PlayerID), ["TargetCast"] = true,
-		},
-		--Inner Chaos and Fell Cleve without Inner release
-		{
-			["Type"] = 1, ["Name"] = "Inner Chaos", ["ID"] = 16465, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1897,0,"Has",PlayerID), ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Inner Chaos", ["ID"] = 16465, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Inner Beast", ["ID"] = 49, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Fell Cleve", ["ID"] = 3549, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Fell Cleave", ["ID"] = 29078, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Fell Cleave", ["ID"] = 3549, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Primal Rend", ["ID"] = 25753, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 		},
 
 		--AOE STuff
@@ -203,7 +186,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Storm's Path", ["ID"] = 42, ["ComboID"] = { [37] = true }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Onsluaght", ["ID"] = 7386, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
+			["Type"] = 1, ["Name"] = "Onslaught", ["ID"] = 7386, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
 		},
 		{
@@ -213,19 +196,19 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- OGCD
 		{
 			["Type"] = 1, ["Name"] = "Orogeny", ["ID"] = 25752, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Upheavel", ["ID"] = 7387, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Infuriate", ["ID"] = 52, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1897,0,"Missing",PlayerID), ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true, ["GaugeCheck"] = GaugeData1[1] <= 49,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Berserk", ["ID"] = 38, ["Range"] = 3, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Inner Release", ["ID"] = 7389, ["Range"] = 3, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Infuriate", ["ID"] = 52, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1897,0,"Missing",PlayerID) and self.TargetBuff2(Player,1177,0,"Missing",PlayerID), ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true, ["GaugeCheck"] = GaugeData1[1] <= 49,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Thrill of Battle", ["ID"] = 40, ["Range"] = 3, ["TargetCast"] = false, ["OtherCheck"] = PlayerHP <=50, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
@@ -235,6 +218,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Vengeance", ["ID"] = 44, ["Range"] = 3, ["TargetCast"] = false, ["OtherCheck"] = PlayerHP <=80, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Damnation", ["ID"] = 36923, ["Range"] = 3, ["TargetCast"] = false, ["OtherCheck"] = PlayerHP <=80, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Bloodwhetting", ["ID"] = 25751, ["Range"] = 3, ["TargetCast"] = false, ["OtherCheck"] = PlayerHP <=50, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
@@ -253,7 +239,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["OtherCheck"] = PlayerInCombat == true and TargetCastingInterruptible == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 5, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+			["Type"] = 2, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 0, ["TargetCast"] = false,
+			["OtherCheck"] = PlayerHP <= 80 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"CDs") == 1 and AOETimeout == false,
+			["AOECount"] = 3,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Rampart", ["ID"] = 7531, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 75 and PlayerInCombat == true,
