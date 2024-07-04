@@ -23,6 +23,13 @@ Profile.Settings = {
         },
     },
     {
+        ["Setting"] = "Reprisal",
+        ["Options"] = {
+            { ["Name"] = "Reprisal", ["Tooltip"] = "Reprisal On", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Reprisal", ["Tooltip"] = "Reprisal Off", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    {
         ["Setting"] = "Superbolide",
         ["Options"] = {
             { ["Name"] = "Superbolide", ["Tooltip"] = "Superbolide On", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
@@ -289,6 +296,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 5, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 0, ["TargetCast"] = false,
+			["OtherCheck"] = PlayerHP <= 80 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Reprisal") == 1 and AOETimeout == false,
+			["AOECount"] = 3,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Rampart", ["ID"] = 7531, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 75 and PlayerInCombat == true,
