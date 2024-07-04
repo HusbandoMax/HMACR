@@ -203,7 +203,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Storm's Path", ["ID"] = 42, ["ComboID"] = { [37] = true }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Onsluaght", ["ID"] = 7386, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
+			["Type"] = 1, ["Name"] = "Onslaught", ["ID"] = 7386, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
 		},
 		{
@@ -213,7 +213,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- OGCD
 		{
 			["Type"] = 1, ["Name"] = "Orogeny", ["ID"] = 25752, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Upheavel", ["ID"] = 7387, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
@@ -253,7 +253,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["OtherCheck"] = PlayerInCombat == true and TargetCastingInterruptible == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 5, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+			["Type"] = 2, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 0, ["TargetCast"] = false,
+			["OtherCheck"] = PlayerHP <= 80 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"CDs") == 1 and AOETimeout == false,
+			["AOECount"] = 3,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Rampart", ["ID"] = 7531, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 75 and PlayerInCombat == true,
