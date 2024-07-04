@@ -121,14 +121,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		36938	Noble Blood
 		36939	Lion Heart
 	]]--
-	local Bloodfest = ActionList:Get(1,16164)
-	local NoMercy = ActionList:Get(1,16138)
+	local BloodfestCD = self.GetActionCD(16164,true)
+	local NoMercySoon = self.GetActionCD(16138,false,20)
 	local GnashingFang = ActionList:Get(1,16146)
 	
 	local HasNoMercyBuff = self.TargetBuff2(Player,1831,0,"Has",PlayerID)
 
 	local MaxCartridges = PlayerLevel >= 88 and 3 or 2
 	local HasBloodfest = PlayerLevel >= 76
+	local HasDoubleDown = PlayerLevel >= 90
 
 	local SkillList = {
 		{
@@ -184,13 +185,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		--[[ Prefer starting GF to starting Lion Heart -- ]]
 		{
-			["Type"] = 1, ["Name"] = "Gnashing Fang", ["ID"] = 16146, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = NoMercy.isoncd and NoMercy.cd < 40, 
+			["Type"] = 1, ["Name"] = "Gnashing Fang", ["ID"] = 16146, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = not NoMercySoon, 
 		},
 		{
-			["Type"] = 1, ["Name"] = "Burst Strike Low Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= MaxCartridges, ["OtherCheck"] = not HasBloodfest
+			["Type"] = 1, ["Name"] = "Burst Strike Low Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= MaxCartridges or (HasBloodfest and BloodfestCD < 20), ["OtherCheck"] = not HasDoubleDown
 		},
 		{
-			["Type"] = 1, ["Name"] = "Burst Strike High Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges and Bloodfest.cd > 20) or not Bloodfest.isoncd or Bloodfest.cd > 100, ["OtherCheck"] = HasBloodfest
+			["Type"] = 1, ["Name"] = "Burst Strike High Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges and BloodfestCD ~= 0 and BloodfestCD < 100) or BloodfestCD < 20, ["OtherCheck"] = HasDoubleDown
 		},
 		{
 			["Type"] = 1, ["Name"] = "Jugular Rip", ["ID"] = 16156, ["Range"] = 3, ["TargetCast"] = true,
@@ -245,11 +246,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Danger Zone", ["ID"] = 16144, ["Range"] = 3, ["TargetCast"] = true,
-			["OtherCheck"] = NoMercy.isoncd and NoMercy.cd < 40,
+			["OtherCheck"] = not NoMercySoon,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Blasting Zone", ["ID"] = 16165, ["Range"] = 3, ["TargetCast"] = true,
-			["OtherCheck"] = NoMercy.isoncd and NoMercy.cd < 40,
+			["OtherCheck"] = not NoMercySoon,
 		},
 		{
 			["Type"] = 1, ["Name"] = "No Mercy", ["ID"] = 16138, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
