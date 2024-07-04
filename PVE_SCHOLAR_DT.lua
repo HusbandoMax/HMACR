@@ -96,6 +96,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CurrentPetData = Data.CurrentPetData
     local CurrentPetPOS = Data.CurrentPetPOS
     local PartyAggroCount = Data.PartyAggroCount
+    local HealTimeout = Data.HealTimeout
 
 	local ShouldApplyBio = self.TargetBuff2(Target,{179,189,1895},3,"Missing",PlayerID)
 	
@@ -159,41 +160,41 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- Bigger Heals
 		{
 			["Type"] = 3, ["Name"] = "Excogitation", ["ID"] = 7434, ["Range"] = 30, ["TargetCast"] = true, ["HPAbove"] = 55, ["HP"] = 99, ["PartyOnly"] = true, ["RequiredClassType"] = 1,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Protraction", ["ID"] = 25867, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 70, ["PartyOnly"] = true, ["RequiredClassType"] = 1,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 			["Buff2"] = { ["Target"] = nil, ["BuffID"] = 1220, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
 		},
 
 		{
 			["Type"] = 3, ["Name"] = "Lustrate", ["ID"] = 189, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTimeout"] = "Lustrate", ["LastActionTime"] = 2000,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTimeout"] = "Lustrate", ["LastActionTime"] = 2000,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Physick", ["ID"] = 190, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
         {
             ["Type"] = 2, ["Name"] = "Indomitability", ["ID"] = 3583, ["Range"] = 15, ["TargetCast"] = false, ["OtherCheck"] = self.PartyBelowHP(15,50,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
         },
         {
             ["Type"] = 2, ["Name"] = "Fey Illumination", ["ID"] = 16538, ["Range"] = 30, ["TargetCast"] = false, ["OtherCheck"] = self.PartyBelowHP(30,60,nil,Data.EntityListSorted.PartySelf,CurrentPetData) >= (PartySize/2) and PlayerInCombat == true,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
         },
         {
-            ["Type"] = 2, ["Name"] = "Fey Blessing", ["ID"] = 16543, ["Range"] = 20, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+            ["Type"] = 2, ["Name"] = "Fey Blessing", ["ID"] = 16543, ["Range"] = 20, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
             ["OtherCheck"] = CurrentPetPOS ~= nil and self.PartyBelowHP(20,65,nil,Data.EntityListSorted.PartySelf,CurrentPetData) >= (PartySize/2),
         },
         {
             ["Type"] = 2, ["Name"] = "Whispering Dawn", ["ID"] = 16537, ["Range"] = 15, ["TargetCast"] = false, ["OtherCheck"] = self.PartyBelowHP(15,70,nil,Data.EntityListSorted.PartySelf,CurrentPetData) >= (PartySize/2) and PlayerInCombat == true,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
         },
         {
             ["Type"] = 2, ["Name"] = "Indomitability", ["ID"] = 3583, ["Range"] = 15, ["TargetCast"] = false, ["OtherCheck"] = self.PartyBelowHP(15,50,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
         },
 
         -- Smaller Heals
@@ -202,20 +203,20 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Esuna") == 1,
 		},
 		{
-			["Type"] = 3, ["Name"] = "Physick", ["ID"] = 190, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 80, ["PartyOnly"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["Type"] = 3, ["Name"] = "Physick", ["ID"] = 190, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 80, ["PartyOnly"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 			["Buff2"] = { ["Target"] = nil, ["BuffID"] = 1220, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
 		},
 		{
-			["Type"] = 3, ["Name"] = "Adloquium", ["ID"] = 185, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 80, ["PartyOnly"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["Type"] = 3, ["Name"] = "Adloquium", ["ID"] = 185, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 80, ["PartyOnly"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 			["Buff2"] = { ["Target"] = nil, ["BuffID"] = {1220,297}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
 		},
         {
             ["Type"] = 2, ["Name"] = "Consolation", ["ID"] = 16546, ["Range"] = 15, ["TargetCast"] = false, ["OtherCheck"] = self.PartyBelowHP(15,80,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2),
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTimeout"] = "Consolation", ["LastActionTime"] = 2000,
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTimeout"] = "Consolation", ["LastActionTime"] = 2000,
         },
         {
             ["Type"] = 2, ["Name"] = "Succor", ["ID"] = 186, ["Range"] = 15, ["TargetCast"] = false, ["OtherCheck"] = self.PartyBelowHP(15,80,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2),
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
         },
         {
 			["Type"] = 3, ["Name"] = "Sacred Soil", ["ID"] = 188, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, 
@@ -224,20 +225,20 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
         {
             ["Type"] = 3, ["Name"] = "Aetherpact", ["ID"] = 7437, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 40, ["PartyOnly"] = true,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true, ["RequiredClassType2"] = "Tank",
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true, ["RequiredClassType2"] = "Tank",
         },
         {
             ["Type"] = 2, ["Name"] = "Protraction", ["ID"] = 25867, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = true,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true, ["RequiredClassType2"] = "Tank",
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true, ["RequiredClassType2"] = "Tank",
         },
         {
             ["Type"] = 3, ["Name"] = "Protraction", ["ID"] = 25867, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = true,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
         },
 
         {
             ["Type"] = 2, ["Name"] = "Expedient", ["ID"] = 25868, ["Range"] = 30, ["TargetCast"] = false,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true and (PlayerMoving == true or PlayerHP < 70),
+            ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true and (PlayerMoving == true or PlayerHP < 70),
         },
         {
             ["Type"] = 2, ["Name"] = "Dissipation", ["ID"] = 3587, ["Range"] = 30, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] == 0, ["OtherCheck"] = AetherflowCD > 15,

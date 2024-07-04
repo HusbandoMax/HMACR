@@ -92,6 +92,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local AOETimeout = Data.AOETimeout
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
+    local HealTimeout = Data.HealTimeout
 
 	
 	local HasHoroscopeBuff = 0
@@ -347,7 +348,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- Bigger Heals (Higher Prio)
 		{
 			["Type"] = 3, ["Name"] = "Benefic II", ["ID"] = 3610, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = false, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 
         {
@@ -360,27 +361,27 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
         
 		{
-			["Type"] = 2, ["Name"] = "Horoscope", ["ID"] = 16557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Horoscope", ["ID"] = 16557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(20,60,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Aspected Helios", ["ID"] = 3601, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Aspected Helios", ["ID"] = 3601, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(20,85,836,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Helios", ["ID"] = 3600, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Helios", ["ID"] = 3600, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,75,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Collective Unconscious", ["ID"] = 3613, ["Range"] = 8, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Collective Unconscious", ["ID"] = 3613, ["Range"] = 8, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 50, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Celestial Opposition", ["ID"] = 16553, ["Range"] = 8, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Celestial Opposition", ["ID"] = 16553, ["Range"] = 8, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 60, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Lady of Crowns", ["ID"] = 7445, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Lady of Crowns", ["ID"] = 7445, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,75,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
 		},
 
@@ -392,15 +393,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 		{
 			["Type"] = 3, ["Name"] = "Benefic II", ["ID"] = 3610, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 70, ["PartyOnly"] = false, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Benefic", ["ID"] = 3594, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 85, ["PartyOnly"] = false, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Aspected Benefic", ["ID"] = 3595, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 95, ["HPAbove"] = 85, ["PartyOnly"] = true,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["Buff2"] = { ["Target"] = nil, ["BuffID"] = {835}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["Buff2"] = { ["Target"] = nil, ["BuffID"] = {835}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
 		},
 
         {
@@ -463,11 +464,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 18, ["MaxDistance"] = 0, },
         },
         {
-			["Type"] = 2, ["Name"] = "Microcosmos", ["ID"] = 25875, ["Range"] = 20, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, 
+			["Type"] = 2, ["Name"] = "Microcosmos", ["ID"] = 25875, ["Range"] = 20, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, 
             ["OtherCheck"] = self.PartyBelowHP(15,75,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
         },
         {
-			["Type"] = 2, ["Name"] = "Microcosmos", ["ID"] = 25875, ["Range"] = 20, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, 
+			["Type"] = 2, ["Name"] = "Microcosmos", ["ID"] = 25875, ["Range"] = 20, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, 
             ["OtherCheck"] = self.TargetBuff2(Player,2718,2,"Missing",PlayerID),
         },
 
@@ -476,7 +477,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOECount"] = 1, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = Player.pos, ["AOERange"] = 18, ["MaxDistance"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Neutral Sect", ["ID"] = 16559, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Neutral Sect", ["ID"] = 16559, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(25,50,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
 		},
 

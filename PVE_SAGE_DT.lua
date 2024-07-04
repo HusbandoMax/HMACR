@@ -94,6 +94,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local AOETimeout = Data.AOETimeout
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
+    local HealTimeout = Data.HealTimeout
+
 
 	--[1] = "Kardia Self",
 	--[2] = "Kardia Tank",
@@ -197,28 +199,28 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- Bigger Heals
 		{
 			["Type"] = 3, ["Name"] = "Eukrasian Diagnosis", ["ID"] = 24291, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = false,
-			["Buff"] = HasEukrasiaBuff == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["Buff"] = HasEukrasiaBuff == true, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Diagnosis", ["ID"] = 24284, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = false,
-			["Buff"] = HasEukrasiaBuff == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true and PlayerMoving == false,
+			["Buff"] = HasEukrasiaBuff == false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true and PlayerMoving == false,
 		},
         
 		{
 			["Type"] = 3, ["Name"] = "Taurochole", ["ID"] = 24303, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 40, ["PartyOnly"] = true, ["RequiredClassType"] = 1,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true and GaugeData1[5] == 3 and PlayerMP < 50,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true and GaugeData1[5] == 3 and PlayerMP < 50,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Taurochole", ["ID"] = 24303, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 75, ["PartyOnly"] = true,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Haima", ["ID"] = 24305, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 55, ["PartyOnly"] = true, ["RequiredClassType"] = 1,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Druochole", ["ID"] = 24296, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 55, ["PartyOnly"] = false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true, ["LastActionTimeout"] = "Druochole", ["LastActionTime"] = 1000,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true, ["LastActionTimeout"] = "Druochole", ["LastActionTime"] = 1000,
 		},
 
 		{
@@ -228,16 +230,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
         -- Smaller Heals
 		--{
-		--	["Type"] = 3, ["Name"] = "Eukrasia", ["ID"] = 24290, ["Range"] = 0, ["TargetCast"] = false, ["HP"] = 95, ["HPAbove"] = 80, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = false,
+		--	["Type"] = 3, ["Name"] = "Eukrasia", ["ID"] = 24290, ["Range"] = 0, ["TargetCast"] = false, ["HP"] = 95, ["HPAbove"] = 80, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = false,
 		--	["OtherCheck"] = PlayerInCombat == true, ["Buff"] = HasEukrasiaBuff == false,
 		--},
 		{
 			["Type"] = 3, ["Name"] = "Eukrasian Diagnosis", ["ID"] = 24291, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 85, ["PartyOnly"] = false,
-			["Buff"] = HasEukrasiaBuff == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["Buff"] = HasEukrasiaBuff == true, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Diagnosis", ["ID"] = 24284, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 75, ["PartyOnly"] = false,
-			["Buff"] = HasEukrasiaBuff == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerMoving == false,
+			["Buff"] = HasEukrasiaBuff == false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerMoving == false,
 		},
 
         -- Other
@@ -262,56 +264,56 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		--{
-		--	["Type"] = 2, ["Name"] = "Eukrasia", ["ID"] = 24290, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+		--	["Type"] = 2, ["Name"] = "Eukrasia", ["ID"] = 24290, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 		--	["OtherCheck"] = self.PartyBelowHP(15,70) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false, ["Buff"] = self.PartyBelowHP(15,85,2609) >= (PartySize/2) and HasEukrasiaBuff == false,
 		--},
 		{
-			["Type"] = 2, ["Name"] = "Eukrasian Prognosis", ["ID"] = 24292, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Eukrasian Prognosis", ["ID"] = 24292, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,70) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false, ["Buff"] = self.PartyBelowHP(15,70) >= (PartySize/2) and HasEukrasiaBuff == true,
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Prognosis", ["ID"] = 24286, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Prognosis", ["ID"] = 24286, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,70) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false, ["Buff"] = HasEukrasiaBuff == false,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Eukrasian Prognosis", ["ID"] = 24292, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Eukrasian Prognosis", ["ID"] = 24292, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,70) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false, ["Buff"] = HasEukrasiaBuff == true,
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Holos", ["ID"] = 24310, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Holos", ["ID"] = 24310, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,80,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Physis II", ["ID"] = 24302, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 2, ["Name"] = "Physis II", ["ID"] = 24302, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 50, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Kerachole", ["ID"] = 24298, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 2, ["Name"] = "Kerachole", ["ID"] = 24298, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 65, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Kerachole", ["ID"] = 24298, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true and PlayerMP < 50,
+			["Type"] = 2, ["Name"] = "Kerachole", ["ID"] = 24298, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true and PlayerMP < 50,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Ixochole", ["ID"] = 24299, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 2, ["Name"] = "Ixochole", ["ID"] = 24299, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 65, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
 		
 		{
-			["Type"] = 2, ["Name"] = "Soteria", ["ID"] = 24294, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["Type"] = 2, ["Name"] = "Soteria", ["ID"] = 24294, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 			["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true and (self.PartyBelowHP(60,85,2607) > 0 or self.PartyBelowHP(60,70,2609) > 0),
 		},
 		{
-			["Type"] = 2, ["Name"] = "Pepsis", ["ID"] = 24301, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["Type"] = 2, ["Name"] = "Pepsis", ["ID"] = 24301, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 			["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true and (self.PartyBelowHP(15,65,2607) > 0 or self.PartyBelowHP(15,70,2609) > 0),
 		},
 		{
-			["Type"] = 2, ["Name"] = "Zoe", ["ID"] = 24300, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["Type"] = 2, ["Name"] = "Zoe", ["ID"] = 24300, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 			["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true and self.PartyBelowHP(40,35) > 0,
 		},
         -- DPS

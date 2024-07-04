@@ -85,6 +85,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local AOETimeout = Data.AOETimeout
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
+    local HealTimeout = Data.HealTimeout
 
 	--[[
 		119     Stone                CNJ WHM
@@ -145,11 +146,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 
 		{
-			["Type"] = 2, ["Name"] = "Presence of Mind", ["ID"] = 136, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 2, ["Name"] = "Presence of Mind", ["ID"] = 136, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 60, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 30, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Temperance", ["ID"] = 16536, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 2, ["Name"] = "Temperance", ["ID"] = 16536, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 60, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 30, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
@@ -158,19 +159,19 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 
 		{
-			["Type"] = 2, ["Name"] = "Medica II", ["ID"] = 133, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Medica II", ["ID"] = 133, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(20,80,150,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Medica", ["ID"] = 124, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Medica", ["ID"] = 124, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,80,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Assize", ["ID"] = 3571, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Assize", ["ID"] = 3571, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,70,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Afflatus Rapture", ["ID"] = 16534, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 2, ["Name"] = "Afflatus Rapture", ["ID"] = 16534, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(20,70,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true,
 		},
 
@@ -183,43 +184,43 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         
 		{
 			["Type"] = 3, ["Name"] = "Benediction", ["ID"] = 140, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 15, ["PartyOnly"] = false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Tetragrammation", ["ID"] = 3570, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 15, ["PartyOnly"] = false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTimeout"] = "Tetragrammation", ["LastActionTime"] = 1000,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTimeout"] = "Tetragrammation", ["LastActionTime"] = 1000,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Afflatus Solace", ["ID"] = 16531, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 50, ["PartyOnly"] = false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 
 
 		{
-			["Type"] = 3, ["Name"] = "Cure III", ["ID"] = 131, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerMoving == false,
+			["Type"] = 3, ["Name"] = "Cure III", ["ID"] = 131, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerMoving == false,
 			["AOECount"] = 3, ["AOEType"] = { ["BelowHP"] = 75, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = nil, ["AOERange"] = 10, ["MaxDistance"] = 30, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 3, ["Name"] = "Asylum", ["ID"] = 3569, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 3, ["Name"] = "Asylum", ["ID"] = 3569, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 75, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = nil, ["AOERange"] = 10, ["MaxDistance"] = 30, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 3, ["Name"] = "Liturgy of the Bell", ["ID"] = 25862, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["Type"] = 3, ["Name"] = "Liturgy of the Bell", ["ID"] = 25862, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 60, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = nil, ["AOERange"] = 10, ["MaxDistance"] = 30, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
 
 		{
 			["Type"] = 3, ["Name"] = "Aquaveil", ["ID"] = 25861, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 70, ["PartyOnly"] = true, ["RequiredClassType"] = 1,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Aquaveil", ["ID"] = 25861, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 40, ["PartyOnly"] = true,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Cure II", ["ID"] = 135, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 60, ["PartyOnly"] = false, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 	
 
@@ -230,18 +231,18 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 		{
 			["Type"] = 3, ["Name"] = "Cure II", ["ID"] = 135, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 70, ["PartyOnly"] = false, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Cure", ["ID"] = 120, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 80, ["PartyOnly"] = false, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Regen", ["ID"] = 137, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 95, ["HPAbove"] = 85, ["PartyOnly"] = true,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["Buff2"] = { ["Target"] = nil, ["BuffID"] = {158}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["Buff2"] = { ["Target"] = nil, ["BuffID"] = {158}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
 		},
 		{
-			["Type"] = 3, ["Name"] = "Divine Benison", ["ID"] = 7432, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 80, ["PartyOnly"] = true, ["RequiredClassType"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["Type"] = 3, ["Name"] = "Divine Benison", ["ID"] = 7432, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 80, ["PartyOnly"] = true, ["RequiredClassType"] = 1, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
 			["Buff2"] = { ["Target"] = nil, ["BuffID"] = {1218}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, }
 		},
 
