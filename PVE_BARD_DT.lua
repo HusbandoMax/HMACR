@@ -155,10 +155,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Refulgent Arrow", ["ID"] = 7409, ["Range"] = 25, ["Level"] = PlayerLevel >= 70,  ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,128,0,"Has",PlayerID),
+            ["Type"] = 1, ["Name"] = "Refulgent Arrow", ["ID"] = 7409, ["Range"] = 25, ["Level"] = PlayerLevel >= 70,  ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,3861,0,"Has",PlayerID), --was 128
         },
         {
-            ["Type"] = 1, ["Name"] = "Straight Shot", ["ID"] = 98, ["Range"] = 25, ["Level"] = PlayerLevel < 70,  ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,128,0,"Has",PlayerID),
+            ["Type"] = 1, ["Name"] = "Straight Shot", ["ID"] = 98, ["Range"] = 25, ["Level"] = PlayerLevel < 70,  ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,3861,0,"Has",PlayerID),
         },
 
         {
@@ -253,27 +253,27 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 1, ["Name"] = "The Wanderers Minuet", ["ID"] = 3559, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 90, ["GaugeCheck"] = GaugeData1[3] == 0, ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
+            ["Type"] = 1, ["Name"] = "The Wanderers Minuet", ["ID"] = 3559, ["Range"] = 0, ["TargetCast"] = false, ["Level"] = PlayerLevel < 90, ["GaugeCheck"] = GaugeData1[3] == 0, ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Mages Ballad", ["ID"] = 114, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 90, ["GaugeCheck"] = GaugeData1[3] == 0, ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
+            ["Type"] = 1, ["Name"] = "Mages Ballad", ["ID"] = 114, ["Range"] = 0, ["TargetCast"] = false, ["Level"] = PlayerLevel < 90, ["GaugeCheck"] = GaugeData1[3] == 0, ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Army's Paeon", ["ID"] = 116, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 90, ["GaugeCheck"] = GaugeData1[3] == 0, ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
+            ["Type"] = 1, ["Name"] = "Army's Paeon", ["ID"] = 116, ["Range"] = 0, ["TargetCast"] = false, ["Level"] = PlayerLevel < 90, ["GaugeCheck"] = GaugeData1[3] == 0, ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
         },
 
         {
-            ["Type"] = 1, ["Name"] = "The Wanderers Minuet", ["ID"] = 3559, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 90, ["GaugeCheck"] = NextAction == "Minuet", ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
+            ["Type"] = 1, ["Name"] = "The Wanderers Minuet", ["ID"] = 3559, ["Range"] = 0, ["TargetCast"] = false, ["Level"] = PlayerLevel >= 90, ["GaugeCheck"] = NextAction == "Minuet", ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Mages Ballad", ["ID"] = 114, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 90, ["GaugeCheck"] = NextAction == "Ballad", ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
+            ["Type"] = 1, ["Name"] = "Mages Ballad", ["ID"] = 114, ["Range"] = 0, ["TargetCast"] = false, ["Level"] = PlayerLevel >= 90, ["GaugeCheck"] = NextAction == "Ballad", ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Army's Paeon", ["ID"] = 116, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 90, ["GaugeCheck"] = NextAction == "Paeon", ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
+            ["Type"] = 1, ["Name"] = "Army's Paeon", ["ID"] = 116, ["Range"] = 0, ["TargetCast"] = false, ["Level"] = PlayerLevel >= 90, ["GaugeCheck"] = NextAction == "Paeon", ["LastActionTimeout"] = "BardSong", ["LastActionTime"] = 2000,
         },
 
         {
@@ -294,7 +294,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
         {
             ["Type"] = 1, ["Name"] = "Barrage", ["ID"] = 107, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
-            ["Buff"] = self.TargetBuff2(Player,128,0,"Missing",PlayerID),
+            --["Buff"] = self.TargetBuff2(Player,128,0,"Missing",PlayerID),
         },
 
         {
