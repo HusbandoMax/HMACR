@@ -29,14 +29,6 @@ Profile.Settings = {
             { ["Name"] = "Jumps", ["Tooltip"] = "Jumps OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
         },
     },
-    {
-        ["Setting"] = "Harpe",
-        ["Options"] = {
-            { ["Name"] = "Harpe On", ["Tooltip"] = "Harpe On", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
-            { ["Name"] = "Harpe Insta", ["Tooltip"] = "Harpe Insta Proc Only", ["Colour"] = { ["r"] = 1, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
-            { ["Name"] = "Harpe Off", ["Tooltip"] = "Harpe Off", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
-        },
-    },
 }
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
@@ -106,10 +98,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Wyrmwind Thrust", ["ID"] = 25773, ["Range"] = 15, ["TargetCast"] = true,
 		},--["Level"] = PlayerLevel >= 64,
 		{
-			["Type"] = 1, ["Name"] = "Wheeling Thrust", ["ID"] = 3556, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Drakesbane", ["ID"] = 36952, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Fang and Claw", ["ID"] = 3554, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Wheeling Thrust", ["ID"] = 3556, ["ComboID"] = { [25772] = true },  ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Fang and Claw", ["ID"] = 3554, ["ComboID"] = { [25771] = true }, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Piercing Talon", ["ID"] = 90, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
@@ -157,13 +152,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 		-- OGCD
 		{
-			["Type"] = 1, ["Name"] = "Geirskogul", ["ID"] = 3555, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[2] == 2,
+			["Type"] = 1, ["Name"] = "Geirskogul", ["ID"] = 3555, ["Range"] = 20, ["TargetCast"] = true, --["GaugeCheck"] = GaugeData1[2] == 2,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Stardiver", ["ID"] = 16480, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] >= 1000,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Nastrond", ["ID"] = 7400, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] >= 1000,
+			["Type"] = 1, ["Name"] = "Nastrond", ["ID"] = 7400, ["Range"] = 20, ["Buff"] = self.TargetBuff2(Player,3844,0,"Has",PlayerID), ["TargetCast"] = true, --["GaugeCheck"] = GaugeData1[3] >= 1000,--3844
 		},
 		{
 			["Type"] = 1, ["Name"] = "Spinshetter Dive", ["ID"] = 95, ["Range"] = 20, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") == 1, ["OtherCheck"] = TargetDistance > 15,
