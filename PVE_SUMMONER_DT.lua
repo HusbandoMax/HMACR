@@ -185,6 +185,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Deathflare", ["ID"] = 3582, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
             ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(3582,nil,PlayerLevel),
         },
+        {
+			["Type"] = 1, ["Name"] = "Searing Flesh", ["ID"] = 36991, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
+            ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(36991,nil,PlayerLevel),
+        },
 
         {
 			["Type"] = 2, ["Name"] = "Rekindle", ["ID"] = 25830, ["Range"] = 25, ["TargetCast"] = false, ["OGCDLimited"] = GCD > 0.6,
@@ -329,6 +333,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
 		-- Single Target
+        {
+			["Type"] = 1, ["Name"] = "Necrotize", ["ID"] = 36990, ["Range"] = 25, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[10] > 0, 
+        },
         {
 			["Type"] = 1, ["Name"] = "Fester", ["ID"] = 181, ["Range"] = 25, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[10] > 0, 
         },
