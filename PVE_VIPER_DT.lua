@@ -114,9 +114,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		35921	Twinfang
 		35922	Twinblood
 	]]--
-
-	d(GaugeData1)
-	d(GaugeData2)
+	
 	local EndCombo = { -- Buff Target > Combo
 		[34609] = "-- Flanksting Strike	 	[3645] Flankstung Venom		> Steel/Dread > Swiftskin Sting > Hindsbane Fang", -- Flanksting Strike	 	[3645] Flankstung Venom		> Steel/Dread > Swiftskin Sting > Hindsbane Fang
 		[34612] = "-- Hindsting Strike		[3647] Hindstung Venom		> Steel/Dread > Hunter's Sting > Flanksting Strike", -- Hindsting Strike		[3647] Hindstung Venom		> Steel/Dread > Hunter's Sting > Flanksting Strike
@@ -134,7 +132,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local NextComboUsed = 34609
 	for i,e in pairs(NextCombo) do
 		local HasBuff = self.TargetBuff2(Player,i,0,"Has",PlayerID)
-		d("Checking: "..i.." - "..tostring(HasBuff))
+		--d("Checking: "..i.." - "..tostring(HasBuff))
 		if HasBuff then
 			NextComboUsed = e
 			break
@@ -163,9 +161,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		end
 	end
 
-	d("BestBuff: "..BestBuff)
-	d("BestAct: "..BestAct)
-	d("BestBuff: "..tostring(Stage2Buff[BestBuff]).." - "..tostring(BestBuffTime))
+	--d("BestBuff: "..BestBuff)
+	--d("BestAct: "..BestAct)
+	--d("BestBuff: "..tostring(Stage2Buff[BestBuff]).." - "..tostring(BestBuffTime))
 
 	if PlayerLevel < 20 then
 		NextComboUsed = 3645
@@ -173,8 +171,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		NextComboUsed = BestAct
 	end
 
-	d("NextComboUsed: "..tostring(NextComboUsed))
-	d("EndCombo: "..tostring(EndCombo[NextComboUsed]))
+	--d("NextComboUsed: "..tostring(NextComboUsed))
+	--d("EndCombo: "..tostring(EndCombo[NextComboUsed]))
 
 	local SkillList = {
 
