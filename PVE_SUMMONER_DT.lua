@@ -185,6 +185,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Deathflare", ["ID"] = 3582, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
             ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(3582,nil,PlayerLevel),
         },
+        {
+			["Type"] = 1, ["Name"] = "Searing Flesh", ["ID"] = 36991, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
+            ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(36991,nil,PlayerLevel),
+        },
 
         {
 			["Type"] = 2, ["Name"] = "Rekindle", ["ID"] = 25830, ["Range"] = 25, ["TargetCast"] = false, ["OGCDLimited"] = GCD > 0.6,
@@ -281,41 +285,41 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
         -- Ruby
         {
-			["Type"] = 1, ["Name"] = "Ruby Outburst", ["ID"] = 25814, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25814,25827,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 1 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Ruby Outburst", ["ID"] = 25814, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25814,25827,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         {
-			["Type"] = 1, ["Name"] = "Ruby Disaster", ["ID"] = 25827, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25827,25832,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 1 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Ruby Disaster", ["ID"] = 25827, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25827,25832,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         {
-			["Type"] = 1, ["Name"] = "Ruby Catastrophere", ["ID"] = 25832, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25832,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 1 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Ruby Catastrophere", ["ID"] = 25832, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25832,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         -- Topaz
         {
-			["Type"] = 1, ["Name"] = "Topaz Outburst", ["ID"] = 25815, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25815,25828,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 2 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Topaz Outburst", ["ID"] = 25815, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25815,25828,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         {
-			["Type"] = 1, ["Name"] = "Topaz Disaster", ["ID"] = 25828, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25828,25833,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 2 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Topaz Disaster", ["ID"] = 25828, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25828,25833,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         {
-			["Type"] = 1, ["Name"] = "Topaz Catastrophere", ["ID"] = 25833, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25833,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 2 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Topaz Catastrophere", ["ID"] = 25833, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25833,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         -- Emerald
         {
-			["Type"] = 1, ["Name"] = "Emerald Outburst", ["ID"] = 25816, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25816,25829,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 3 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Emerald Outburst", ["ID"] = 25816, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25816,25829,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         {
-			["Type"] = 1, ["Name"] = "Emerald Disaster", ["ID"] = 25829, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25829,25834,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 3 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Emerald Disaster", ["ID"] = 25829, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25829,25834,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
         {
-			["Type"] = 1, ["Name"] = "Emerald Catastrophere", ["ID"] = 25834, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25834,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 3 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Emerald Catastrophere", ["ID"] = 25834, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25834,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
 
@@ -330,6 +334,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 		-- Single Target
         {
+			["Type"] = 1, ["Name"] = "Necrotize", ["ID"] = 36990, ["Range"] = 25, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[10] > 0, 
+        },
+        {
 			["Type"] = 1, ["Name"] = "Fester", ["ID"] = 181, ["Range"] = 25, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[10] > 0, 
         },
 
@@ -342,42 +349,42 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
         -- Ruby
         {
-			["Type"] = 1, ["Name"] = "Ruby Ruin", ["ID"] = 25808, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25808,25811,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 1 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Ruby Ruin", ["ID"] = 25808, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25808,25811,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Ruby Ruin II", ["ID"] = 25811, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25811,25817,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 1 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Ruby Ruin II", ["ID"] = 25811, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25811,25817,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Ruby Ruin III", ["ID"] = 25817, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25817,25823,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 1 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Ruby Ruin III", ["ID"] = 25817, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25817,25823,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Ruby Rite", ["ID"] = 25823, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25823,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 1 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Ruby Rite", ["ID"] = 25823, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25823,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         -- Topaz
         {
-			["Type"] = 1, ["Name"] = "Topaz Ruin", ["ID"] = 25809, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25809,25812,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 2 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Topaz Ruin", ["ID"] = 25809, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25809,25812,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Topaz Ruin II", ["ID"] = 25812, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25812,25818,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 2 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Topaz Ruin II", ["ID"] = 25812, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25812,25818,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Topaz Ruin III", ["ID"] = 25818, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25818,25824,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 2 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Topaz Ruin III", ["ID"] = 25818, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25818,25824,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Topaz Rite", ["ID"] = 25824, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25824,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 2 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Topaz Rite", ["ID"] = 25824, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25824,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         -- Emerald
         {
-			["Type"] = 1, ["Name"] = "Emerald Ruin", ["ID"] = 25810, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25810,25813,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 3 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Emerald Ruin", ["ID"] = 25810, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25810,25813,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Emerald Ruin II", ["ID"] = 25813, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25813,25819,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 3 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Emerald Ruin II", ["ID"] = 25813, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25813,25819,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Emerald Ruin III", ["ID"] = 25819, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25819,25825,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 3 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Emerald Ruin III", ["ID"] = 25819, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25819,25825,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
         {
-			["Type"] = 1, ["Name"] = "Emerald Rite", ["ID"] = 25825, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25825,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[9] == 3 and GaugeData1[3] > 0,
+			["Type"] = 1, ["Name"] = "Emerald Rite", ["ID"] = 25825, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25825,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
 
         {
@@ -408,10 +415,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         
         {
 			["Type"] = 2, ["Name"] = "Radiant Aegis", ["ID"] = 25799, ["Range"] = 25, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true and PlayerHP < 80, 
-            ["LastActionTimeout"] = "RadiantAegis", ["LastActionTime"] = 5000, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+			["LastActionTimeout"] = "RadiantAegis", ["LastActionTime"] = 5000,
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["Buff"] = self.TargetBuff2(Player,2702,-1,"Missing")
         },
         {
-			["Type"] = 2, ["Name"] = "Searing Light", ["ID"] = 25799, ["Range"] = 25, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true, 
+			["Type"] = 2, ["Name"] = "Searing Light", ["ID"] = 25801, ["Range"] = 25, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true, 
             ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
         },
         {
