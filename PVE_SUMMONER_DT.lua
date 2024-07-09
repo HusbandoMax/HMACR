@@ -182,8 +182,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
             ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(7429,nil,PlayerLevel),
         },
         {
+			["Type"] = 1, ["Name"] = "Enkindle Solar Bahamut", ["ID"] = 36998, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
+            ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(36998,nil,PlayerLevel),
+        },
+        {
 			["Type"] = 1, ["Name"] = "Deathflare", ["ID"] = 3582, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
             ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(3582,nil,PlayerLevel),
+        },
+        {
+			["Type"] = 1, ["Name"] = "Sunflare", ["ID"] = 36996, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
+            ["OtherCheck"] = CurrentPet ~= 0, ["Level"] = self.SkillAccessCheck(36996,nil,PlayerLevel),
         },
         {
 			["Type"] = 1, ["Name"] = "Searing Flesh", ["ID"] = 36991, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = GCD > 0.6,
@@ -219,6 +227,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         {
 			["Type"] = 1, ["Name"] = "Summon Bahamut", ["ID"] = 7427, ["Range"] = 25, ["TargetCast"] = true, 
             ["OtherCheck"] = CurrentPet ~= 0 and HasOtherSummonBuff == false and HasRubyTopazEmerald == false, ["Level"] = self.SkillAccessCheck(7427,nil,PlayerLevel),
+        },
+        {
+			["Type"] = 1, ["Name"] = "Summon Solar Bahamut", ["ID"] = 36992, ["Range"] = 25, ["TargetCast"] = true, 
+            ["OtherCheck"] = CurrentPet ~= 0 and HasOtherSummonBuff == false and HasRubyTopazEmerald == false, ["Level"] = self.SkillAccessCheck(36992,nil,PlayerLevel),
         },
         {
 			["Type"] = 1, ["Name"] = "Summon Phoenix", ["ID"] = 25831, ["Range"] = 25, ["TargetCast"] = true, 
@@ -413,6 +425,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
         -- CDs
         
+        {
+			["Type"] = 2, ["Name"] = "Lux Solaris", ["ID"] = 36997, ["Range"] = 25, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true and PlayerHP < 80, 
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+        },
         {
 			["Type"] = 2, ["Name"] = "Radiant Aegis", ["ID"] = 25799, ["Range"] = 25, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true and PlayerHP < 80, 
 			["LastActionTimeout"] = "RadiantAegis", ["LastActionTime"] = 5000,
