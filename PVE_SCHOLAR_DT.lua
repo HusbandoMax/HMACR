@@ -102,7 +102,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	
     local AetherflowCD = self.GetActionCD(166,true)
 	
-	local AOEType = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 35, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }
 	local InTrashMobs = PartyAggroCount >= 2
 	
 	-- Avoid stacking fey illumination and expedient
