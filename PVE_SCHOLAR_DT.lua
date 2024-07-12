@@ -103,8 +103,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local AetherflowCD = self.GetActionCD(166,true)
 	
 	local AOEType = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 35, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }
-	local EnemiesAroundSelf = self.EntityInCount(AOEType)
-	local InTrashMobs = EnemiesAroundSelf >= 2
+	local InTrashMobs = PartyAggroCount >= 2
 	
 	-- Avoid stacking fey illumination and expedient
 	local HasPartyMit = self.TargetBuff2(Player,317,0,"Has",PlayerID) or self.TargetBuff2(Player,2711,0,"Has",PlayerID)
