@@ -193,9 +193,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Verflare", ["ID"] = 7525, ["Range"] = 25, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[2] - GaugeData1[1]) <= 0,
 		},
 		{
+			["Type"] = 1, ["Name"] = "Resolution", ["ID"] = 25858, ["Range"] = 25, ["TargetCast"] = true,
+		},
+		{
 			["Type"] = 1, ["Name"] = "Scorch", ["ID"] = 16530, ["Range"] = 25, ["TargetCast"] = true,
 		},
-
+			
 		-- AOE Casts
 		{
 			["Type"] = 1, ["Name"] = "Impact", ["ID"] = 16526, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = HasDualcastBuff == true,
@@ -235,6 +238,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Jolt II", ["ID"] = 7524, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false and HasDualcastBuff == false,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Jolt III", ["ID"] = 37004, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false and HasDualcastBuff == false,
 		},
 
 
