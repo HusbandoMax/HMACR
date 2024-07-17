@@ -171,7 +171,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Nastrond", ["ID"] = 7400, ["Range"] = 20, ["Buff"] = self.TargetBuff2(Player,3844,0,"Has",PlayerID), ["TargetCast"] = true, --["GaugeCheck"] = GaugeData1[3] >= 1000,--3844
 		},
 		{
-			["Type"] = 1, ["Name"] = "High Jump", ["ID"] = 16478, ["Range"] = 20, ["Level"] = PlayerLevel < 74, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") == 1,
+			["Type"] = 1, ["Name"] = "High Jump", ["ID"] = 16478, ["Range"] = 20, ["Level"] = PlayerLevel >= 74, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") == 1,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Jumps", ["ID"] = 92, ["Range"] = 20, ["Level"] = PlayerLevel < 74, ["TargetCast"] = true, ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") == 1,
