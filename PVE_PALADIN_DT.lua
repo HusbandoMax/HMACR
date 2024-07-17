@@ -143,8 +143,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 3, ["Name"] = "Clemency", ["ID"] = 3541, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 50, ["PartyOnly"] = true,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Heals") ~= 1, ["OtherCheck"] = PlayerMoving == false,
-		},
-		
+		},		
 		{
 			["Type"] = 2, ["Name"] = "Iron Will", ["ID"] = 28, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 1, ["Buff"] = self.TargetBuff2(Player,79,-1,"Missing",PlayerID),
 		},
@@ -154,7 +153,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 2, ["Name"] = "Hallowed Ground", ["ID"] = 30, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Hallow") == 1, ["OtherCheck"] = PlayerHP < 15 and PlayerInCombat == true,
 		},
-
 		{
 			["Type"] = 1, ["Name"] = "Goring Blade", ["ID"] = 3538, ["Range"] = 3, ["TargetCast"] = true,
 		},		
@@ -163,11 +161,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Total Eclipse", ["ID"] = 7381, ["ComboIDNOT"] = { [7381] = PlayerLevel >= 40, }, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1368,0,"Missing",PlayerID), ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Prominence", ["ID"] = 16457, ["Proc"] =  true, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1368,0,"Missing",PlayerID), ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Prominence", ["ID"] = 16457, ["ComboID"] = { [7381] = true }, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1368,0,"Missing",PlayerID), ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Total Eclipse", ["ID"] = 7381, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1368,0,"Missing",PlayerID), ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
@@ -175,53 +173,47 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
 		},	
 		{
-			["Type"] = 1, ["Name"] = "Blade of Truth", ["ID"] = 25749, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
+			["Type"] = 1, ["Name"] = "Blade of Honor", ["ID"] = 36922, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true, ["OtherCheck"] = AOETimeout == false,
+		},	
+		{
+			["Type"] = 1, ["Name"] = "Blade of Truth", ["ID"] = 25749, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true,  ["OtherCheck"] = AOETimeout == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Blade of Faith", ["ID"] = 25748, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
+			["Type"] = 1, ["Name"] = "Blade of Faith", ["ID"] = 25748, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true, ["OtherCheck"] = AOETimeout == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Blade of Valor", ["ID"] = 25750, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
+			["Type"] = 1, ["Name"] = "Blade of Valor", ["ID"] = 25750, ["Range"] = 25, ["TargetCast"] = true,  ["Proc"] = true, ["OtherCheck"] = AOETimeout == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Blade of Honor", ["ID"] = 36922, ["Range"] = 25, ["TargetCast"] = true, 
-		},		
-		{
-			["Type"] = 1, ["Name"] = "Confiteor", ["ID"] = 16459, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1368,0,"Has",PlayerID,1),
+			["Type"] = 1, ["Name"] = "Confiteor", ["ID"] = 16459, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true,  ["OtherCheck"] = AOETimeout == false,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Shield Lob", ["ID"] = 24, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
 		},	
 		{
-			["Type"] = 1, ["Name"] = "Holy Spirit", ["ID"] = 7384, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,2673,0,"Has",PlayerID,0),
+			["Type"] = 1, ["Name"] = "Holy Spirit", ["ID"] = 7384, ["Range"] = 25, ["Proc"] = true, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Atonement", ["ID"] = 16460, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Sepulchre", ["ID"] = 36919, ["Range"] = 3, ["Proc"] = true, ["TargetCast"] = true, 
 		},
 		{
-			["Type"] = 1, ["Name"] = "Supplication", ["ID"] = 36918, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,3827,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Supplication", ["ID"] = 36918, ["Range"] = 3, ["Proc"] = true, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Sepulchre", ["ID"] = 36919, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,3828,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Atonement", ["ID"] = 16460, ["Range"] = 3, ["Proc"] = true, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Atonement", ["ID"] = 16460, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Has",PlayerID),
-		},
-
-		{
-			["Type"] = 1, ["Name"] = "Fast Blade", ["ID"] = 9, ["ComboIDNOT"] = { [9] = PlayerLevel >= 4, [15] = PlayerLevel >= 26, }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Royal Authority", ["ID"] = 3539,  ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true, ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Riot Blade", ["ID"] = 15, ["ComboID"] = { [9] = true }, ["Range"] = 3, ["TargetCast"] = true,
-		},
-
-		{
-			["Type"] = 1, ["Name"] = "Royal Authority", ["ID"] = 3539, ["ComboID"] = { [15] = true }, ["Range"] = 3, ["TargetCast"] = true, ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
+			["Type"] = 1, ["Name"] = "Rage of Halone", ["ID"] = 21,  ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true, ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Rage of Halone", ["ID"] = 21, ["ComboID"] = { [15] = true }, ["Range"] = 3, ["TargetCast"] = true, ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
+			["Type"] = 1, ["Name"] = "Riot Blade", ["ID"] = 15,  ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true,
 		},
-
+		{
+			["Type"] = 1, ["Name"] = "Fast Blade", ["ID"] = 9, ["Range"] = 3, ["TargetCast"] = true,
+		},
 		-- OGCD
 		{
 			["Type"] = 1, ["Name"] = "Spirits Within", ["ID"] = 29, ["Range"] = 3, ["TargetCast"] = true,
@@ -233,25 +225,25 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Circle of Scorn", ["ID"] = 23, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = TargetDistance < 5 and PlayerInCombat == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Requiescat", ["ID"] = 7383, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Missing",PlayerID), ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,  -- self.TargetBuff2(Player,76,0,"Missing",PlayerID) and
-		},
-		{
 			["Type"] = 1, ["Name"] = "Imperator", ["ID"] = 36921, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Missing",PlayerID), ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
-		},		
+		},	
+		{
+			["Type"] = 1, ["Name"] = "Requiescat", ["ID"] = 7383, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,1902,0,"Missing",PlayerID), ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000,
+		},	
 		{
 			["Type"] = 1, ["Name"] = "Fight or Flight", ["ID"] = 20, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true, ["LastActionTimeout"] = "PLDReq", ["LastActionTime"] = 2000, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		},		
 		{
-			["Type"] = 1, ["Name"] = "Sentinel", ["ID"] = 17, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
-		},
-		{
 			["Type"] = 1, ["Name"] = "Guardian", ["ID"] = 36920, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Sheltron", ["ID"] = 3542, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1 and (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 1 or (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 2 and GaugeData2[1] == 100)), ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 1, ["Name"] = "Sentinel", ["ID"] = 17, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Holy Sheltron", ["ID"] = 25746, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,2676,0,"Missing",PlayerID), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1 and (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 1 or (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 2 and GaugeData2[1] == 100)), ["OtherCheck"] = PlayerInCombat == true,
+		},		
+		{
+			["Type"] = 1, ["Name"] = "Sheltron", ["ID"] = 3542, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1 and (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 1 or (self.GetSettingsValue(ClassTypeID,"GaugeHold") == 2 and GaugeData2[1] == 100)), ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Bulwark", ["ID"] = 22, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 80 and PlayerInCombat == true,
