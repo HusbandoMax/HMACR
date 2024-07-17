@@ -239,6 +239,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
             ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 8, ["MaxDistance"] = 25,},
         },
         {
+            ["Type"] = 1, ["Name"] = "Heartbreak Shot", ["ID"] = 36975, ["Range"] = 25, ["TargetCast"] = true,
+        },
+        {
             ["Type"] = 1, ["Name"] = "Bloodletter", ["ID"] = 110, ["Range"] = 25, ["TargetCast"] = true,
         },
         {

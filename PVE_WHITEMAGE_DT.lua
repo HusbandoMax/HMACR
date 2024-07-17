@@ -131,16 +131,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 	local SkillList = {
         {
-			["Type"] = 2, ["Name"] = "Holy", ["ID"] = 139, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
+			["Type"] = 2, ["Name"] = "Holy", ["ID"] = 139, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Holy III", ["ID"] = 25860, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
+			["Type"] = 2, ["Name"] = "Holy III", ["ID"] = 25860, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
 		{
-			["Type"] = 2, ["Name"] = "Assize", ["ID"] = 3571, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 2, ["Name"] = "Assize", ["ID"] = 3571, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
@@ -154,10 +154,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOECount"] = (PartySize/2), ["AOEType"] = { ["BelowHP"] = 60, ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 30, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
-
-
-
-
+		{
+			["Type"] = 2, ["Name"] = "Medica III", ["ID"] = 37010, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["OtherCheck"] = self.PartyBelowHP(20,80,150,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
+		},
 		{
 			["Type"] = 2, ["Name"] = "Medica II", ["ID"] = 133, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(20,80,150,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
@@ -250,42 +250,45 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Afflatus Misery", ["ID"] = 16535, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 4, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
 			["AOECount"] = 4, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
-
 		{
-			["Type"] = 1, ["Name"] = "Aero", ["ID"] = 121, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 46,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,143,3,"Missing",PlayerID) == true,
+			["Type"] = 1, ["Name"] = "Dia", ["ID"] = 16532, ["Range"] = 25, ["TargetCast"] = true, ["DOTCheck"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,1871,3,"Missing",PlayerID) == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Aero II", ["ID"] = 132, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 72,
+			["Type"] = 1, ["Name"] = "Aero II", ["ID"] = 132, ["Range"] = 25, ["TargetCast"] = true, ["DOTCheck"] = true,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,144,3,"Missing",PlayerID) == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Dia", ["ID"] = 16532, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 72, ["DOTCheck"] = true,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,1871,3,"Missing",PlayerID) == true,
+			["Type"] = 1, ["Name"] = "Aero", ["ID"] = 121, ["Range"] = 25, ["TargetCast"] = true, ["DOTCheck"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,143,3,"Missing",PlayerID) == true,
 		},
-
 		{
-			["Type"] = 1, ["Name"] = "Stone", ["ID"] = 119, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 18, ["OtherCheck"] = PlayerMoving == false,
+			["Type"] = 1, ["Name"] = "Glare IV", ["ID"] = 37009, ["Proc"] = true, ["Range"] = 25, ["TargetCast"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and AOETimeout == false,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Glare III", ["ID"] = 25859, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Stone II", ["ID"] = 127, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(127,3568,PlayerLevel), ["OtherCheck"] = PlayerMoving == false,
+			["Type"] = 1, ["Name"] = "Glare", ["ID"] = 16533, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Stone IV", ["ID"] = 7431, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
 		},
 		{ 
-			["Type"] = 1, ["Name"] = "Stone III", ["ID"] = 3568, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(3568,7431,PlayerLevel), ["OtherCheck"] = PlayerMoving == false,
+			["Type"] = 1, ["Name"] = "Stone III", ["ID"] = 3568, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
+		},
+
+		{
+			["Type"] = 1, ["Name"] = "Stone II", ["ID"] = 127, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Stone IV", ["ID"] = 7431, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 72, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Glare", ["ID"] = 16533, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel < 82, ["OtherCheck"] = PlayerMoving == false,
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Glare III", ["ID"] = 25859, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 82, ["OtherCheck"] = PlayerMoving == false,
+			["Type"] = 1, ["Name"] = "Stone", ["ID"] = 119, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
 		},
 	}
