@@ -134,6 +134,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
         -- Weapon
 		{
+			["Type"] = 1, ["Name"] = "HPolishing Hammer", ["ID"] = 34680, ["Range"] = 25, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Hammer Brush", ["ID"] = 34679, ["Range"] = 25, ["TargetCast"] = true,
+		},
+		{
 			["Type"] = 1, ["Name"] = "Hammer Stamp", ["ID"] = 34678, ["Range"] = 25, ["TargetCast"] = true,
 		},
 		{
@@ -175,20 +181,19 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Subtractive Palette", ["ID"] = 34683, ["Range"] = 25, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,3674,-1,"Missing",PlayerID) == true,
 		},
-
         
         -- Sub AOE Combo
 		{
 			["Type"] = 2, ["Name"] = "Blizzard II in Cyan", ["ID"] = 34659, ["Range"] = 25, ["TargetCast"] = true,
-			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
+			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
 		},
 		{
 			["Type"] = 2, ["Name"] = "Stone II in Yellow", ["ID"] = 34660, ["Range"] = 25, ["TargetCast"] = true,
-			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
+			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
 		},
 		{
 			["Type"] = 2, ["Name"] = "Thunder II in Magenta", ["ID"] = 34661, ["Range"] = 25, ["TargetCast"] = true,
-			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
+			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
 		},
 
         -- Sub Single Target Combo
