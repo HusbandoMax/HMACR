@@ -82,7 +82,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	if FugetsuTime > FukaTime then BestNextAction = 2 end
 	local HasBothBuffs = FugetsuTime > 4 and FukaTime > 4
 	
-	local HasKaeshiReady = self.TargetBuff2(Player,3852,0,"Has",PlayerID)
 	local HasMeikyoBuff = self.TargetBuff2(Player,1233,0,"Has",PlayerID)
 	
 	--[[
@@ -128,13 +127,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	]]--
 	
 	local TsubameGauge = GaugeData1[2]
-	
-	--[[ Note to player: This ACR *will* drop Kaeshis (really bad!) due to AOE'ing 3+ mobs if you drop your target. Thus, recommended
-	to use this ACR with some bot mode that automatically manages your target to be sure you're always targeting something. --]]
 
 	local SkillList = {
-	
-		-- Kaeshi moves have top priority since they have combo requirements
+		--[[ High priority misc --]]
+		{
+			["Type"] = 1, ["Name"] = "Enpi", ["ID"] = 7486, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Hissatsu: Gyoten", ["ID"] = 7492, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Jumps") == 1, ["OtherCheck"] = TargetDistance > 5 and PlayerInCombat == true and JumpTimeout == false,
+		},
+		--[[ Finish combos if started --]]
 		{
 			["Type"] = 1, ["Name"] = "Kaeshi: Namikiri", ["ID"] = 25782, ["Range"] = 8, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 		}, 
@@ -154,12 +156,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOECount"] = 1,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
-
-		-- Iai
-		{ -- 1 Stack DOT
-			["Type"] = 1, ["Name"] = "Higanbana", ["ID"] = 7489, ["Range"] = 6, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["DOTCheck"] = true, ["Buff"] = self.TargetBuff2(Target,1228,8,"Missing",PlayerID) == true and HasBothBuffs,
+		--[[ High priority Type 1 --]]
+		{
+			["Type"] = 1, ["Name"] = "Ogi Namikiri", ["ID"] = 25781, ["Range"] = 8, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["Buff"] = HasBothBuffs
 		},
-		{ -- 2 Stack AOE
+		--[[ Type 2 --]]
+		{
 			["Type"] = 2, ["Name"] = "Tenka Goken", ["ID"] = 7488, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOECount"] = 2,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
@@ -169,54 +171,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOECount"] = 2,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
-		{  -- 3 Stack Single
-			["Type"] = 1, ["Name"] = "Midare Setsugekka", ["ID"] = 7487, ["Range"] = 6, ["TargetCast"] = true,
-		},
-		{ 
-			["Type"] = 1, ["Name"] = "Tendo Setsugekka", ["ID"] = 36966, ["Range"] = 6, ["TargetCast"] = true,
-		},
-		
-		-- Ikishoten
 		{
-			["Type"] = 1, ["Name"] = "Ogi Namikiri", ["ID"] = 25781, ["Range"] = 8, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["Buff"] = HasBothBuffs
-		},
-		
-		
-		
-		{ -- Meditation
-			["Type"] = 1, ["Name"] = "Shoha", ["ID"] = 16487, ["Range"] = 10, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-		},
-		-- Shisui (Combo Skip)
-			-- AOE
-		{
-			["Type"] = 2, ["Name"] = "Mangetsu", ["ID"] = 7484, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["GaugeCheck"] = BestNextAction == 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID),
-		},
-		{
-			["Type"] = 2, ["Name"] = "Oka", ["ID"] = 7485, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["GaugeCheck"] = BestNextAction == 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID),
-		},
-			-- Single
-		{
-			["Type"] = 1, ["Name"] = "Gekko", ["ID"] = 7481, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID), ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 0 or TsubameGauge == 1 or TsubameGauge == 4 or TsubameGauge == 5,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Kasha", ["ID"] = 7482, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID), ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 2 or TsubameGauge == 3,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Yukikaze", ["ID"] = 7480, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID), ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 6,
-		},
-		
-		-- AOE Combo
-		{
-			["Type"] = 2, ["Name"] = "Mangetsu", ["ID"] = 7484, ["ComboID"] = { [25780] = true, [7483] = true, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = BestNextAction == 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Mangetsu", ["ID"] = 7484, ["Proc"] = true, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = BestNextAction == 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Oka", ["ID"] = 7485, ["ComboID"] = { [25780] = true, [7483] = true, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = BestNextAction == 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Oka", ["ID"] = 7485, ["Proc"] = true, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = BestNextAction == 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
-		-- Start
 		{
 			["Type"] = 2, ["Name"] = "Fuga", ["ID"] = 7483, ["Range"] = 8, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["GaugeCheck"] = TsubameGauge ~= 6 and TsubameGauge ~= 7,
@@ -225,22 +187,39 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 2, ["Name"] = "Fuko", ["ID"] = 25780, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["GaugeCheck"] = TsubameGauge ~= 6 and TsubameGauge ~= 7,
 		},
-
-		-- Single Target
-		{ -- Getsu
-			["Type"] = 1, ["Name"] = "Gekko", ["ID"] = 7481, ["ComboID"] = { [7478] = true, }, ["Range"] = 3, ["TargetCast"] = true,
+		--[[ Type 1 --]]
+		{
+			["Type"] = 1, ["Name"] = "Higanbana", ["ID"] = 7489, ["Range"] = 6, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1, ["DOTCheck"] = true, ["Buff"] = self.TargetBuff2(Target,1228,8,"Missing",PlayerID) == true and HasBothBuffs,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Midare Setsugekka", ["ID"] = 7487, ["Range"] = 6, ["TargetCast"] = true,
+		},
+		{ 
+			["Type"] = 1, ["Name"] = "Tendo Setsugekka", ["ID"] = 36966, ["Range"] = 6, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Gekko w/ Meikyo", ["ID"] = 7481, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID), ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 0 or TsubameGauge == 1 or TsubameGauge == 4 or TsubameGauge == 5,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Kasha w/ Meikyo", ["ID"] = 7482, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID), ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 2 or TsubameGauge == 3,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Yukikaze w/ Meikyo", ["ID"] = 7480, ["Range"] = 3, ["Buff"] = self.TargetBuff2(Player,1233,0,"Has",PlayerID), ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 6,
 		},
 		{ -- Getsu
-			["Type"] = 1, ["Name"] = "Jimpu", ["ID"] = 7478, ["ComboID"] = { [7477] = true, [36963] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 0 or TsubameGauge == 1 or TsubameGauge == 4 or TsubameGauge == 5,
+			["Type"] = 1, ["Name"] = "Gekko", ["ID"] = 7481, ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{ -- Getsu
+			["Type"] = 1, ["Name"] = "Jimpu", ["ID"] = 7478, ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 0 or TsubameGauge == 1 or TsubameGauge == 4 or TsubameGauge == 5,
 		},
 		{ -- Fuka
-			["Type"] = 1, ["Name"] = "Kasha", ["ID"] = 7482, ["ComboID"] = { [7479] = true, }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Kasha", ["ID"] = 7482, ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{ -- Fuka
-			["Type"] = 1, ["Name"] = "Shifu", ["ID"] = 7479, ["ComboID"] = { [7477] = true, [36963] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 2 or TsubameGauge == 3,
+			["Type"] = 1, ["Name"] = "Shifu", ["ID"] = 7479, ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 2 or TsubameGauge == 3,
 		},
 		{ -- Setsu
-			["Type"] = 1, ["Name"] = "Yukikaze", ["ID"] = 7480, ["ComboID"] = { [7477] = true, [36963] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 6,
+			["Type"] = 1, ["Name"] = "Yukikaze", ["ID"] = 7480, ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = TsubameGauge == 6,
 		},
 		-- Start
 		{
@@ -249,17 +228,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Gyofu", ["ID"] = 36963, ["Range"] = 3, ["TargetCast"] = true,
 		},
-
+		--[[ OGCD --]]
 		{
-			["Type"] = 1, ["Name"] = "Enpi", ["ID"] = 7486, ["Range"] = 20, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Shoha", ["ID"] = 16487, ["Range"] = 10, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 		},
-
-		-- OGCD
 		{ 
 			["Type"] = 1, ["Name"] = "Zanshin", ["ID"] = 36964, ["Range"] = 8, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["Buff"] = HasBothBuffs,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Hissatsu: Guren", ["ID"] = 7496, ["ComboIDNOT"] = { [25780] = true, }, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Hissatsu: Guren", ["ID"] = 7496, ["Range"] = 10, ["TargetCast"] = true, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["Buff"] = HasBothBuffs,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line2", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 10, ["MaxDistance"] = 0, ["LineWidth"] = 10, ["Angle"] = 0, },
 		},
@@ -267,22 +244,18 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Hissautssu: Senei", ["ID"] = 16481, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = HasBothBuffs,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Hissatsu: Kyunten", ["ID"] = 7491, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["GaugeCheck"] = GaugeData1[1] >= 50, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Hissatsu: Kyuten", ["ID"] = 7491, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerInCombat == true, ["GaugeCheck"] = GaugeData1[1] >= 50, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["Buff"] = HasBothBuffs,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-			["LastActionTimeout"] = "Kenki", ["LastActionTime"] = 500,
+			["LastActionTimeout"] = "Kenki", ["LastActionTime"] = 2500,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Hissatsu: Shinten", ["ID"] = 7490, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= 50, 
 			["Buff"] = HasBothBuffs,
-			["LastActionTimeout"] = "Kenki", ["LastActionTime"] = 500,
-		},
-
-		{ -- Jump In
-			["Type"] = 1, ["Name"] = "Hissatsu: Gyoten", ["ID"] = 7492, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Jumps") == 1, ["OtherCheck"] = TargetDistance > 5 and PlayerInCombat == true and JumpTimeout == false,
+			["LastActionTimeout"] = "Kenki", ["LastActionTime"] = 2500,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Meikyo Shisui", ["ID"] = 7499, ["Range"] = 0, ["Buff"] = not HasMeikyoBuff and not HasKaeshiReady, ["GaugeCheck"] = TsubameGauge ~= 7, ["TargetCast"] = false,
+			["Type"] = 1, ["Name"] = "Meikyo Shisui", ["ID"] = 7499, ["Range"] = 0, ["Buff"] = not HasMeikyoBuff, ["GaugeCheck"] = TsubameGauge ~= 7, ["TargetCast"] = false,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Ikishoten", ["ID"] = 16482, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] <= 50,
@@ -297,7 +270,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Hagakure", ["ID"] = 16482, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] <= 70, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Hagakure") == 2,
 		},
 
-		-- Shared CDS
+		--[[ Role actions --]]
 		{
 			["Type"] = 1, ["Name"] = "Feint", ["ID"] = 7549, ["Range"] = 15, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
