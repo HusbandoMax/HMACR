@@ -30,6 +30,20 @@ Profile.Settings = {
         },
     },
     {
+        ["Setting"] = "Ire",
+        ["Options"] = {
+            { ["Name"] = "Ire ON", ["Tooltip"] = "Ire ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Ire OFF", ["Tooltip"] = "Ire OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    {
+        ["Setting"] = "AWK",
+        ["Options"] = {
+            { ["Name"] = "AWK ON", ["Tooltip"] = "AWK ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "AWK OFF", ["Tooltip"] = "AWK OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    {
         ["Setting"] = "Jumps",
         ["Options"] = {
             { ["Name"] = "Jumps > 5", ["Tooltip"] = "Plunge > 5y", ["Colour"] = { ["r"] = 1, ["g"] = 0.6, ["b"] = 0, ["a"] = 1 }, },
@@ -210,28 +224,40 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "First Generation", ["ID"] = 34627, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},	
 		{		
-			["Type"] = 2, ["Name"] = "Reawaken", ["ID"] = 34626, ["Range"] = 5, ["TargetCast"] = false,
+			["Type"] = 2, ["Name"] = "Reawaken", ["ID"] = 34626, ["Range"] = 5, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AWK") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},	
+		
 
-			
-			
-			
-			
 		{
-			["Type"] = 2, ["Name"] = "Twinfang Thresh", ["ID"] = 34638, ["Range"] = 3, ["TargetCast"] = false,
-			["Buff"] = self.TargetBuff2(Player,3659,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Uncoiled Fury AOE", ["ID"] = 34633, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] > 0, ["Proc"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Uncoiled") == 2 and AOETimeout == false,
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 20, ["LineWidth"] = 0, ["Angle"] = 0,  },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Twinblood Thresh", ["ID"] = 34639, ["Range"] = 3, ["TargetCast"] = false,
-			["Buff"] = self.TargetBuff2(Player,3660,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Uncoiled Fury Burn", ["ID"] = 34633, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] > 0, ["Proc"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Uncoiled") == 1 and AOETimeout == false,
+		},
+
+
+		{
+			["Type"] = 1, ["Name"] = "Uncoiled Twinblood", ["ID"] = 34644, ["Range"] = 20, ["TargetCast"] = true, ["Proc"] = true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Uncoiled Twinfang", ["ID"] = 34645, ["Range"] = 20, ["TargetCast"] = true, ["Proc"] = true, 
+		},
+
+
+		{
+			["Type"] = 2, ["Name"] = "Twinfang Thresh", ["ID"] = 34638, ["Range"] = 3, ["TargetCast"] = false, ["Proc"] = true,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Twinblood Thresh", ["ID"] = 34639, ["Range"] = 3, ["TargetCast"] = false, ["Proc"] = true,
 		},
 		{		
-			["Type"] = 1, ["Name"] = "Twinfang Bite", ["ID"] = 34636, ["Range"] = 3, ["TargetCast"] = true,
-			["Buff"] = self.TargetBuff2(Player,3657,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Twinfang Bite", ["ID"] = 34636, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Twinblood Bite", ["ID"] = 34637, ["Range"] = 3, ["TargetCast"] = true,
-			["Buff"] = self.TargetBuff2(Player,3658,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Twinblood Bite", ["ID"] = 34637, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		
 		{
@@ -249,116 +275,82 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Swiftskin's Coil", ["ID"] = 34622, ["Range"] = 3, ["TargetCast"] = true, 
 			["OtherCheck"] = (GaugeData1[3] == 1 and (PositionToTarget == "Rear" or PositionToTarget == "Front")) or GaugeData1[3] ~= 1
 		},
-		
-		{
-			["Type"] = 1, ["Name"] = "Uncoiled Twinblood", ["ID"] = 34644, ["Range"] = 20, ["TargetCast"] = true, ["Prov"] = true, 
-		},
-		{
-			["Type"] = 1, ["Name"] = "Uncoiled Twinfang", ["ID"] = 34645, ["Range"] = 20, ["TargetCast"] = true, ["Prov"] = true, 
-		},
 
 		{
-			["Type"] = 1, ["Name"] = "Uncoiled Fury AOE", ["ID"] = 34633, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] > 0, 
-			["ComboIDNOT"] = { [34609] = true, [34608] = true, [34607] = true, [34606] = true, [34616] = true, [34617] = true, [34615] = true, [34614] = true, },
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Uncoiled") == 2 and AOETimeout == false,
-			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 20, ["LineWidth"] = 0, ["Angle"] = 0,  },
-		},
-		{
-			["Type"] = 1, ["Name"] = "Uncoiled Fury Burn", ["ID"] = 34633, ["Range"] = 20, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] > 0, 
-			["ComboIDNOT"] = { [34609] = true, [34608] = true, [34607] = true, [34606] = true, [34616] = true, [34617] = true, [34615] = true, [34614] = true, },
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Uncoiled") == 1 and AOETimeout == false,
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "Pit of Dread", ["ID"] = 34623, ["Range"] = 3, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[3] == 0, 
-			["ComboIDNOT"] = { [34609] = true, [34608] = true, [34607] = true, [34606] = true, [34616] = true, [34617] = true, [34615] = true, [34614] = true, },
+			["Type"] = 2, ["Name"] = "Vicepit", ["ID"] = 34623, ["Range"] = 3, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[3] == 0,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Dreadwinder", ["ID"] = 34620, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] == 0, 
-			["ComboIDNOT"] = { [34609] = true, [34608] = true, [34607] = true, [34606] = true, [34616] = true, [34617] = true, [34615] = true, [34614] = true, },
+			["Type"] = 1, ["Name"] = "Vicewinder", ["ID"] = 34620, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] == 0,
 		},
-
-		
-			
 
 		-- AOE Combo
 		{
-			["Type"] = 2, ["Name"] = "Bloodied Maw", ["ID"] = 34619, ["Range"] = 5, ["TargetCast"] = false, 
-			["Buff"] = self.TargetBuff2(Player,3649,-1,"Missing",PlayerID),
+			["Type"] = 2, ["Name"] = "Bloodied Maw", ["ID"] = 34619, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Jagged Maw", ["ID"] = 34618, ["Range"] = 5, ["TargetCast"] = false, 
-			["Buff"] = self.TargetBuff2(Player,3650,-1,"Missing",PlayerID),
+			["Type"] = 2, ["Name"] = "Jagged Maw", ["ID"] = 34618, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
 		},
-		
 		{
-			["Type"] = 2, ["Name"] = "Hunter's Bite", ["ID"] = 34616, ["Range"] = 5, ["TargetCast"] = false, 
+			["Type"] = 2, ["Name"] = "Hunter's Bite", ["ID"] = 34616, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true, 
 			["Buff"] = BestBuff == 3668 or self.SkillAccessCheck(34617,nil,PlayerLevel) == false,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Swiftskin's Bite", ["ID"] = 34617, ["Range"] = 5, ["TargetCast"] = false, 
+			["Type"] = 2, ["Name"] = "Swiftskin's Bite", ["ID"] = 34617, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true, 
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
 		},
-		
 		{
-			["Type"] = 2, ["Name"] = "Dread Maw", ["ID"] = 34615, ["Range"] = 5, ["TargetCast"] = false, ["Buff"] = (self.EnemyWithBuff2(PlayerPOS,5,3667,20,"Missing",PlayerID) > 2), ["GaugeCheck"] = GaugeData1[3] == 0,
+			["Type"] = 2, ["Name"] = "Reaving Maw", ["ID"] = 34615, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true, ["Buff"] = (self.EnemyWithBuff2(PlayerPOS,5,3667,20,"Missing",PlayerID) > 2), ["GaugeCheck"] = GaugeData1[3] == 0,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
-			["ComboIDNOT"] = { [34615] = PlayerLevel >= 40, [34614] = PlayerLevel >= 40, }, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Steel Maw", ["ID"] = 34614, ["Range"] = 5, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[3] == 0,
+			["Type"] = 2, ["Name"] = "Steel Maw", ["ID"] = 34614, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true, ["GaugeCheck"] = GaugeData1[3] == 0,
 			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
-			["ComboIDNOT"] = { [34615] = PlayerLevel >= 40, [34614] = PlayerLevel >= 40, }, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Steel Maw Fallback", ["ID"] = 34614, ["Range"] = 5, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[3] == 0,
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 		},
 
-		-- Flanksting Strike	[3645] Flankstung Venom		> Steel/Dread > Swiftskin Sting > Hindsbane Fang
+		-- Single Target Combo
 		{
-			["Type"] = 1, ["Name"] = "Swiftskin Sting", ["ID"] = 34609, ["ComboID"] = { [34607] = true, [34606] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34609
+			["Type"] = 1, ["Name"] = "Hindsbane Fang", ["ID"] = 34613, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Hindsbane Fang", ["ID"] = 34613, ["ComboID"] = { [34609] = true, [34606] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34609
-		},
-		
-		-- Hindsting Strike		[3647] Hindstung Venom		> Steel/Dread > Hunter's Sting > Flanksting Strike
-		{
-			["Type"] = 1, ["Name"] = "Hunter's Sting", ["ID"] = 34608, ["ComboID"] = { [34607] = true, [34606] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34612
+			["Type"] = 1, ["Name"] = "Flanksting Strike", ["ID"] = 34610, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Flanksting Strike", ["ID"] = 34610, ["ComboID"] = { [34608] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34612
+			["Type"] = 1, ["Name"] = "Hindsting Strike", ["ID"] = 34612, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Flanksbane Fang", ["ID"] = 34611, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Swiftskin Sting", ["ID"] = 34609, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Hunter's Sting", ["ID"] = 34608, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Steel Fangs", ["ID"] = 34606, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Reaving Fangs", ["ID"] = 34607, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 
-		-- Flanksbane Fang		[3646] Flanksbane Venom		> Steel/Dread > Swiftskin Sting > Hindsting Strike
 		{
-			["Type"] = 1, ["Name"] = "Swiftskin Sting", ["ID"] = 34609, ["ComboID"] = { [34607] = true, [34606] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34611
-		},
-		{
-			["Type"] = 1, ["Name"] = "Hindsting Strike", ["ID"] = 34612, ["ComboID"] = { [34609] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34611
-		},
-
-		-- Hindsbane Fang		[3648] Hindsbane Venom		> Steel/Dread > Hunter's Sting > Flanksbane Fang
-		{
-			["Type"] = 1, ["Name"] = "Hunter's Sting", ["ID"] = 34608, ["ComboID"] = { [34607] = true, [34606] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34613
-		},
-		{
-			["Type"] = 1, ["Name"] = "Flanksbane Fang", ["ID"] = 34611, ["ComboID"] = { [34608] = true, }, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = NextComboUsed == 34613
-		},
-		
-		-- Combo Starter
-		{
-			["Type"] = 1, ["Name"] = "Dread Fangs", ["ID"] = 34607, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] == 0,
-			["Buff"] = self.TargetBuff2(Target,3667,20,"Missing",PlayerID),
-		},
-		{
-			["Type"] = 1, ["Name"] = "Steel Fangs", ["ID"] = 34606, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] == 0,
+			["Type"] = 1, ["Name"] = "Steel Fangs Fallback", ["ID"] = 34606, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] == 0,
 		},
 			
 		{
@@ -369,12 +361,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Writhing Snap", ["ID"] = 34632, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = GaugeData1[3] == 0,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Serpent's Ire", ["ID"] = 34647, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = GaugeData1[4] == 0,
+			["Type"] = 2, ["Name"] = "Serpent's Ire", ["ID"] = 34647, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = GaugeData1[4] == 0 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Ire") == 1,
 		},
 
-		{
-			["Type"] = 1, ["Name"] = "Steel Fangs Fallback", ["ID"] = 34606, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] == 0,
-		},
 		-- Shared CDS
 		{
 			["Type"] = 1, ["Name"] = "Feint", ["ID"] = 7549, ["Range"] = 0, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
@@ -388,7 +377,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	}
 	self.SendConsoleMessage(ClassTypeID.."PROFILE END",1)
 
-    return SkillList
+    return SkillList,Positional
 end
 
 return Profile

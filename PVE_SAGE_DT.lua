@@ -268,6 +268,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		--	["OtherCheck"] = self.PartyBelowHP(15,70) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false, ["Buff"] = self.PartyBelowHP(15,85,2609) >= (PartySize/2) and HasEukrasiaBuff == false,
 		--},
 		{
+			["Type"] = 2, ["Name"] = "Eukrasian Prognosis II", ["ID"] = 37034, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
+			["OtherCheck"] = self.PartyBelowHP(15,70) >= (PartySize/2) and PlayerInCombat == true, ["Buff"] = self.PartyBelowHP(15,70) >= (PartySize/2) and HasEukrasiaBuff == true,
+		},
+		{	
 			["Type"] = 2, ["Name"] = "Eukrasian Prognosis", ["ID"] = 24292, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
 			["OtherCheck"] = self.PartyBelowHP(15,70) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false, ["Buff"] = self.PartyBelowHP(15,70) >= (PartySize/2) and HasEukrasiaBuff == true,
 		},

@@ -127,23 +127,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		37009   Glare IV             WHM
 		37010   Medica III           WHM
 		37011   Divine Caress        WHM
-	]]--
+	]]--1
 
 	local SkillList = {
-        {
-			["Type"] = 2, ["Name"] = "Holy", ["ID"] = 139, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-		{
-			["Type"] = 2, ["Name"] = "Holy III", ["ID"] = 25860, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "Assize", ["ID"] = 3571, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
 
 		{
 			["Type"] = 2, ["Name"] = "Presence of Mind", ["ID"] = 136, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
@@ -184,11 +170,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         
 		{
 			["Type"] = 3, ["Name"] = "Benediction", ["ID"] = 140, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 15, ["PartyOnly"] = false,
-			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTargetTimeout"] = "BenedictionTetragrammation", ["LastActionTime"] = 1000,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Tetragrammation", ["ID"] = 3570, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 15, ["PartyOnly"] = false,
-			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTimeout"] = "Tetragrammation", ["LastActionTime"] = 1000,
+			["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["LastActionTargetTimeout"] = "BenedictionTetragrammation", ["LastActionTime"] = 1000,
 		},
 		{
 			["Type"] = 3, ["Name"] = "Afflatus Solace", ["ID"] = 16531, ["Range"] = 30, ["TargetCast"] = true, ["HP"] = 50, ["PartyOnly"] = false,
@@ -250,6 +236,20 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Afflatus Misery", ["ID"] = 16535, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 4, ["OtherCheck"] = PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
 			["AOECount"] = 4, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
+		
+		{
+			["Type"] = 2, ["Name"] = "Assize", ["ID"] = 3571, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["PartyOnly"] = true, ["OtherCheck"] = PlayerInCombat == true,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+        {
+			["Type"] = 2, ["Name"] = "Holy", ["ID"] = 139, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 2, ["Name"] = "Holy III", ["ID"] = 25860, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["OtherCheck"] = PlayerMoving == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1 and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		
 		{
 			["Type"] = 1, ["Name"] = "Dia", ["ID"] = 16532, ["Range"] = 25, ["TargetCast"] = true, ["DOTCheck"] = true,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["Buff"] = self.TargetBuff2(Target,1871,3,"Missing",PlayerID) == true,

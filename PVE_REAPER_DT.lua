@@ -106,82 +106,114 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	
 	local SkillList = {
 		{
-			["Type"] = 1, ["Name"] = "Whorl of Death", ["ID"] = 24379, ["Range"] = 5, ["TargetCast"] = false, ["Buff"] = (self.EnemyWithBuff2(PlayerPOS,5,2586,15,"Missing",PlayerID) > 2),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"Debuffs") == 1,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Shadow of Death", ["ID"] = 24378, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,2586,10,"Missing",PlayerID),
-			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Debuffs") == 1,
-		},
-		{
 			["Type"] = 1, ["Name"] = "Harvest Moon", ["ID"] = 24388, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 
 		{
+			["Type"] = 1, ["Name"] = "Plentiful Harvest", ["ID"] = 24385, ["Range"] = 15, ["TargetCast"] = true, ["Proc"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+		},
+
+
+		{
+			["Type"] = 1, ["Name"] = "Sacrificium", ["ID"] = 36969, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Perfectio", ["ID"] = 36973, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true,
+		},
+		{
 			["Type"] = 1, ["Name"] = "Communio", ["ID"] = 24398, ["Range"] = 25, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[3] > 0 and GaugeData1[4] < 2, ["OtherCheck"] = (PlayerMoving == false),
-		},
-		{
-			["Type"] = 1, ["Name"] = "Plentiful Harvest", ["ID"] = 24385, ["Range"] = 15, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["Buff"] = self.TargetBuff2(Player,2592,0,"Has",PlayerID,PartySize) or (self.TargetBuff2(Player,2599,-1,"Missing",PlayerID) and self.TargetBuff2(Player,2592,0,"Has",PlayerID)),
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 15, ["LineWidth"] = 4, ["Angle"] = 0, },
-		},
-		{
-			["Type"] = 1, ["Name"] = "Plentiful Harvest", ["ID"] = 24385, ["Range"] = 15, ["TargetCast"] = true,
-			["Buff"] = self.TargetBuff2(Player,2599,-1,"Missing",PlayerID) and self.TargetBuff2(Player,2592,4,"Missing",PlayerID),
 		},
 
 		{
-			["Type"] = 1, ["Name"] = "Grim Reaping", ["ID"] = 24397, ["Range"] = 8, ["TargetCast"] = true, ["AOECount"] = 3, ["Level"] = PlayerLevel >= 80,
-			["Positional"] = "None", ["Buff"] = self.TargetBuff2(Player,2593,0,"Has",PlayerID),
+			["Type"] = 1, ["Name"] = "Grim Reaping", ["ID"] = 24397, ["Range"] = 8, ["TargetCast"] = true, ["AOECount"] = 3, ["Proc"] = true,
+			["OtherCheck"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 8, ["LineWidth"] = 0, ["Angle"] = 180, },
+			["GaugeCheck"] = GaugeData1[3] > 0 and (PlayerLevel < 90 or GaugeData1[4] ~= 1),
+		},
+
+		{
+			["Type"] = 1, ["Name"] = "Grim Reaping", ["ID"] = 24397, ["Range"] = 8, ["TargetCast"] = true, ["AOECount"] = 3, ["Proc"] = true,
 			["OtherCheck"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 8, ["LineWidth"] = 0, ["Angle"] = 180, },
 			["GaugeCheck"] = GaugeData1[3] > 0 and (PlayerLevel < 90 or GaugeData1[4] ~= 1),
 		},
 		{
-			["Type"] = 1, ["Name"] = "Void Reaping", ["ID"] = 24395, ["Range"] = 3, ["TargetCast"] = true, ["AOECount"] = 0, ["Level"] = PlayerLevel >= 80,
-			["Positional"] = "None", ["Buff"] = self.TargetBuff2(Player,2593,0,"Has",PlayerID) and self.TargetBuff2(Player,2591,-1,"Missing",PlayerID),
+			["Type"] = 1, ["Name"] = "Void Reaping", ["ID"] = 24395, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 			["GaugeCheck"] = GaugeData1[3] > 0 and (PlayerLevel < 90 or GaugeData1[4] ~= 1),
 		},
 		{
-			["Type"] = 1, ["Name"] = "Cross Reaping", ["ID"] = 24396, ["Range"] = 3, ["TargetCast"] = true,
-			["Buff"] = self.TargetBuff2(Player,2593,0,"Has",PlayerID) and self.TargetBuff2(Player,2590,-1,"Missing",PlayerID),
+			["Type"] = 1, ["Name"] = "Cross Reaping", ["ID"] = 24396, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 			["GaugeCheck"] = GaugeData1[3] > 0 and (PlayerLevel < 90 or GaugeData1[4] ~= 1),
 		},
+
+
+
 		-- Base
+		
 		{
-			["Type"] = 1, ["Name"] = "Guilotine", ["ID"] = 24384, ["Range"] = 8, ["TargetCast"] = true, ["AOECount"] = 3, ["Level"] = PlayerLevel >= 70,
-			["Positional"] = "None", ["Buff"] = self.TargetBuff2(Player,2587,0,"Has",PlayerID), ["OtherCheck"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Soul Slice", ["ID"] = 24380, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData2[1] < 51),
+		},
+
+		{
+			["Type"] = 1, ["Name"] = "Executioner's Guilotine", ["ID"] = 36972, ["Range"] = 8, ["TargetCast"] = true, ["AOECount"] = 3, ["Proc"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 8, ["LineWidth"] = 0, ["Angle"] = 180, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Gibbet", ["ID"] = 24382, ["Range"] = 3, ["TargetCast"] = true, ["AOECount"] = 0, ["Level"] = PlayerLevel >= 70,
-			["Positional"] = "None", ["Buff"] = self.TargetBuff2(Player,2587,0,"Has",PlayerID) and self.TargetBuff2(Player,2589,0,"Missing",PlayerID), ["OtherCheck"] = true,
+			["Type"] = 1, ["Name"] = "Executioner's Gallows", ["ID"] = 36971, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Gallows", ["ID"] = 24383, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Player,2587,0,"Has",PlayerID) and self.TargetBuff2(Player,2588,0,"Missing",PlayerID), ["Level"] = PlayerLevel >= 70,
+			["Type"] = 1, ["Name"] = "Executioner's Gibbet", ["ID"] = 36970, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
+		},
+
+		{
+			["Type"] = 1, ["Name"] = "Guilotine", ["ID"] = 24384, ["Range"] = 8, ["TargetCast"] = true, ["AOECount"] = 3, ["Proc"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 8, ["LineWidth"] = 0, ["Angle"] = 180, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Soul Slice", ["ID"] = 24380, ["Range"] = 3, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 60, ["GaugeCheck"] = (GaugeData2[1] < 51),
+			["Type"] = 1, ["Name"] = "Gallows", ["ID"] = 24383, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Spinning Scythe", ["ID"] = 24376, ["ComboID"] = { [0] = true, [24376] = PlayerLevel < 45, [24375] = true, [24377] = true }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Gibbet", ["ID"] = 24382, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
+		},
+
+		-- AOE Combo
+		{
+			["Type"] = 1, ["Name"] = "Whorl of Death", ["ID"] = 24379, ["Range"] = 5, ["TargetCast"] = false, ["Buff"] = (self.EnemyWithBuff2(PlayerPOS,5,2586,15,"Missing",PlayerID) > 2),
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"Debuffs") == 1,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Nightmare Scythe", ["ID"] = 24377, ["Proc"] = true, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["Level"] = PlayerLevel >= 45,
+			["PBuff"] = {  }, ["TBuff"] = {  }, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Nightmare Scythe", ["ID"] = 24377, ["ComboID"] = { [24376] = true }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["Level"] = PlayerLevel >= 45,
-			["Positional"] = "None", ["PBuff"] = {  }, ["TBuff"] = {  }, ["OtherCheck"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 2, ["Name"] = "Spinning Scythe", ["ID"] = 24376, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
+
+		-- Single Combo
 		{
-			["Type"] = 1, ["Name"] = "Slice", ["ID"] = 24373, ["ComboID"] = { [0] = true, [24373] = PlayerLevel < 5, [24374] = PlayerLevel < 30, [24375] = true, [24376] = true, [24377] = true, }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Shadow of Death", ["ID"] = 24378, ["Range"] = 3, ["TargetCast"] = true, ["Buff"] = self.TargetBuff2(Target,2586,10,"Missing",PlayerID),
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Debuffs") == 1,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Waxing Slice", ["ID"] = 24374, ["ComboID"] = { [24373] = true }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Infernal Slice", ["ID"] = 24375, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Infernal Slice", ["ID"] = 24375, ["ComboID"] = { [24374] = true }, ["Range"] = 3, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Waxing Slice", ["ID"] = 24374, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},
+		{
+			["Type"] = 1, ["Name"] = "Slice", ["ID"] = 24373, ["Range"] = 3, ["TargetCast"] = true,
+		},
+
+
+
+
+
+
 		{
 			["Type"] = 1, ["Name"] = "Harpe", ["ID"] = 24386, ["Range"] = 25, ["MinRange"] = 3, ["TargetCast"] = true, ["OtherCheck"] = (PlayerMoving == false), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Harpe") == 1,
 		},
@@ -189,6 +221,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Harpe", ["ID"] = 24386, ["Range"] = 25, ["MinRange"] = 3, ["TargetCast"] = true, ["Level"] = PlayerLevel >= 15, ["Buff"] = self.TargetBuff2(Player,2845,0,"Has",PlayerID), ["OtherCheck"] = (PlayerMoving == true),
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Harpe") ~= 3,
 		},
+
+
 		-- OGCD
 		{
 			["Type"] = 1, ["Name"] = "Lemure's Scythe", ["ID"] = 24400, ["Range"] = 8, ["TargetCast"] = true, ["AOECount"] = 3, ["Level"] = PlayerLevel >= 86, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
@@ -209,12 +243,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Blood Stalk", ["ID"] = 24389, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = GluttonyHold == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Enshroud", ["ID"] = 24394, ["Range"] = 3, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[2] >= 50,
+			["Type"] = 1, ["Name"] = "Enshroud", ["ID"] = 24394, ["Range"] = 3, ["TargetCast"] = false, ["Proc"] = true, ["Buff"] = self.TargetBuff2(Player,{2600,2592},-1,"Missing",PlayerID) == true and self.TargetBuff2(Target,2586,10,"Missing",PlayerID),
 		},
+
+		
+		
+		
 
 		{
 			["Type"] = 1, ["Name"] = "Arcane Circle", ["ID"] = 24405, ["Range"] = 15, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
-			["AOECount"] = (PartySize/2), ["AOEType"] = { ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 15, },
+			["AOECount"] = (PartySize/2), ["AOEType"] = { ["Filter"] = "PartySelf", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 15, }, ["GaugeCheck"] = GaugeData1[2] < 50 and GaugeData1[3] == 0 and GaugeData1[4] == 0,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Arcane Crest", ["ID"] = 24404, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 60 and PlayerInCombat == true,
@@ -224,7 +262,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		{
-			["Type"] = 1, ["Name"] = "Soulsow", ["ID"] = 24387, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,2594,-1,"Missing",PlayerID), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == false,
+			["Type"] = 1, ["Name"] = "Soulsow", ["ID"] = 24387, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == false,
 		},
 
 		-- Shared CDS

@@ -141,9 +141,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		end
 
 		local GeneralCheck = HasSuitonBuff == false and MudraCurrentCharges > 0 and TrickAttack.cd ~= 0 and TrickAttack.cd + 10 < TrickAttack.cdmax
-		if PlayerLevel >= 45 and GaugeData1[2] == 0 and MudraCurrentCharges > 0 then
-			self.NinjaLastMudra = 1
-		elseif PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
+		--if PlayerLevel >= 45 and GaugeData1[2] == 0 and MudraCurrentCharges > 0 then
+		--	self.NinjaLastMudra = 1
+		--else
+		if PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
 			self.NinjaLastMudra = 2
 		elseif PlayerLevel >= 35 and LastCast ~= 2270 and EnemiesAroundSelf > 2 and (PlayerLevel < 76 or HasKassatsuBuff == false) and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"MudraType2") == 2 then
 			self.NinjaLastMudra = 6

@@ -107,14 +107,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	]]--
 
 	--[[
-		15989	Cascade
-		15990	Fountain
-		15991	Reverse Cascade
-		15992	Fountainfall
-		15993	Windmill
-		15994	Bladeshower
-		15995	Rising Windmill
-		15996	Bloodshower
+		15989	Cascade-
+		15990	Fountain-
+		15991	Reverse Cascade-
+		15992	Fountainfall-
+		15993	Windmill-
+		15994	Bladeshower-
+		15995	Rising Windmill-
+		15996	Bloodshower-
 		15997	Standard Step
 		15998	Technical Step
 		15999	Emboite
@@ -155,90 +155,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	]]--
 
 	local SkillList = {
-        {
-			["Type"] = 2, ["Name"] = "Tillana", ["ID"] = 25790, ["Range"] = 25, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 25, ["Angle"] = 180, },
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "Emboite", ["ID"] = 15999, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] ~= 0 and GaugeData1[3+GaugeData1[7]] == 1 and GaugeData1[7] ~= 4,
-		},
-		{
-			["Type"] = 2, ["Name"] = "Entrechat", ["ID"] = 16000, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] ~= 0 and GaugeData1[3+GaugeData1[7]] == 2 and GaugeData1[7] ~= 4,
-		},
-		{
-			["Type"] = 2, ["Name"] = "Jete", ["ID"] = 16001, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] ~= 0 and GaugeData1[3+GaugeData1[7]] == 3 and GaugeData1[7] ~= 4,
-		},
-		{
-			["Type"] = 2, ["Name"] = "Pirouette", ["ID"] = 16002, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] ~= 0 and GaugeData1[3+GaugeData1[7]] == 4 and GaugeData1[7] ~= 4,
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "Double Standard Finish", ["ID"] = 16192, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["OtherCheck"] = PlayerInCombat == true and GaugeData1[7] == 2, ["Buff"] = self.TargetBuff2(Player,1818,0,"Has",PlayerID),
-			["AOECount"] = 1, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "Quadruple Technical Finish", ["ID"] = 16196, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["OtherCheck"] = PlayerInCombat == true and GaugeData1[7] == 4, ["Buff"] = self.TargetBuff2(Player,1819,0,"Has",PlayerID),
-			["AOECount"] = 1, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-
-		-- Fans
-		{
-			["Type"] = 2, ["Name"] = "Fan Dance II", ["ID"] = 16008, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-		-- Steps
-		{
-			["Type"] = 2, ["Name"] = "Standard Step", ["ID"] = 15997, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Standard") == 1, ["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] == 0, ["LastActionTimeout"] = "DancerSteps", ["LastActionTime"] = 2000,
-			["AOECount"] = 1, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-		{
-			["Type"] = 2, ["Name"] = "Technical Step", ["ID"] = 15998, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Technical") == 1, ["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] == 0, ["LastActionTimeout"] = "DancerSteps", ["LastActionTime"] = 2000,
-			["AOECount"] = 1, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-		-- AOE Combo
-		{
-			["Type"] = 2, ["Name"] = "Rising Windmill", ["ID"] = 15995, ["Range"] = 0, ["TargetCast"] = false,["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-		{
-			["Type"] = 2, ["Name"] = "Bloodshower", ["ID"] = 15996, ["Range"] = 0, ["TargetCast"] = false,["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "Windmill", ["ID"] = 15993, ["Range"] = 0, ["TargetCast"] = false, ["ComboID"] = { [0] = true, [15993] = PlayerLevel < 25, [15994] = true, [15989] = true, [15990] = true, },["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-		{
-			["Type"] = 2, ["Name"] = "Bladeshower", ["ID"] = 15994, ["Range"] = 0, ["TargetCast"] = false, ["ComboID"] = { [15993] = true, [15989] = true, [15990] = true, },["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-
-		{
-			["Type"] = 2, ["Name"] = "Peloton", ["ID"] = 7557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Peloton") == 1, ["OtherCheck"] = PlayerMoving == true and PlayerInCombat == false, ["Buff"] = self.TargetBuff2(Player,1199,3,"Missing") == true,
-		},
-        
-        
-		{
-			["Type"] = 1, ["Name"] = "Saber Dance", ["ID"] = 16005, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 25, ["Angle"] = 180, },
-		},
-		{
-			["Type"] = 1, ["Name"] = "Starfall Dance", ["ID"] = 25792, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 25, ["MaxDistance"] = 25, ["LineWidth"] = 4, ["Angle"] = 180, },
-		},
+		
 		-- Fans
 		{
 			["Type"] = 1, ["Name"] = "Fan Dance IV", ["ID"] = 25791, ["Range"] = 15, ["TargetCast"] = true, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
@@ -249,29 +166,117 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
+			["Type"] = 2, ["Name"] = "Fan Dance II", ["ID"] = 16008, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
 			["Type"] = 1, ["Name"] = "Fan Dance", ["ID"] = 16007, ["Range"] = 25, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Saber Dance", ["ID"] = 16005, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 25, ["Angle"] = 180, },
+		},
+		{
+			["Type"] = 1, ["Name"] = "Starfall Dance", ["ID"] = 25792, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Line", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 25, ["MaxDistance"] = 25, ["LineWidth"] = 4, ["Angle"] = 180, },
+		},
+
+		-- Dances
+		{
+			["Type"] = 2, ["Name"] = "Emboite", ["ID"] = 15999, ["Range"] = 0, ["TargetCast"] = false, ["Proc"] = true,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Entrechat", ["ID"] = 16000, ["Range"] = 0, ["TargetCast"] = false, ["Proc"] = true,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Jete", ["ID"] = 16001, ["Range"] = 0, ["TargetCast"] = false, ["Proc"] = true,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Pirouette", ["ID"] = 16002, ["Range"] = 0, ["TargetCast"] = false, ["Proc"] = true,
+		},
+
+
+        {
+			["Type"] = 1, ["Name"] = "Last Dance", ["ID"] = 36983, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 25, ["Angle"] = 180, },
+		},
+        {
+			["Type"] = 2, ["Name"] = "Finishing Move", ["ID"] = 36983, ["Range"] = 25, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 25, ["Angle"] = 180, },
+		},
+        {
+			["Type"] = 1, ["Name"] = "Dance of the Dawn", ["ID"] = 36985, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 25, ["Angle"] = 180, },
+		},
+        {
+			["Type"] = 2, ["Name"] = "Tillana", ["ID"] = 25790, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 25, ["Angle"] = 180, },
+		},
+
+		-- Dance Finishes
+
+		{
+			["Type"] = 2, ["Name"] = "Double Standard Finish", ["ID"] = 16192, ["Range"] = 0, ["TargetCast"] = false, ["Proc"] = true,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Quadruple Technical Finish", ["ID"] = 16196, ["Range"] = 0, ["TargetCast"] = false, ["Proc"] = true,
+		},
+
+		-- Dance Starters
+		{
+			["Type"] = 2, ["Name"] = "Standard Step", ["ID"] = 15997, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"Standard") == 1, ["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] == 0, ["LastActionTimeout"] = "DancerSteps", ["LastActionTime"] = 2000,
+			["AOECount"] = 1, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 2, ["Name"] = "Technical Step", ["ID"] = 15998, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"Technical") == 1, ["OtherCheck"] = PlayerInCombat == true and GaugeData1[3] == 0, ["LastActionTimeout"] = "DancerSteps", ["LastActionTime"] = 2000,
+			["AOECount"] = 1, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 15, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+
+		-- AOE Combo
+		{
+			["Type"] = 2, ["Name"] = "Rising Windmill", ["ID"] = 15995, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
+		},
+		{
+			["Type"] = 2, ["Name"] = "Bloodshower", ["ID"] = 15996, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
+		},
+
+		{
+			["Type"] = 2, ["Name"] = "Bladeshower", ["ID"] = 15994, ["Range"] = 5, ["TargetCast"] = false, ["Proc"] = true,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
+		},
+		{
+			["Type"] = 2, ["Name"] = "Windmill", ["ID"] = 15993, ["Range"] = 5, ["TargetCast"] = false,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0,  },
 		},
 
 		-- Single Target Combo
 		{
-			["Type"] = 1, ["Name"] = "Reverse Cascade", ["ID"] = 15991, ["Range"] = 25, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Fountainfall", ["ID"] = 15992, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Fountainfall", ["ID"] = 15992, ["Range"] = 25, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Reverse Cascade", ["ID"] = 15991, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Cascade", ["ID"] = 15989, ["Range"] = 25, ["TargetCast"] = true, ["ComboID"] = { [0] = true, [15989] = PlayerLevel < 2, [15990] = true, [15993] = true, [15994] = true,},
+			["Type"] = 1, ["Name"] = "Fountain", ["ID"] = 15990, ["Range"] = 25, ["TargetCast"] = true, ["Proc"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Fountain", ["ID"] = 15990, ["Range"] = 25, ["TargetCast"] = true, ["ComboID"] = { [15989] = true, [15993] = true, [15994] = true,},
+			["Type"] = 1, ["Name"] = "Cascade", ["ID"] = 15989, ["Range"] = 25, ["TargetCast"] = true,
 		},
-
 
 		{
 			["Type"] = 1, ["Name"] = "Flourish", ["ID"] = 16013, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Devilment", ["ID"] = 16011, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Peloton", ["ID"] = 7557, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Peloton") == 1, ["OtherCheck"] = PlayerMoving == true and PlayerInCombat == false, ["Buff"] = self.TargetBuff2(Player,1199,3,"Missing") == true,
 		},
 		-- Shared CDS
 		{

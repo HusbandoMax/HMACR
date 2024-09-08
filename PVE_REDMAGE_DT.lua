@@ -80,7 +80,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CastTimeout = Data.CastTimeout
     
 	local HasDualcastBuff = self.TargetBuff2(Player,1249,0,"Has",PlayerID)
-
 	local OGCDTime = ActionList:Get(1,7505).cd
 
 	--[[
@@ -202,15 +201,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- AOE Casts
 		{
 			["Type"] = 1, ["Name"] = "Impact", ["ID"] = 16526, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = HasDualcastBuff == true,
-			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
+			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["Angle"] = 90, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Veraero II", ["ID"] = 16525, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false or HasDualcastBuff == false,
-			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
+			["Type"] = 1, ["Name"] = "Veraero II", ["ID"] = 16525, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false or HasDualcastBuff == false, ["GaugeCheck"] = (GaugeData1[1] - GaugeData1[2]) <= 0,
+			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["Angle"] = 90, },
 		},
 		{
-			["Type"] = 1, ["Name"] = "Verthunder II", ["ID"] = 16524, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false or HasDualcastBuff == false,
-			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["Angle"] = 90, },
+			["Type"] = 1, ["Name"] = "Verthunder II", ["ID"] = 16524, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = PlayerMoving == false or HasDualcastBuff == false, ["GaugeCheck"] = (GaugeData1[2] - GaugeData1[1]) <= 0,
+			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["Angle"] = 90, },
 		},
 
 		-- Single Casts
@@ -249,7 +248,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Contre Sixte", ["ID"] = 7519, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = OGCDTime > 0.6,
-			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 6, ["MaxDistance"] = 6, ["Angle"] = 90, },
+			["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["Angle"] = 90, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Fleche", ["ID"] = 7517, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OGCDLimited"] = OGCDTime > 0.6,
