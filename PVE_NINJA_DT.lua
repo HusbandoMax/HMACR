@@ -41,7 +41,7 @@ Profile.Settings = {
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
-
+	
     local PlayerPOS = Data.PlayerPOS
     local TargetPOS = Data.TargetPOS
     local TargetCastingInterruptible = Data.TargetCastingInterruptible
@@ -60,15 +60,17 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local LastCastTime = Data.LastCastTime
     local LastCombo = Data.LastCombo
     local CurrentChannel = Data.CurrentChannel
-    local GaugeData1 = Data.GaugeData1
-    local GaugeData2 = Data.GaugeData2
+    --local GaugeData1 = Data.GaugeData1
+    --local GaugeData2 = Data.GaugeData2
     local AOETimeout = Data.AOETimeout
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
-	
+    local KazematoiStacks = Data.GaugeData1[1]
+    local NinkiGaugeAmount = Data.GaugeData1[2]
+
     local HasDotonBuff = self.TargetBuff2(Player,501,0,"Has",PlayerID)
 	local HasMudraBuff = self.TargetBuff2(Player,{496,497},0,"Has",PlayerID)
-	local HasSuitonBuff = self.TargetBuff2(Player,507,0,"Has",PlayerID)
+	local HasSuitonBuff = self.TargetBuff2(Player,3848,0,"Has",PlayerID)
 	local HasKassatsuBuff = self.TargetBuff2(Player,497,0,"Has",PlayerID)
 	local HasTenChiJinBuff = self.TargetBuff2(Player,1186,0,"Has",PlayerID)
 	local HasMeisuiBuff = self.TargetBuff2(Player,2689,0,"Has",PlayerID)
@@ -140,11 +142,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			EnemiesAroundTarget = self.EntityInCount(AOEType2)
 		end
 
-		local GeneralCheck = HasSuitonBuff == false and MudraCurrentCharges > 0 and TrickAttack.cd ~= 0 and TrickAttack.cd + 10 < TrickAttack.cdmax
+		local GeneralCheck = HasSuitonBuff == false and MudraCurrentCharges > 0 and (PlayerLevel < 45 or (TrickAttack.cd ~= 0 and TrickAttack.cd + 10 < TrickAttack.cdmax))
 		--if PlayerLevel >= 45 and GaugeData1[2] == 0 and MudraCurrentCharges > 0 then
 		--	self.NinjaLastMudra = 1
 		--else
-		if PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
+
+		if PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 and EnemiesAroundTarget > 2 then
+			self.NinjaLastMudra = 1
+		elseif PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
 			self.NinjaLastMudra = 2
 		elseif PlayerLevel >= 35 and LastCast ~= 2270 and EnemiesAroundSelf > 2 and (PlayerLevel < 76 or HasKassatsuBuff == false) and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"MudraType2") == 2 then
 			self.NinjaLastMudra = 6
@@ -239,36 +244,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Kassatsu", ["ID"] = 2264, ["Range"] = 0, ["TargetCast"] = false, --["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["LastCastIDMust"] = { [2258] = true, },
+			["LastCastIDMust"] = { [2258] = true, [36958] = true },
 		},
 		{
-			["Type"] = 2, ["Name"] = "Ten Chi Jin", ["ID"] = 7403, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = HasKassatsuBuff == false and MudraCurrentCharges == 0 and TrickAttack.isoncd == true and Kassatsu.isoncd == true and TrickAttack.cd < 30 and Kassatsu.cd < 30, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
+			["Type"] = 2, ["Name"] = "Ten Chi Jin", ["ID"] = 7403, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = LastActionWasMudra == false and HasKassatsuBuff == false and PlayerInCombat == true and MudraCurrentCharges == 0 and TrickAttack.isoncd == true and Kassatsu.isoncd == true and TrickAttack.cd < 30 and Kassatsu.cd < 30, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
 		},
 		{
 			["Type"] = 2, ["Name"] = "Meisui", ["ID"] = 16489, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = HasSuitonBuff == true and TrickAttack.isoncd == true and Kassatsu.isoncd == true and TrickAttack.cd < 30 and Kassatsu.cd < 30, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
 		},
-
-		{ -- Huton
-			["Type"] = 2, ["Name"] = "Huton", ["ID"] = 2269, ["Range"] = 0, ["TargetCast"] = false,
-			["LastCastID"] = { [18805] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1 and GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == true,
-		},
-		{ -- Huton - Starter
-			["Type"] = 2, ["Name"] = "Huton - Jin", ["ID"] = 2263, ["Range"] = 0, ["TargetCast"] = false,
-			["LastCastIDNOT"] = { [2263] = true, [18806] = true, [18805] = true }, ["OtherCheck"] = self.NinjaLastMudra == 1 and GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
-		},
-		{ -- Huton - 2nd Filler
-			["Type"] = 2, ["Name"] = "Huton - Jin", ["ID"] = 18807, ["Range"] = 0, ["TargetCast"] = false,
-			["LastCastID"] = { [2261] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1 and GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
-		},
-		{ -- Huton - 2nd
-			["Type"] = 2, ["Name"] = "Huton - Chi", ["ID"] = 18806, ["Range"] = 0, ["TargetCast"] = false,
-			["LastCastID"] = { [2263] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1 and GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
-		},
-		{ -- Huton - Finish
-			["Type"] = 2, ["Name"] = "Huton - Ten", ["ID"] = 18805, ["Range"] = 0, ["TargetCast"] = false,
-			["LastCastID"] = { [18806] = true, [18807] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1 and GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
-		},
-
 		{ -- Doton
 			["Type"] = 2, ["Name"] = "Doton", ["ID"] = 2270, ["Range"] = 0, ["TargetCast"] = false,
 			["LastCastID"] = { [18806] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 6, ["Buff"] = HasMudraBuff == true,
@@ -299,6 +282,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Trick Attack", ["ID"] = 2258, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 			["Buff"] = HasSuitonBuff, ["OtherCheck"] = PlayerInCombat == true,
 		},
+		{
+			["Type"] = 1, ["Name"] = "Kunai's Bane", ["ID"] = 36958, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+			["Buff"] = HasSuitonBuff, ["OtherCheck"] = PlayerInCombat == true,
+		},
 		-- Ten Action 18873
 		--18873	Fuma Shuriken
 		--18874	Fuma Shuriken
@@ -324,6 +311,27 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		--{ -- Ten Chi Jin - Raiton
 		--	["Type"] = 1, ["Name"] = "Ten Chi Jin - Raiton", ["ID"] = 2267, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = HasTenChiJinBuff == true,
 		--},
+
+		{ -- Huton
+			["Type"] = 1, ["Name"] = "Huton", ["ID"] = 2269, ["Range"] = 0, ["TargetCast"] = true,
+			["LastCastID"] = { [18805] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1, ["Buff"] = HasMudraBuff == true,
+		},
+		{ -- Huton - Starter
+			["Type"] = 1, ["Name"] = "Huton - Jin", ["ID"] = 2263, ["Range"] = 0, ["TargetCast"] = false,
+			["LastCastIDNOT"] = { [2263] = true, [18806] = true, [18805] = true }, ["OtherCheck"] = self.NinjaLastMudra == 1, ["Buff"] = HasMudraBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
+		},
+		{ -- Huton - 2nd Filler
+			["Type"] = 1, ["Name"] = "Huton - Jin", ["ID"] = 18807, ["Range"] = 0, ["TargetCast"] = false,
+			["LastCastID"] = { [2261] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1, ["Buff"] = HasMudraBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
+		},
+		{ -- Huton - 2nd
+			["Type"] = 1, ["Name"] = "Huton - Chi", ["ID"] = 18806, ["Range"] = 0, ["TargetCast"] = false,
+			["LastCastID"] = { [2263] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1, ["Buff"] = HasMudraBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
+		},
+		{ -- Huton - Finish
+			["Type"] = 1, ["Name"] = "Huton - Ten", ["ID"] = 18805, ["Range"] = 0, ["TargetCast"] = false,
+			["LastCastID"] = { [18806] = true, [18807] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 1, ["Buff"] = HasMudraBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
+		},
 
 		{ -- Katon
 			["Type"] = 1, ["Name"] = "Katon", ["ID"] = 2266, ["Range"] = 0, ["TargetCast"] = true,
@@ -356,7 +364,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Fuma - Ten", ["ID"] = 2259, ["Range"] = 0, ["TargetCast"] = false,
 			["LastCastIDNOT"] = { [2259] = true, [18805] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 4, ["Buff"] = HasMudraBuff == false or HasKassatsuBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 0,
 		},
-
 
 		{ -- Raiton
 			["Type"] = 1, ["Name"] = "Raiton", ["ID"] = 2267, ["Range"] = 0, ["TargetCast"] = true,
@@ -418,14 +425,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- 4776
 
 		{
-			["Type"] = 1, ["Name"] = "Fleeting Raiju", ["ID"] = 25778, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and GaugeData1[2] > 15000 or GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+			["Type"] = 1, ["Name"] = "Fleeting Raiju", ["ID"] = 25778, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Forked Raiju", ["ID"] = 25777, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and GaugeData1[2] > 15000 or GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+			["Type"] = 1, ["Name"] = "Forked Raiju", ["ID"] = 25777, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 
 		-- AOE Combo
-
+		{
+			["Type"] = 1, ["Name"] = "Phantom Kamaitachi", ["ID"] = 25774, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+		},
 		{
 			["Type"] = 2, ["Name"] = "Death Blossom", ["ID"] = 2254, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false,
@@ -445,28 +454,31 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Gust Slash", ["ID"] = 2242, ["Range"] = 25, ["TargetCast"] = true, ["ComboID"] = { [2240] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Armor Crush", ["ID"] = 3563, ["Range"] = 25, ["TargetCast"] = true, ["ComboID"] = { [2242] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and GaugeData1[2] > 0 and GaugeData1[2] < 15000, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+			["Type"] = 1, ["Name"] = "Armor Crush", ["ID"] = 3563, ["Range"] = 25, ["TargetCast"] = true, ["ComboID"] = { [2242] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and KazematoiStacks == 0, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Aeolian Edge", ["ID"] = 2255, ["Range"] = 25, ["TargetCast"] = true, ["ComboID"] = { [2242] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and GaugeData1[2] > 15000 or GaugeData1[2] == 0, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+			["Type"] = 1, ["Name"] = "Aeolian Edge", ["ID"] = 2255, ["Range"] = 25, ["TargetCast"] = true, ["ComboID"] = { [2242] = true, }, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and (KazematoiStacks > 0 or PlayerLevel < 54), ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
 
 		{
 			["Type"] = 1, ["Name"] = "Throwing Dagger", ["ID"] = 2247, ["Range"] = 25, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+			
 		},
 		{
-			["Type"] = 1, ["Name"] = "Dream Within a Dream", ["ID"] = 3566, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false and TargetHasTrickAttack == true,
+			["Type"] = 1, ["Name"] = "Assassinate", ["ID"] = 2246, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
-
 		{
-			["Type"] = 1, ["Name"] = "Mug", ["ID"] = 2248, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = GaugeData1[1] < 50 and self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+			["Type"] = 1, ["Name"] = "Dream Within a Dream", ["ID"] = 3566, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
-
 		{
-			["Type"] = 1, ["Name"] = "Bhavacakra", ["ID"] = 7402, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
-			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false and HasMeisuiBuff == true, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
+			["Type"] = 1, ["Name"] = "Mug", ["ID"] = 2248, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
 		},
-        
+		{
+			["Type"] = 1, ["Name"] = "Dokumori", ["ID"] = 36957, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and NinkiGaugeAmount <= 60, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Tenri Jindo", ["ID"] = 36961, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false,
+		},	
 		{
 			["Type"] = 1, ["Name"] = "Bunshin", ["ID"] = 16493, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
 			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
@@ -474,10 +486,19 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Hellfrog Medium", ["ID"] = 7401, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
 			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
-			["AOECount"] = PlayerLevel >= 68 and 1 or 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["AOECount"] = (PlayerLevel < 68 and 1) or 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 1, ["Name"] = "Deathfrog Medium", ["ID"] = 36959, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
+			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
+			["AOECount"] = (PlayerLevel < 68 and 1) or 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 6, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Bhavacakra", ["ID"] = 7402, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
+			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Zesho Meppo", ["ID"] = 36960, ["Range"] = 3, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = self.NinjaLastMudra == 0 and LastActionWasMudra == false and PlayerInCombat == true,
 			["Buff"] = HasMudraBuff == false and HasTenChiJinBuff == false, ["LastActionTimeout"] = "NinjaMudra", ["LastActionTime"] = 500, ["LastActionOnlyTime"] = true,
 		},
         
