@@ -225,6 +225,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Bloodwhetting", ["ID"] = 25751, ["Range"] = 3, ["TargetCast"] = false, ["OtherCheck"] = PlayerHP <=50, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		},
+		{
+			["Type"] = 1, ["Name"] = "Raw Intuition ", ["ID"] = 3551, ["Range"] = 3, ["TargetCast"] = false, ["OtherCheck"] = PlayerHP <=50, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
+		},
 		--{--Nascent Flash is a target of party member, not sure how to do this.
 		--["Name"] = "Nascent Flash", ["ID"] = 16464, ["Range"] = 3, ["TargetCast"] = false, ["OtherCheck"] = PlayerHP <=50, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		--},
