@@ -68,7 +68,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	
     local HasDotonBuff = self.TargetBuff2(Player,501,0,"Has",PlayerID)
 	local HasMudraBuff = self.TargetBuff2(Player,{496,497},0,"Has",PlayerID)
-	local HasSuitonBuff = self.TargetBuff2(Player,507,0,"Has",PlayerID)
+	local HasSuitonBuff = self.TargetBuff2(Player,3848,0,"Has",PlayerID)
 	local HasKassatsuBuff = self.TargetBuff2(Player,497,0,"Has",PlayerID)
 	local HasTenChiJinBuff = self.TargetBuff2(Player,1186,0,"Has",PlayerID)
 	local HasMeisuiBuff = self.TargetBuff2(Player,2689,0,"Has",PlayerID)
@@ -235,6 +235,191 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		36960   Zesho Meppo             NIN
 		36961   Tenri Jindo             NIN
 	]]
+
+
+
+	
+
+
+
+
+
+	local function DetermineRequestedMudraActionV2()
+		local MudraCurrentCharges = math.floor((Ten.cdmax / Ten.recasttime) - ((Ten.cdmax - Ten.cd) / Ten.recasttime))
+		if Ten.isoncd == false or HasMudraBuff == true or HasKassatsuBuff == true then
+			MudraCurrentCharges = 1
+		end
+	
+		-- Check how many enemies are around the player and target
+		local AOEType = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0 }
+		local EnemiesAroundSelf = self.EntityInCount(AOEType)
+	
+		local EnemiesAroundTarget = 0
+		if table.valid(Target) == true then
+			local AOEType2 = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 20, ["LineWidth"] = 0, ["Angle"] = 0 }
+			EnemiesAroundTarget = self.EntityInCount(AOEType2)
+		end
+	
+		-- General condition checks
+		local GeneralCheck = HasSuitonBuff == false and MudraCurrentCharges > 0 and TrickAttack.cd ~= 0 and TrickAttack.cd + 10 < TrickAttack.cdmax
+	
+		-- Decision-making based on conditions
+		if PlayerLevel >= 30 and AttackableTarget == true and EnemiesAroundTarget > 2 and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
+			-- Use Huton for Trick Attack
+			return "Huton"
+		elseif PlayerLevel >= 45 and AttackableTarget == true and HasSuitonBuff == false and TrickAttack.cd + 2 > TrickAttack.cdmax and MudraCurrentCharges > 0 then
+			-- Suiton for Trick Attack
+			return "Suiton"
+		elseif PlayerLevel >= 35 and LastCast ~= 2270 and EnemiesAroundSelf > 2 and (PlayerLevel < 76 or HasKassatsuBuff == false) and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
+			-- Use Doton if there are multiple enemies around the player
+			return "Doton"
+		elseif PlayerLevel >= 35 and AttackableTarget == true and EnemiesAroundTarget > 2 and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
+			-- Use Katon for AOE around the target
+			return "Katon"
+		elseif PlayerLevel >= 32 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "MudraType") == 1 then
+			-- Use Raiton for single-target damage
+			return "Raiton"
+		elseif PlayerLevel >= 45 and AttackableTarget == true and GeneralCheck == true and ((PlayerLevel >= 76 and HasKassatsuBuff == true) or self.GetSettingsValue(ClassTypeID, "MudraType") == 3) then
+			-- Use special Mudra with Kassatsu for high damage
+			return "Goka Mekkyaku"  -- Or a similar Kassatsu-triggered Mudra action
+		end
+	
+		-- Default fallback
+		return nil
+	end
+	
+	local RequestedMudraAction = DetermineRequestedMudraActionV2()
+	d("RequestedMudraAction: "..tostring(RequestedMudraAction))
+
+
+
+
+	if self.LastMudras == nil then self.LastMudras = {} end
+	if self.LastCast == nil then self.LastCast = 0 end
+	d("self.LastMudras")
+	d(self.LastMudras)
+
+	local Ten = ActionList:Get(1,2259)
+	local Chi = ActionList:Get(1,2261)
+	local Jin = ActionList:Get(1,2263)
+	local Ten2 = ActionList:Get(1,18805)
+	local Chi2 = ActionList:Get(1,18806)
+	local Jin2 = ActionList:Get(1,18807)
+	d("Ten: "..tostring(Ten:IsReady(Player)))
+	d("Chi: "..tostring(Chi:IsReady(Player)))
+	d("Jin: "..tostring(Jin:IsReady(Player)))
+	d("Ten2: "..tostring(Ten2:IsReady(Player)))
+	d("Chi2: "..tostring(Chi2:IsReady(Player)))
+	d("Jin2: "..tostring(Jin2:IsReady(Player)))
+	
+	-- Actions
+	local MudraActions = {
+		{ ["ID2"] = 18875, ["ID"] = 2265, ["Name"] = "Fuma", ["Combo"] = {"Ten"} },
+
+		{ ["ID2"] = 18876, ["ID"] = 2266, ["Name"] = "Katon", ["Combo"] = {"Chi", "Ten"}, ["Combo2"] = {"Jin", "Ten"} },
+		{ ["ID2"] = 18877, ["ID"] = 2267, ["Name"] = "Raiton", ["Combo"] = {"Ten", "Chi"}, ["Combo2"] = {"Chi", "Ten"} },
+		{ ["ID2"] = 18878, ["ID"] = 2268, ["Name"] = "Hyoton", ["Combo"] = {"Ten", "Jin"}, ["Combo2"] = {"Chi", "Jin"} },
+
+		{ ["ID2"] = 18879, ["ID"] = 2269, ["Name"] = "Huton", ["Combo"] = {"Jin", "Chi", "Ten"}, ["Combo2"] = {"Chi", "Jin", "Ten"} },
+		{ ["ID2"] = 18880, ["ID"] = 2270, ["Name"] = "Doton", ["Combo"] = {"Ten", "Jin", "Chi"}, ["Combo2"] = {"Jin", "Ten", "Chi"} },
+		{ ["ID2"] = 18881, ["ID"] = 2271, ["Name"] = "Suiton", ["Combo"] = {"Ten", "Chi", "Jin"}, ["Combo2"] = {"Chi", "Ten", "Jin"} },
+		-- Kass
+		{ ["ID"] = 16491, ["Name"] = "Goka Mekkyaku", ["Combo"] = {"Chi", "Ten"}, ["Combo2"] = {"Jin", "Ten"} },
+		{ ["ID"] = 16492, ["Name"] = "Hyosho Ranryu", ["Combo"] = {"Ten","Jin"}, ["Combo2"] = {"Chi","Jin"} },
+	}
+	
+	for i,e in pairs(MudraActions) do
+		e.Action = ActionList:Get(1,e.ID)
+		e.ActionReady = e.Action:IsReady(TargetID)
+		d(e.Name..": "..tostring(e.ActionReady))
+	end
+
+	local HasMudraBuff = self.TargetBuff2(Player,{496,497},0,"Has",PlayerID)
+	d("HasMudraBuff: "..tostring(HasMudraBuff))
+	local LastCastID = Data.LastCast
+	if LastCast ~= self.LastCast then
+		self.LastCast = LastCast
+		d("New Cast: "..tostring(LastCast))
+		if LastCast == 2259 or LastCast == 2261 or LastCast == 2263 or LastCast == 18805 or LastCast == 18806 or LastCast == 18807 then
+			table.insert(self.LastMudras,LastCast)
+		end
+	end
+
+	if HasMudraBuff == false then
+		self.LastMudras = {}
+		self.RequestedMudraAction = nil
+	elseif table.valid(self.LastMudras) == false and HasMudraBuff == true then
+		if LastCast == 2259 or LastCast == 2261 or LastCast == 2263 or LastCast == 18805 or LastCast == 18806 or LastCast == 18807 then
+			table.insert(self.LastMudras,LastCast)
+		end
+	end
+	if self.RequestedMudraAction == nil then self.RequestedMudraAction = RequestedMudraAction end
+	d("self.RequestedMudraAction: "..tostring(self.RequestedMudraAction))
+
+	local function GetNextMudraAction(RequestedMudraAction2, LastMudras)
+		-- Find the requested action in the MudraActions table
+		local actionData = nil
+		for _, action in ipairs(MudraActions) do
+			if action.Name == RequestedMudraAction2 then
+				actionData = action
+				break
+			end
+		end
+	
+		if not actionData then
+			d("Requested Mudra Action not found: " .. tostring(RequestedMudraAction2))
+			return nil
+		end
+	
+		-- Get the combo sequence for the requested action
+		local combo = actionData.Combo
+		local nextMudraIndex = #LastMudras + 1  -- Determine the next step in the combo
+	
+		if nextMudraIndex <= #combo then
+			-- Return the next Mudra in the sequence
+			return combo[nextMudraIndex]
+		else
+			-- If the combo is complete, return the action
+			return actionData.Action
+		end
+	end
+	
+	-- Get the next Mudra or final action
+	local NextAction = GetNextMudraAction(self.RequestedMudraAction, self.LastMudras)
+
+	if NextAction then
+		if type(NextAction) == "string" then
+			-- It's the next Mudra
+			d("Next Mudra to use: " .. NextAction)
+			local IsOnCD = Ten:IsReady(PlayerID) == false and Chi:IsReady(PlayerID) == false and Jin:IsReady(PlayerID) == false and Ten2:IsReady(PlayerID) == false and Chi2:IsReady(PlayerID) == false and Jin2:IsReady(PlayerID) == false
+			if IsOnCD == false then
+				if NextAction == "Ten" then
+					Ten:Cast(PlayerID)
+				elseif NextAction == "Chi" then
+					Chi:Cast(PlayerID)
+				elseif NextAction == "Jin" then
+					Jin:Cast(PlayerID)
+				end
+			else
+				d("Mudra is on cooldown")
+			end
+		else
+			d("Final action to execute: " .. NextAction.name.." - "..NextAction.id.. " - "..tostring(NextAction:IsReady(TargetID)))
+			NextAction:Cast(TargetID)  -- Execute the action
+		end
+	end
+
+
+
+
+
+
+
+
+
+	if true then return end
+
+
 
 	local SkillList = {
 		{
