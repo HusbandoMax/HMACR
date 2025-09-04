@@ -120,6 +120,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		36932	Disesteem
 	]]--
 
+	--local LivingDead = GameVersion() == 1 
+	--and { ["Type"] = 2, ["Name"] = "Living Dead", ["ID"] = 3629, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"LIVINGDEAD") == 1, ["OtherCheck"] = PlayerHP < 10 and PlayerInCombat == true, }
+	--or { ["Type"] = 2, ["Name"] = "Living Dead 2", ["ID"] = 362911, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"LIVINGDEAD") == 1, ["OtherCheck"] = PlayerHP < 10 and PlayerInCombat == true, }
+	
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Grit", ["ID"] = 3629, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 1, ["Buff"] = self.TargetBuff2(Player,743,-1,"Missing",PlayerID),
@@ -127,11 +131,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 2, ["Name"] = "Grit", ["ID"] = 3629, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 2, ["Buff"] = self.TargetBuff2(Player,743,0,"Has",PlayerID),
 		},
-		{
-			["Type"] = 2, ["Name"] = "Living Dead", ["ID"] = 3629, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"LIVINGDEAD") == 1, ["OtherCheck"] = PlayerHP < 10 and PlayerInCombat == true,
+		--LivingDead,
+		{ 
+			["Type"] = 2, ["Name"] = "Living Dead", ["ID"] = 3629, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"LIVINGDEAD") == 1, ["OtherCheck"] = PlayerHP < 10 and PlayerInCombat == true, 
 		},
-
-
 		{
 			["Type"] = 1, ["Name"] = "Shadowbringer", ["ID"] = 25757, ["Range"] = 10, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		},

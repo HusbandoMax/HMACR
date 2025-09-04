@@ -66,7 +66,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         [4] = Time
         [5] = 
     ]]
-
+    d(GaugeData1)
     local HasTripleCast = self.TargetBuff2(Player,1211,0,"Has",PlayerID)
     local HasFirestarterCast = self.TargetBuff2(Player,165,0,"Has",PlayerID)
     local HasThundercloudCast = self.TargetBuff2(Player,164,0,"Has",PlayerID)
@@ -224,39 +224,39 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- Fire Burn
 		{
 			["Type"] = 1, ["Name"] = "Fire II - 2", ["ID"] = 147, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(147,25794,PlayerLevel) == true, 
-            ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] > 6000,
+            ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = GaugeData1[2] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "High Fire II - 2", ["ID"] = 25794, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25794,nil,PlayerLevel) == true, 
-            ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] > 6000,
+            ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = GaugeData1[2] > 0,
             ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Fire - 2", ["ID"] = 141, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(141,152,PlayerLevel), 
-            ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] > 6000,
+            ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = GaugeData1[2] > 0,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Foul", ["ID"] = 7422, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(7422,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] > 6000,
+			["Type"] = 1, ["Name"] = "Foul", ["ID"] = 7422, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(7422,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[2] > 0,
             ["AOECount"] = 2, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
 		},
 		{
 			["Type"] = 1, ["Name"] = "Xenoglossy", ["ID"] = 16507, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(16507,nil,PlayerLevel), 
-            ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] > 6000,
+            ["GaugeCheck"] = GaugeData1[2] > 0,
 		},
 
 		{
 			["Type"] = 1, ["Name"] = "Fire IV", ["ID"] = 3577, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(3577,nil,PlayerLevel), 
-            ["OtherCheck"] = PlayerMoving == false, ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] > 6000,
+            ["OtherCheck"] = PlayerMoving == false, ["GaugeCheck"] = GaugeData1[2] > 0,
 		},
         -- Fire Time Reset
 		{
 			["Type"] = 1, ["Name"] = "Fire - 3", ["ID"] = 141, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25797,nil,PlayerLevel) == false, 
-            ["OtherCheck"] = PlayerMoving == false, ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] < 6000,
+            ["OtherCheck"] = PlayerMoving == false, ["GaugeCheck"] = GaugeData1[2] > 0,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Paradox", ["ID"] = 25797, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25797,nil,PlayerLevel) == true, 
-            ["OtherCheck"] = PlayerMoving == false, ["GaugeCheck"] = GaugeData1[2] > 0 and GaugeData1[4] < 6000,
+            ["OtherCheck"] = PlayerMoving == false, ["GaugeCheck"] = GaugeData1[2] > 0,
 		},
 
 		{
@@ -291,7 +291,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 		{
 			["Type"] = 2, ["Name"] = "Umbral Soul", ["ID"] = 16506, ["Range"] = 30, ["TargetCast"] = false, ["OtherCheck"] = TargetID == 0 and PlayerInCombat == true and PlayerMoving == false,
-            ["GaugeCheck"] = GaugeData1[2] < 0 and (GaugeData1[1] < 3 or GaugeData1[4] < 3000),
+            ["GaugeCheck"] = GaugeData1[2] < 0 and GaugeData1[1] < 3,
 		},
 
         {

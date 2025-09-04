@@ -290,7 +290,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
 
         {
-            ["Type"] = 1, ["Name"] = "Ruin", ["ID"] = 17869, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(17869,17870,PlayerLevel) == true and self.SkillAccessCheck(3584,nil,PlayerLevel) == false, 
+            ["Type"] = 1, ["Name"] = "Ruin", ["ID"] = 17869, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(17869,3584,PlayerLevel) == true and self.SkillAccessCheck(3584,nil,PlayerLevel) == false, 
             ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, ["OtherCheck"] = PlayerMoving == false,
         },
         {

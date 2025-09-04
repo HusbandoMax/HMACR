@@ -23,6 +23,13 @@ Profile.Settings = {
             { ["Name"] = "Raise", ["Tooltip"] = "Raise OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
         },
     },
+    {
+        ["Setting"] = "AOE",
+        ["Options"] = {
+            { ["Name"] = "AOE", ["Tooltip"] = "AOE ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "AOE", ["Tooltip"] = "AOE OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
 }
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
@@ -214,7 +221,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- Pet Summons
         {
 			["Type"] = 2, ["Name"] = "Summon Carbuncle", ["ID"] = 25798, ["Range"] = 25, ["TargetCast"] = false, 
-            ["OtherCheck"] = CurrentPet == 0 and LastActivePetTime + 5000 < HMTick() and HasOtherSummonBuff == false and PlayerMoving == false, ["LastActionTimeout"] = "PetSummon", ["LastActionTime"] = 5000,
+            ["OtherCheck"] = CurrentPet == 0 and LastActivePetTime + 5000 < HMACRTick() and HasOtherSummonBuff == false and PlayerMoving == false, ["LastActionTimeout"] = "PetSummon", ["LastActionTime"] = 5000,
         },
         {
 			["Type"] = 2, ["Name"] = "Aethercharge", ["ID"] = 25800, ["Range"] = 25, ["TargetCast"] = false, 
@@ -398,9 +405,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         {
 			["Type"] = 1, ["Name"] = "Emerald Rite", ["ID"] = 25825, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25825,nil,PlayerLevel), ["GaugeCheck"] = GaugeData1[3] > 0,
         },
-
+        
         {
-			["Type"] = 1, ["Name"] = "Outburst", ["ID"] = 16511, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(16511,nil,PlayerLevel),
+			["Type"] = 1, ["Name"] = "Outburst", ["ID"] = 16511, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(16511,nil,PlayerLevel), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1, 
+            ["AOECount"] = 3, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, },
         },
 
 
@@ -413,7 +421,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Ruin II", ["ID"] = 172, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(172,3579,PlayerLevel),
         },
         {
-			["Type"] = 1, ["Name"] = "Ruin III", ["ID"] = 3579, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25826,nil,PlayerLevel),
+			["Type"] = 1, ["Name"] = "Ruin III", ["ID"] = 3579, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(3579,nil,PlayerLevel),
         },
 
         {

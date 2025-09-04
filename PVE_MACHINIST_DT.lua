@@ -57,9 +57,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local AOETimeout = Data.AOETimeout
     local JumpTimeout = Data.JumpTimeout
     local CastTimeout = Data.CastTimeout
-
+	-- OverHeated 2688
 	local HasReassembleBuff = self.TargetBuff2(Player,851,0,"Has",PlayerID)
 	local HasFlamethrowerBuff = self.TargetBuff2(Player,1205,0,"Has",PlayerID)
+	local HasOverheatedBuff = self.TargetBuff2(Player,2688,0,"Has",PlayerID)
 
 	local ImportantOGCDClose = false
 	local Drill = ActionList:Get(1,16498) -- Drill
@@ -120,6 +121,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		36982	Full Metal Field
 		40102	Dismantle
 	]]--
+	
+
+	-- Fix Overheated, Check Charges for refreshing, Add 36981	Excavator
 
 	local SkillList = {
 		{
@@ -145,6 +149,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		--},
 
 		-- Big PP Attacks
+		{
+			["Type"] = 1, ["Name"] = "Full Metal Field", ["ID"] = 36982,  ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 1, ["Name"] = "Full Metal Field", ["ID"] = 36982,  ["Range"] = 25, ["TargetCast"] = true,  ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Buff"] = self.TargetBuff2(Player,3866,10,"Missing",PlayerID) == true,
+		},
+
 
 		-- Low Level Burn
 		{
@@ -197,6 +210,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Auto Crossbow", ["ID"] = 16497, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
 		},
+
 		{
 			["Type"] = 1, ["Name"] = "Heat Blast", ["ID"] = 7410, ["Range"] = 25, ["TargetCast"] = true,
 		},
@@ -238,8 +252,22 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Heated Clean Shot", ["ID"] = 7413, ["Range"] = 25, ["Level"] = PlayerLevel >= 64, ["TargetCast"] = true, ["ComboID"] = { [2868] = true, [7412] = true, }, ["Buff"] = HasReassembleBuff == false and LastCast ~= 2876 and CurrentCast ~= 2876,
 			["OtherCheck"] = LastCast ~= 2878 and CurrentCast ~= 2878 and LastCast ~= 17209 and CurrentCast ~= 17209 and GaugeData1[3] == 0,
 		},
+		-- OverHeated
+		
 
-		-- ...
+		{
+			["Type"] = 1, ["Name"] = "Auto Crossbow", ["ID"] = 16497, ["Range"] = 12, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Cone", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 12, ["MaxDistance"] = 12, ["Angle"] = 90, }, ["Buff"] = HasOverheatedBuff == true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Blazing Shot", ["ID"] = 36978, ["Range"] = 25, ["TargetCast"] = true, ["Buff"] = HasOverheatedBuff == true,
+		},
+
+
+		-- ...	
+		{
+			["Type"] = 1, ["Name"] = "Hypercharge", ["ID"] = 17209, ["Range"] = 25, ["TargetCast"] = false, ["OGCDLimited"] = OGCDTime > 0.5, ["OtherCheck"] = GaugeData1[3] == 0,
+		},
 		{
 			["Type"] = 1, ["Name"] = "Gauss Round", ["ID"] = 2874, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = OGCDTime > 0.5, ["Charges"] = 3,
 		},

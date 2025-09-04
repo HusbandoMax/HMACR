@@ -108,7 +108,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         -- Pet Summons
         {
 			["Type"] = 2, ["Name"] = "Summon Carbuncle", ["ID"] = 25798, ["Range"] = 25, ["TargetCast"] = false, 
-            ["OtherCheck"] = CurrentPet == 0 and LastActivePetTime + 5000 < HMTick() and HasOtherSummonBuff == false and PlayerMoving == false, ["LastActionTimeout"] = "PetSummon", ["LastActionTime"] = 5000,
+            ["OtherCheck"] = CurrentPet == 0 and LastActivePetTime + 5000 < HMACRTick() and HasOtherSummonBuff == false and PlayerMoving == false, ["LastActionTimeout"] = "PetSummon", ["LastActionTime"] = 5000,
         },
         {
 			["Type"] = 2, ["Name"] = "Aethercharge", ["ID"] = 25800, ["Range"] = 25, ["TargetCast"] = false, 
