@@ -336,7 +336,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 2, ["Name"] = "Offensive Aria", ["ID"] = 41608, ["Range"] = 5, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true, 
-			["Buff2"] = { ["Target"] = Player, ["BuffID"] = {4249}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, },
+			["Buff2"] = { ["Target"] = Player, ["BuffID"] = {4249,4247}, ["Time"] = -1, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, },
 		},
 		{
 			["Type"] = 2, ["Name"] = "Mighty March", ["ID"] = 41610, ["Range"] = 5, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true, ["HP"] = 50,

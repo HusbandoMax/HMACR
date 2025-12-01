@@ -134,7 +134,27 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	end
 
 	local Kassatsu = ActionList:Get(1,2264)
+
 	local Ten = ActionList:Get(1,2259)
+	local Chi = ActionList:Get(1,2261)
+	local Jin = ActionList:Get(1,2263)
+	local Ten2 = ActionList:Get(1,18805)
+	local Chi2 = ActionList:Get(1,18806)
+	local Jin2 = ActionList:Get(1,18807)
+	d("Ten: "..tostring(Ten:IsReady(Player)))
+	d("Chi: "..tostring(Chi:IsReady(Player)))
+	d("Jin: "..tostring(Jin:IsReady(Player)))
+	d("Ten2: "..tostring(Ten2:IsReady(Player)))
+	d("Chi2: "..tostring(Chi2:IsReady(Player)))
+	d("Jin2: "..tostring(Jin2:IsReady(Player)))
+
+	local TenIsUnlocked = self.SkillAccessCheck(2259,nil,PlayerLevel)
+	local ChiIsUnlocked = self.SkillAccessCheck(2261,nil,PlayerLevel)
+	local JinIsUnlocked = self.SkillAccessCheck(2263,nil,PlayerLevel)
+	d("TenIsUnlocked: "..tostring(TenIsUnlocked))
+	d("ChiIsUnlocked: "..tostring(ChiIsUnlocked))
+	d("JinIsUnlocked: "..tostring(JinIsUnlocked))
+
 	local MudraCurrentCharges = math.floor((Ten.cdmax /Ten.recasttime) - ((Ten.cdmax - Ten.cd) / Ten.recasttime))
 	if Ten.isoncd == false or HasMudraBuff == true or HasKassatsuBuff == true then MudraCurrentCharges = 1 end
 
@@ -248,24 +268,24 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			return nil
 		end
 
-		if PlayerLevel >= 45 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and HasSuitonBuff == false and (TrickAttack.cd + 2 > TrickAttack.cdmax) or (Meisui.cd + 2 > Meisui.cdmax) and MudraCurrentCharges > 0 then
-			return "Suiton"
-		elseif PlayerLevel >= 35 and (PlayerLevel < 76 or HasKassatsuBuff == false) and LastCast ~= 2270 and EnemiesAroundSelf > 2 and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "Doton") == 1 and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
-			return "Doton"
-		elseif PlayerLevel >= 35 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and EnemiesAroundTarget > 2 and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "AOEMudraType") == 1 and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
-			return "Katon"
-		elseif PlayerLevel >= 45 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and EnemiesAroundTarget > 2 and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "AOEMudraType") == 2 and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
-			return "Huton"
-		elseif PlayerLevel >= 32 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "SingleMudraType") == 1 then
-			return "Raiton"
-		elseif PlayerLevel >= 30 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "SingleMudraType") == 2 then
-			return "Fuma"
-		elseif PlayerLevel >= 45 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "SingleMudraType") == 3 then
-			return "Hyoton"
-		elseif PlayerLevel >= 96 and AttackableTarget == true and GeneralCheck == true and HasKassatsuBuff == true and EnemiesAroundTarget <= 2 then
-			return "Hyosho Ranryu"
-		elseif PlayerLevel >= 76 and AttackableTarget == true and GeneralCheck == true and HasKassatsuBuff == true and EnemiesAroundTarget > 2  then
-			return "Goka Mekkyaku"
+		if (TenIsUnlocked == true and ChiIsUnlocked == true and JinIsUnlocked == true) and PlayerLevel >= 45 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and HasSuitonBuff == false and ((TrickAttack.cd + 2 > TrickAttack.cdmax) or (Meisui.cd + 2 > Meisui.cdmax)) and MudraCurrentCharges > 0 then
+			return "Suiton" -- Ten Chi Jin
+		elseif (TenIsUnlocked == true and JinIsUnlocked == true and ChiIsUnlocked == true) and PlayerLevel >= 35 and (PlayerLevel < 76 or HasKassatsuBuff == false) and LastCast ~= 2270 and EnemiesAroundSelf > 2 and HasDotonBuff == false and PlayerMoving == false and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "Doton") == 1 and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
+			return "Doton" -- Ten Jin Chi
+		elseif (ChiIsUnlocked == true and TenIsUnlocked == true) and PlayerLevel >= 35 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and EnemiesAroundTarget > 2 and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "AOEMudraType") == 1 and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
+			return "Katon" -- Chi Ten
+		elseif (JinIsUnlocked == true and ChiIsUnlocked == true and TenIsUnlocked == true) and PlayerLevel >= 45 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and EnemiesAroundTarget > 2 and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "AOEMudraType") == 2 and self.GetSettingsValue(ClassTypeID, "AOE") == 1 and AOETimeout == false then
+			return "Huton" -- Jin Chi Ten
+		elseif (TenIsUnlocked == true and ChiIsUnlocked == true) and PlayerLevel >= 32 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "SingleMudraType") == 1 then
+			return "Raiton" -- Ten Chi
+		elseif (TenIsUnlocked == true) and PlayerLevel >= 30 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "SingleMudraType") == 2 then
+			return "Fuma" -- Ten
+		elseif (TenIsUnlocked == true and JinIsUnlocked == true) and PlayerLevel >= 45 and (PlayerLevel < 76 or HasKassatsuBuff == false) and AttackableTarget == true and GeneralCheck == true and self.GetSettingsValue(ClassTypeID, "SingleMudraType") == 3 then
+			return "Hyoton" -- Ten Jin
+		elseif (TenIsUnlocked == true and JinIsUnlocked == true) and PlayerLevel >= 96 and AttackableTarget == true and GeneralCheck == true and HasKassatsuBuff == true and EnemiesAroundTarget <= 2 then
+			return "Hyosho Ranryu" -- Ten Jin
+		elseif (ChiIsUnlocked == true and TenIsUnlocked == true) and PlayerLevel >= 76 and AttackableTarget == true and GeneralCheck == true and HasKassatsuBuff == true and EnemiesAroundTarget > 2  then
+			return "Goka Mekkyaku" -- Chi Ten
 		end
 		return nil
 	end
@@ -283,18 +303,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	if self.LastMudras == nil then self.LastMudras = {} end
 	if self.LastCast == nil then self.LastCast = 0 end
 
-	local Ten = ActionList:Get(1,2259)
-	local Chi = ActionList:Get(1,2261)
-	local Jin = ActionList:Get(1,2263)
-	local Ten2 = ActionList:Get(1,18805)
-	local Chi2 = ActionList:Get(1,18806)
-	local Jin2 = ActionList:Get(1,18807)
-	d("Ten: "..tostring(Ten:IsReady(Player)))
-	d("Chi: "..tostring(Chi:IsReady(Player)))
-	d("Jin: "..tostring(Jin:IsReady(Player)))
-	d("Ten2: "..tostring(Ten2:IsReady(Player)))
-	d("Chi2: "..tostring(Chi2:IsReady(Player)))
-	d("Jin2: "..tostring(Jin2:IsReady(Player)))
 	
 	
 	-- Actions
@@ -397,7 +405,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	d("self.LastMudras")
 	d(self.LastMudras)
 	
+	--d("asdfasdfasdfasd 1")
 	local NextAction = GetNextMudraAction(self.RequestedMudraAction, self.LastMudras)
+	--d("asdfasdfasdfasd NextAction: "..tostring(NextAction))
+	--d("asdfasdfasdfasd 2")
 	if NextAction then
 		if type(NextAction) == "string" then
 			-- It's the next Mudra
@@ -431,7 +442,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		return
 	end
 
-
+	--d("asdfasdfasdfasd 3")
 	local SkillList = {
 		{
 			["Type"] = 1, ["Name"] = "Kunai's Bane", ["ID"] = 36958, ["Range"] = 5, ["TargetCast"] = true,
