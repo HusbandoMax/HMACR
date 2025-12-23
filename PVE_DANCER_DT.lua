@@ -58,6 +58,13 @@ Profile.Settings = {
         },
     },
     {
+        ["Setting"] = "Saber",
+        ["Options"] = {
+            { ["Name"] = "Saber AOE", ["Tooltip"] = "Saber AOE", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Saber ANY", ["Tooltip"] = "Saber ANY", ["Colour"] = { ["r"] = 0, ["g"] = 0, ["b"] = 1, ["a"] = 1 }, },
+        },
+    },
+    {
         ["Setting"] = "Peloton",
         ["Options"] = {
             { ["Name"] = "Peloton", ["Tooltip"] = "Peloton ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
@@ -173,7 +180,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Fan Dance", ["ID"] = 16007, ["Range"] = 25, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Saber Dance", ["ID"] = 16005, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = 2, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["Type"] = 1, ["Name"] = "Saber Dance", ["ID"] = 16005, ["Range"] = 25, ["TargetCast"] = true, ["AOECount"] = self.GetSettingsValue(ClassTypeID,"Saber") == 1 and 2 or 0, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 25, ["LineWidth"] = 25, ["Angle"] = 180, },
 		},
 		{
