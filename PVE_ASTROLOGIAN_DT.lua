@@ -98,6 +98,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local HasHoroscopeBuff = 0
 	local HasHoroscopeHeliosBuff = 0
 	local HasLightspeedBuff = 0
+	local HasDivining = 0
 	for i,e in pairs(Player.buffs) do
 		local BuffID = e.id
 		if e.ownerid == PlayerID then
@@ -107,6 +108,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 				HasHoroscopeHeliosBuff = e.duration
 			elseif BuffID == 841 then 
 				HasLightspeedBuff = true
+			elseif BuffID == 3893 then
+				HasDivining = true
 			end
 		end
 	end
@@ -252,14 +255,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         {
 			["Type"] = 3, ["Name"] = "The Balance", ["ID"] = 37023, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
             ["OtherCheck"] = PlayerInCombat == true and holdingBalance, ["RequiredClassType2"] = "Tank",
-		},
-		{
-			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 37024, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and holdingArrow, ["RequiredClassType2"] = "DPS - Melee",
-		},
-		{
-			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 37024, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and holdingArrow, ["RequiredClassType2"] = "DPS - Ranged",
 		},
         {
 			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 37024, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
@@ -444,7 +439,10 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Fall Malefic", ["ID"] = 25871, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(25871,nil,PlayerLevel), ["OtherCheck"] = PlayerMoving == false,
 			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
 		},
-
+		{
+			["Type"] = 1, ["Name"] = "Oracle", ["ID"] = 37029, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(37029,nil,PlayerLevel), ["OtherCheck"] = HasDivining,
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1,
+		},
         {
 			["Type"] = 2, ["Name"] = "Lord of Crowns", ["ID"] = 7444, ["Range"] = 20, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DPS") == 1, 
             ["AOECount"] = 2, ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 18, ["MaxDistance"] = 0, },
