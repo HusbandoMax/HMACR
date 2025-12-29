@@ -167,12 +167,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	  cards[1], cards[2], cards[3], cards[4]
 	), 2)
 	
-	holdingBalance = hasCard("Balance")
-	holdingArrow = hasCard("Arrow")
-	holdingSpire = hasCard("Spire")
-	holdingSpear = hasCard("Spear")
-	holdingBole = hasCard("Bole")
-	holdingEwer = hasCard("Ewer")
+	local holdingBalance = hasCard("Balance")
+	local holdingArrow = hasCard("Arrow")
+	local holdingSpire = hasCard("Spire")
+	local holdingSpear = hasCard("Spear")
+	local holdingBole = hasCard("Bole")
+	local holdingEwer = hasCard("Ewer")
 
 	--[[
         3594	Benefic
