@@ -112,48 +112,67 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	end
 
 	local ShouldApplyCombust = self.TargetBuff2(Target,{838,843,1881,2041},3,"Missing",PlayerID)
-    
-    -- GaugeData 2>4
-    -- 1 = Solar > The Bole, The Balance
-    -- 2 = Lunar > The Arrow, The Ewer
-    -- 3 = Celestial > The Spire, The Spear
 
-    -- ID: 4401	GuageID: 1 Status: 913 The Balance -- Melee DPS/Tank
-    -- ID: 4405	GuageID: 5 Status: 917 The Ewer -- Ranged/Healer
-    -- ID: 4406	GuageID: 6 Status: 918 The Spire -- Ranged/Healer
-    -- ID: 4404	GuageID: 2 Status: 914 The Bole -- Ranged/Healer
-    -- ID: 4402	GuageID: 3 Status: 915 The Arrow -- Melee DPS/Tank
-    -- ID: 4403	GuageID: 4 Status: 916 The Spear -- Melee DPS/Tank
-    local GaugeHasSolarCard = GaugeData1[2] == 1 or GaugeData1[3] == 1 or GaugeData1[4] == 1
-    local GaugeHasLunarCard = GaugeData1[2] == 2 or GaugeData1[3] == 2 or GaugeData1[4] == 2
-    local GaugeHasCelestialCard = GaugeData1[2] == 3 or GaugeData1[3] == 3 or GaugeData1[4] == 3
-    --d("GaugeHasSolarCard: "..tostring(GaugeHasSolarCard))
-    --d("GaugeHasLunarCard: "..tostring(GaugeHasLunarCard))
-    --d("GaugeHasCelestialCard: "..tostring(GaugeHasCelestialCard))
+	local MAJOR = {
+	  [0] = "None",
+	  [1] = "Balance",
+	  [2] = "Bole",
+	  [3] = "Arrow",
+	  [4] = "Spear",
+	  [5] = "Ewer",
+	  [6] = "Spire",
+	}
 
-    local HasSolarCard = GaugeData1[1] == 1 or GaugeData1[1] == 2 --not self.TargetBuff2(Player,{913,914},0,"Missing",PlayerID)
-    local HasLunarCard = GaugeData1[1] == 3 or GaugeData1[1] == 5 --not self.TargetBuff2(Player,{917,915},0,"Missing",PlayerID)
-    local HasCelestialCard = GaugeData1[1] == 4 or GaugeData1[1] == 6 --not self.TargetBuff2(Player,{918,916},0,"Missing",PlayerID)
-    --d("HasSolarCard: "..tostring(HasSolarCard))
-    --d("HasLunarCard: "..tostring(HasLunarCard))
-    --d("HasCelestialCard: "..tostring(HasCelestialCard))
+	local CROWNS = {
+	  [0] = "None",
+	  [7] = "Lord of Crowns",
+	  [8] = "Lady of Crowns",
+	}
 
-    
-    local ShouldRedraw = false
-    if self.TargetBuff2(Player,2713,0,"Has",PlayerID) == true then
-        --d("Can Redraw")
-        if GaugeHasSolarCard == true and HasSolarCard == true then
-            --d("Redraw Solar")
-            ShouldRedraw = true
-        elseif GaugeHasLunarCard == true and HasLunarCard == true then
-            --d("Redraw Lunar")
-            ShouldRedraw = true
-        elseif GaugeHasCelestialCard == true and HasCelestialCard == true then
-            --d("Redraw Celestial")
-            ShouldRedraw = true
-        end
-    end
-    --d("ShouldRedraw: "..tostring(ShouldRedraw))
+	local function GetHeldCards()
+	  local packed = GaugeData2[9]
+
+	  local b0 = packed & 0xFF
+	  local b1 = (packed >> 8) & 0xFF
+
+	  local card1  =  b0        & 0x0F
+	  local card2  = (b0 >> 4)  & 0x0F
+	  local card3  =  b1        & 0x0F
+	  local crowns = (b1 >> 4)  & 0x0F
+
+	  local cards = {
+		MAJOR[card1],
+		MAJOR[card2],
+		MAJOR[card3],
+		CROWNS[crowns],
+	  }
+
+	  local present = {}
+	  for _, name in ipairs(cards) do
+		if name and name ~= "None" then
+		  present[name] = true
+		end
+	  end
+
+	  local function hasCard(name)
+		return present[name] == true
+	  end
+
+	  return cards, hasCard, packed
+	end
+	local cards, hasCard, packed = GetHeldCards()
+
+	self.SendConsoleMessage(string.format(
+	  "[AST Cards] %s, %s, %s, %s",
+	  cards[1], cards[2], cards[3], cards[4]
+	), 2)
+	
+	holdingBalance = hasCard("Balance")
+	holdingArrow = hasCard("Arrow")
+	holdingSpire = hasCard("Spire")
+	holdingSpear = hasCard("Spear")
+	holdingBole = hasCard("Bole")
+	holdingEwer = hasCard("Ewer")
 
 	--[[
         3594	Benefic
@@ -207,123 +226,94 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         37030	Helios Conjunction
         37031	Sun Sign
 	]]--
+	
 
 	local SkillList = {
         -- Draw Cards
         {
-			["Type"] = 2, ["Name"] = "Astrodyne", ["ID"] = 25870, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+			["Type"] = 2, ["Name"] = "Astral Draw", ["ID"] = 37017, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
             ["OtherCheck"] = PlayerInCombat == true,
 		},
-        {
-			["Type"] = 2, ["Name"] = "Draw", ["ID"] = 3590, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and HasSolarCard == false and HasLunarCard == false and HasCelestialCard == false and (GaugeData1[2] == 0 or GaugeData1[3] == 0 or GaugeData1[4] == 0),
-		},
-        {
-			["Type"] = 2, ["Name"] = "Redraw", ["ID"] = 3593, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == true,
+		{
+			["Type"] = 2, ["Name"] = "Umbral Draw", ["ID"] = 37018, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true,
 		},
 
         -- Play Cards (Party)
 
 		{
-			["Type"] = 3, ["Name"] = "The Balance", ["ID"] = 4401, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true, ["RequiredClassType2"] = "DPS - Melee",
-		},
-        {
-			["Type"] = 3, ["Name"] = "The Balance", ["ID"] = 4401, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true, ["RequiredClassType2"] = "Tank",
+			["Type"] = 3, ["Name"] = "The Balance", ["ID"] = 37023, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingBalance, ["RequiredClassType2"] = "DPS - Melee",
 		},
 		{
-			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 4402, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true, ["RequiredClassType2"] = "DPS - Melee",
+			["Type"] = 3, ["Name"] = "The Balance", ["ID"] = 37023, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingBalance, ["RequiredClassType2"] = "DPS - Ranged",
 		},
         {
-			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 4402, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true, ["RequiredClassType2"] = "Tank",
+			["Type"] = 3, ["Name"] = "The Balance", ["ID"] = 37023, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingBalance, ["RequiredClassType2"] = "Tank",
 		},
 		{
-			["Type"] = 3, ["Name"] = "The Spear", ["ID"] = 4403, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true, ["RequiredClassType2"] = "DPS - Melee",
-		},
-        {
-			["Type"] = 3, ["Name"] = "The Spear", ["ID"] = 4403, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true, ["RequiredClassType2"] = "Tank",
-		},
-
-		{
-			["Type"] = 3, ["Name"] = "The Ewer", ["ID"] = 4405, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true, ["RequiredClassType2"] = "DPS - Ranged",
-		},
-        {
-			["Type"] = 3, ["Name"] = "The Ewer", ["ID"] = 4405, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true, ["RequiredClassType2"] = "Healer",
+			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 37024, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingArrow, ["RequiredClassType2"] = "DPS - Melee",
 		},
 		{
-			["Type"] = 3, ["Name"] = "The Spire", ["ID"] = 4406, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true, ["RequiredClassType2"] = "DPS - Ranged",
+			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 37024, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingArrow, ["RequiredClassType2"] = "DPS - Ranged",
 		},
         {
-			["Type"] = 3, ["Name"] = "The Spire", ["ID"] = 4406, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true, ["RequiredClassType2"] = "Healer",
+			["Type"] = 3, ["Name"] = "The Arrow", ["ID"] = 37024, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingArrow, ["RequiredClassType2"] = "Tank",
 		},
 		{
-			["Type"] = 3, ["Name"] = "The Bole", ["ID"] = 4404, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true, ["RequiredClassType2"] = "DPS - Ranged",
+			["Type"] = 3, ["Name"] = "The Spire", ["ID"] = 37025, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingSpire, ["RequiredClassType2"] = "Tank",
+		},
+		{
+			["Type"] = 3, ["Name"] = "The Spear", ["ID"] = 37026, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingSpear, ["RequiredClassType2"] = "DPS - Melee",
 		},
         {
-			["Type"] = 3, ["Name"] = "The Bole", ["ID"] = 4404, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true, ["RequiredClassType2"] = "Healer",
+			["Type"] = 3, ["Name"] = "The Spear", ["ID"] = 37026, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingSpear, ["RequiredClassType2"] = "DPS - Ranged",
+		},
+		{
+			["Type"] = 3, ["Name"] = "The Spear", ["ID"] = 37026, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingSpear, ["RequiredClassType2"] = "Tank",
+		},
+		{
+			["Type"] = 3, ["Name"] = "The Ewer", ["ID"] = 37028, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingEwer, ["RequiredClassType2"] = "Tank",
+		},
+        {
+			["Type"] = 3, ["Name"] = "The Bole", ["ID"] = 37027, ["Range"] = 30, ["TargetCast"] = true, ["PartyOnly"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingBole, ["RequiredClassType2"] = "Tank",
 		},
 
         -- Play Cards (Self)
 		{
-			["Type"] = 2, ["Name"] = "The Balance", ["ID"] = 4401, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true,
-		},
-        {
-			["Type"] = 2, ["Name"] = "The Balance", ["ID"] = 4401, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true,
+			["Type"] = 2, ["Name"] = "The Balance", ["ID"] = 37023, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingBalance,
 		},
 		{
-			["Type"] = 2, ["Name"] = "The Arrow", ["ID"] = 4402, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true,
-		},
-        {
-			["Type"] = 2, ["Name"] = "The Arrow", ["ID"] = 4402, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true,
+			["Type"] = 2, ["Name"] = "The Arrow", ["ID"] = 37024, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingArrow,
 		},
 		{
-			["Type"] = 2, ["Name"] = "The Spear", ["ID"] = 4403, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true,
-		},
-        {
-			["Type"] = 2, ["Name"] = "The Spear", ["ID"] = 4403, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true,
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "The Ewer", ["ID"] = 4405, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true,
-		},
-        {
-			["Type"] = 2, ["Name"] = "The Ewer", ["ID"] = 4405, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasLunarCard == true,
+			["Type"] = 2, ["Name"] = "The Spear", ["ID"] = 37026, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingSpear,
 		},
 		{
-			["Type"] = 2, ["Name"] = "The Spire", ["ID"] = 4406, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true,
-		},
-        {
-			["Type"] = 2, ["Name"] = "The Spire", ["ID"] = 4406, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasCelestialCard == true,
+			["Type"] = 2, ["Name"] = "The Ewer", ["ID"] = 37028, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingEwer,
 		},
 		{
-			["Type"] = 2, ["Name"] = "The Bole", ["ID"] = 4404, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true,
+			["Type"] = 2, ["Name"] = "The Spire", ["ID"] = 37025, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingSpire,
 		},
-        {
-			["Type"] = 2, ["Name"] = "The Bole", ["ID"] = 4404, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
-            ["OtherCheck"] = PlayerInCombat == true and ShouldRedraw == false and HasSolarCard == true,
+		{
+			["Type"] = 2, ["Name"] = "The Bole", ["ID"] = 37027, ["Range"] = 30, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Cards") == 1,
+            ["OtherCheck"] = PlayerInCombat == true and holdingBole,
 		},
 
         -- Inital Use
@@ -486,14 +476,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
         {
 			["Type"] = 2, ["Name"] = "Divination", ["ID"] = 16552, ["Range"] = 30, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true,
-		},
-        {
-			["Type"] = 2, ["Name"] = "Minor Arcana", ["ID"] = 7443, ["Range"] = 30, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true,
-		},
-
-        {
-			["Type"] = 2, ["Name"] = "Thin Air", ["ID"] = 7430, ["Range"] = 30, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true and PlayerMP < 30,
-            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
 		},
 		{
 			["Type"] = 2, ["Name"] = "Lucid Dreaming", ["ID"] = 7562, ["Range"] = 30, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true and PlayerMP < 70,
