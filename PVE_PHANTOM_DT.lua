@@ -152,7 +152,31 @@ Profile.Settings = {
 		},
     },
 
+	-- 13 Phantom Mystic Knight
+    {
+        ["Setting"] = "Spellblade",
+		["PhantomID"] = 13,
+		["Options"] = {
+			{ ["Name"] = "Sundering", ["Tooltip"] = "Sundering", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+			{ ["Name"] = "Holy", ["Tooltip"] = "Holy", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+			{ ["Name"] = "Blazing", ["Tooltip"] = "Blazing", ["Colour"] = { ["r"] = 0, ["g"] = 0, ["b"] = 1, ["a"] = 1 }, },
+		},
+    },
+	
 
+	-- 14 Phantom Gladiator
+	
+    {
+        ["Setting"] = "Bladeblitz",
+		["PhantomID"] = 14,
+		["Options"] = {
+			{ ["Name"] = "Bladeblitz Burn", ["Tooltip"] = "Bladeblitz Burn", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+			{ ["Name"] = "Bladeblitz 2+", ["Tooltip"] = "Bladeblitz 2+", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+			{ ["Name"] = "Bladeblitz 3+", ["Tooltip"] = "Bladeblitz 3+", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+			{ ["Name"] = "Bladeblitz 4+", ["Tooltip"] = "Bladeblitz 4+", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+			{ ["Name"] = "Bladeblitz 5+", ["Tooltip"] = "Bladeblitz 5+", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+		},
+    },
 
 
 
@@ -205,6 +229,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
     local CastTimeout = Data.CastTimeout
     local HealTimeout = Data.HealTimeout
 
+	local BladeblitzAOECount = -1
 	local CannonsAOECount = -1
 	local CannonAOECount = {
 		[1] = -1,
@@ -214,6 +239,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		[5] = 5,
 	}
 	CannonsAOECount = CannonAOECount[self.GetSettingsValue(ClassTypeID,"Cannons")] or -1
+	BladeblitzAOECount = CannonAOECount[self.GetSettingsValue(ClassTypeID,"Bladeblitz")] or -1
 	
 	if Player.localmapid == 1252 and GetControl("MKDInfo") ~= nil and GetControl("MKDInfo"):IsOpen() == true then
 		local Data = GetControl("MKDInfo"):GetRawData()
@@ -486,9 +512,100 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 
 		
+		--	Phantom Mystic Knight
+		--	46591 Sundering Spellblade
+		--  46590 Magic Shell
+		--  46592 Holy Spellblade
+		--  46593 Blazing Spellblade
 
-		
+		{
+			["Type"] = 2, ["Name"] = "Magic Shell", ["ID"] = 46590, ["Range"] = 5, ["TargetCast"] = false, ["HP"] = 50, ["OtherCheck"] = PlayerInCombat == true,
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Guard") == 1, ["SettingsTags"] = { "Guard" }, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Sundering Spellblade", ["ID"] = 46591, ["Range"] = 5, ["TargetCast"] = true, 
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 1, ["SettingsTags2"] = 13, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Holy Spellblade", ["ID"] = 46592, ["Range"] = 5, ["TargetCast"] = true, 
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 2, ["SettingsTags2"] = 13, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Blazing Spellblade", ["ID"] = 46593, ["Range"] = 5, ["TargetCast"] = true, 
+			["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 13, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+
+		--	Phantom Gladiator
+		--	46594 Finisher
+		--  46595 Defend
+		--  46596 Long Reach
+		--  46597 Bladeblitz
+
+		{
+			["Type"] = 2, ["Name"] = "Defend", ["ID"] = 46595, ["Range"] = 5, ["TargetCast"] = false, ["HP"] = 50, ["OtherCheck"] = PlayerInCombat == true,
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Guard") == 1, ["SettingsTags"] = { "Guard" }, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 2, ["Name"] = "Bladeblitz", ["ID"] = 46597, ["Range"] = 0, ["TargetCast"] = false, ["SmartAOE"] = self.GetSettingsValue(ClassTypeID,"SmartAOE") == 1, ["AOECount"] = BladeblitzAOECount, ["OtherCheck"] = PlayerInCombat == true and HusbandoMax.ACRHandler.ActionTimeoutCheck("Bladeblitz") == false, 
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 8, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["SettingsTags2"] = 9,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Finisher", ["ID"] = 46594, ["Range"] = 5, ["TargetCast"] = true, 
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 13, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Long Reach", ["ID"] = 46596, ["Range"] = 30, ["TargetCast"] = true, 
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 13, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+
+		--	Phantom Dancer
+		--  46598  Dance
+		--  46599  Phantom Sword Dance
+		--  46600  Tempting Tango
+		--  46601  Jitterbug
+		--  46602  Mystery Waltz
+
+		--  46603 Quickstep
+		--  46604 Steadfast Stance
+		--  46605 Mesmerize
+
+
+		{
+			["Type"] = 2, ["Name"] = "Dance", ["ID"] = 46598, ["Range"] = 5, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true,
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Guard") == 1, ["SettingsTags"] = { "Guard" }, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Phantom Sword Dance", ["ID"] = 46599, ["Range"] = 30, ["TargetCast"] = true, 
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 15, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Tempting Tango", ["ID"] = 46600, ["Range"] = 30, ["TargetCast"] = true, 
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 15, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Jitterbug", ["ID"] = 46601, ["Range"] = 30, ["TargetCast"] = true, 
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 15, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Mystery Waltz", ["ID"] = 46602, ["Range"] = 30, ["TargetCast"] = true, 
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 15, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+
+		{
+			["Type"] = 1, ["Name"] = "Mesmerize", ["ID"] = 46605, ["Range"] = 30, ["TargetCast"] = true, 
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Spellblade") == 3, ["SettingsTags2"] = 15, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 2, ["Name"] = "Steadfast Stance", ["ID"] = 46604, ["Range"] = 5, ["TargetCast"] = false, ["HP"] = 50, ["OtherCheck"] = PlayerInCombat == true,
+			--["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Guard") == 1, ["SettingsTags"] = { "Guard" }, --["OtherCheck"] = PlayerInCombat == true, 
+		},
+		{
+			["Type"] = 2, ["Name"] = "Quickstep", ["ID"] = 46603, ["Range"] = 5, ["TargetCast"] = false, ["OtherCheck"] = PlayerInCombat == true,
+			["Buff2"] = { ["Target"] = Player, ["BuffID"] = {4798}, ["Time"] = 5, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, },
+		},
+
 	}
+
 
 	local SettingsChecked = {}
 	for i,e in pairs(SkillList) do
