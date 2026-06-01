@@ -173,12 +173,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
         },
         {
             ["Type"] = 1, ["Name"] = "Iron Jaws", ["ID"] = 3560, ["Level"] = PlayerLevel >= 64, ["Range"] = 25, ["TargetCast"] = true,
-            ["Buff"] = (self.TargetBuff2(Target,1200,0,"Has",PlayerID) and self.TargetBuff2(Target,1201,0,"Has",PlayerID)) and (self.TargetBuff2(Target,1200,3,"Missing",PlayerID) or self.TargetBuff2(Target,1201,3,"Missing",PlayerID)),
+            ["Buff"] = (self.TargetBuff2(Target,1200,0,"Has",PlayerID) and self.TargetBuff2(Target,1201,0,"Has",PlayerID)) and (self.TargetBuff2(Target,1200,6,"Missing",PlayerID) or self.TargetBuff2(Target,1201,6,"Missing",PlayerID)),
             --["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1,
         },
         {
             ["Type"] = 1, ["Name"] = "Iron Jaws", ["ID"] = 3560, ["Level"] = PlayerLevel >= 56 and PlayerLevel < 64, ["Range"] = 25, ["TargetCast"] = true,
-            ["Buff"] = (self.TargetBuff2(Target,124,0,"Has",PlayerID) and self.TargetBuff2(Target,129,0,"Has",PlayerID)) and (self.TargetBuff2(Target,124,3,"Missing",PlayerID) or self.TargetBuff2(Target,129,3,"Missing",PlayerID)),
+            ["Buff"] = (self.TargetBuff2(Target,124,0,"Has",PlayerID) and self.TargetBuff2(Target,129,0,"Has",PlayerID)) and (self.TargetBuff2(Target,124,6,"Missing",PlayerID) or self.TargetBuff2(Target,129,6,"Missing",PlayerID)),
             --["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DOTs") == 1,
         },
 

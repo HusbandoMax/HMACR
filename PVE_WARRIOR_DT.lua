@@ -117,6 +117,23 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		36925   Primal Ruination        WAR
 	]]
 
+	local HoldToma = false
+	local CanJump = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15)
+	local Onslaught = ActionList:Get(1,7386)
+	
+	
+	
+	if Onslaught ~= nil then
+		if CurrentCast == 7386 or LastCast == 7386 then HoldToma = true end
+		local CurrentCharges = math.floor((Onslaught.cdmax /Onslaught.recasttime) - ((Onslaught.cdmax - Onslaught.cd) / Onslaught.recasttime))
+		
+
+		if Onslaught:IsReady(TargetID) == true and CanJump == true then
+			HoldToma = true
+		end
+	end
+
+	--d("HoldToma: "..tostring(HoldToma))
 	local SkillList = {
 		{
 			["Type"] = 2, ["Name"] = "Defiance", ["ID"] = 48, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 1, ["Buff"] = self.TargetBuff2(Player,91,-1,"Missing",PlayerID),
@@ -190,7 +207,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
 		},
 		{
-			["Type"] = 1, ["Name"] = "Tomahawk", ["ID"] = 46, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
+			["Type"] = 1, ["Name"] = "Tomahawk", ["ID"] = 46, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3 and HoldToma == false,
 		},
 		
 		-- OGCD

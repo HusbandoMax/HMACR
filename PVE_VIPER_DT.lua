@@ -30,6 +30,14 @@ Profile.Settings = {
         },
     },
     {
+        ["Setting"] = "GaugeHold",
+        ["Options"] = {
+            { ["Name"] = "Gauge Burn", ["Tooltip"] = "Gauge Burn", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Gauge Hold", ["Tooltip"] = "Gauge Hold", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Gauge Boss", ["Tooltip"] = "Hold Gauge in known dungeons. Only Use On Bosses", ["Colour"] = { ["r"] = 0, ["g"] = 0, ["b"] = 1, ["a"] = 1 }, },
+        },
+    },
+    {
         ["Setting"] = "Ire",
         ["Options"] = {
             { ["Name"] = "Ire ON", ["Tooltip"] = "Ire ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
@@ -50,6 +58,13 @@ Profile.Settings = {
             { ["Name"] = "Jumps > 10", ["Tooltip"] = "Plunge > 10y", ["Colour"] = { ["r"] = 1, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
             { ["Name"] = "Jumps > 15", ["Tooltip"] = "Plunge > 15y", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
             { ["Name"] = "Jumps Off", ["Tooltip"] = "Plunge Off", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    {
+        ["Setting"] = "PositionalHelper",
+        ["Options"] = {
+            { ["Name"] = "POS HELP", ["Tooltip"] = "Positional Helper OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "POS HELP", ["Tooltip"] = "Positional Helper ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
         },
     },
 }
@@ -188,6 +203,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	--d("NextComboUsed: "..tostring(NextComboUsed))
 	--d("EndCombo: "..tostring(EndCombo[NextComboUsed]))
 
+	local HoldAWKIRE = self.GetSettingsValue(ClassTypeID,"GaugeHold") == 2
+	if self.GetSettingsValue(ClassTypeID,"GaugeHold") == 3 then
+		if Player.level >= 90 and HusbandoMax.API.IsKnownBossArea() == false then
+			HoldAWKIRE = true
+		end
+	end
+
 	local SkillList = {
 
 		{		
@@ -224,7 +246,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "First Generation", ["ID"] = 34627, ["Range"] = 3, ["TargetCast"] = true, ["Proc"] = true,
 		},	
 		{		
-			["Type"] = 2, ["Name"] = "Reawaken", ["ID"] = 34626, ["Range"] = 5, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AWK") == 1, ["OtherCheck"] = PlayerInCombat == true,
+			["Type"] = 2, ["Name"] = "Reawaken", ["ID"] = 34626, ["Range"] = 5, ["TargetCast"] = false, ["SettingValue"] = HoldAWKIRE == false and self.GetSettingsValue(ClassTypeID,"AWK") == 1, ["OtherCheck"] = PlayerInCombat == true,
 		},	
 		
 
@@ -361,7 +383,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Writhing Snap", ["ID"] = 34632, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = GaugeData1[3] == 0,
 		},
 		{
-			["Type"] = 2, ["Name"] = "Serpent's Ire", ["ID"] = 34647, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = GaugeData1[4] == 0 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Ire") == 1,
+			["Type"] = 2, ["Name"] = "Serpent's Ire", ["ID"] = 34647, ["Range"] = 0, ["TargetCast"] = false, ["OtherCheck"] = GaugeData1[4] == 0 and PlayerInCombat == true, ["SettingValue"] = HoldAWKIRE == false and self.GetSettingsValue(ClassTypeID,"Ire") == 1,
 		},
 
 		-- Shared CDS
@@ -376,6 +398,37 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 	}
 	self.SendConsoleMessage(ClassTypeID.."PROFILE END",1)
+
+
+
+
+	local Positional = "None"
+
+	local HunterProc = self.ActionProc(34621)
+	local SwiftskinProc = self.ActionProc(34622)
+
+	if HunterProc == true and SwiftskinProc == false then
+		Positional = "Flank"
+		--d("Hunter's Coil")
+	elseif SwiftskinProc == true and HunterProc == false then
+		Positional = "Rear"
+		--d("Swiftskin's Coil")
+	elseif self.ActionProc(34613) then
+		Positional = "Rear"
+		--d("Hindsbane Fang")
+	elseif self.ActionProc(34610) then
+		Positional = "Flank"
+		--d("Flanksting Strike")
+	elseif self.ActionProc(34612) then
+		Positional = "Rear"
+		--d("Hindsting Strike")
+	elseif self.ActionProc(34611) then
+		Positional = "Flank"
+		--d("Flanksbane Fang")
+	end
+
+	--d("Positional: "..Positional)
+
 
     return SkillList,Positional
 end

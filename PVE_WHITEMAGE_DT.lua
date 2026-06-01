@@ -128,7 +128,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		37010   Medica III           WHM
 		37011   Divine Caress        WHM
 	]]--1
-
+    local HalfParty = (PartySize/2)
+    if HalfParty < 2 then HalfParty = 2 end
+    
 	local SkillList = {
 
 		{
@@ -142,15 +144,15 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 
 		{
 			["Type"] = 2, ["Name"] = "Medica III", ["ID"] = 37010, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
-			["OtherCheck"] = self.PartyBelowHP(20,80,150,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
+			["OtherCheck"] = self.PartyBelowHP(20,80,150,Data.EntityListSorted.PartySelf) >= HalfParty and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
 			["Type"] = 2, ["Name"] = "Medica II", ["ID"] = 133, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
-			["OtherCheck"] = self.PartyBelowHP(20,80,150,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
+			["OtherCheck"] = self.PartyBelowHP(20,80,150,Data.EntityListSorted.PartySelf) >= HalfParty and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
 			["Type"] = 2, ["Name"] = "Medica", ["ID"] = 124, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,
-			["OtherCheck"] = self.PartyBelowHP(15,80,nil,Data.EntityListSorted.PartySelf) >= (PartySize/2) and PlayerInCombat == true and PlayerMoving == false,
+			["OtherCheck"] = self.PartyBelowHP(15,80,nil,Data.EntityListSorted.PartySelf) >= HalfParty and PlayerInCombat == true and PlayerMoving == false,
 		},
 		{
 			["Type"] = 2, ["Name"] = "Assize", ["ID"] = 3571, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = HealTimeout == false and self.GetSettingsValue(ClassTypeID,"Heals") == 1, ["PartyOnly"] = true,

@@ -121,9 +121,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		36982	Full Metal Field
 		40102	Dismantle
 	]]--
-	
-
-	-- Fix Overheated, Check Charges for refreshing, Add 36981	Excavator
 
 	local SkillList = {
 		{
@@ -190,6 +187,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		-- Final Chainsaw
 		{
 			["Type"] = 1, ["Name"] = "Reassemble", ["ID"] = 2876, ["Range"] = 25, ["Level"] = PlayerLevel >= 90, ["TargetCast"] = false, ["OGCDLimited"] = OGCDTime > 1.73, ["OtherActionCooldownCheck"] = { ["ID"] = 25788, ["Time"] = 4, }, ["OtherCheck"] = GaugeData1[3] == 0 and LastCast ~= 2876 and CurrentCast ~= 2876,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Excavator", ["ID"] = 36981, ["Range"] = 25, ["Level"] = PlayerLevel >= 90, ["TargetCast"] = true,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Chainsaw", ["ID"] = 25788, ["Range"] = 25, ["Level"] = PlayerLevel >= 90, ["TargetCast"] = true, ["Buff"] = HasReassembleBuff, ["OtherCheck"] = GaugeData1[3] == 0,
@@ -281,6 +281,14 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Ricochet", ["ID"] = 2890, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = OGCDTime > 0.5, ["Charges"] = 2,
 		},
 
+        {
+            ["Type"] = 1, ["Name"] = "Checkmate", ["ID"] = 36980, ["Range"] = 25, ["Level"] = PlayerLevel >= 92, ["TargetCast"] = true, ["OGCDLimited"] = OGCDTime ~= 0 and OGCDTime < 1, ["OnlyAllow1GCD"] = "Checkmate-DoubleCheck", ["LastActionTargetTimeout"] = "Checkmate-DoubleCheck", ["LastActionTime"] = 2000,
+        },
+        {
+            ["Type"] = 1, ["Name"] = "Double Check", ["ID"] = 36979, ["Range"] = 25, ["Level"] = PlayerLevel >= 92, ["TargetCast"] = true, ["OGCDLimited"] = OGCDTime ~= 0 and OGCDTime < 1, ["OnlyAllow1GCD"] = "Checkmate-DoubleCheck", ["LastActionTargetTimeout"] = "Checkmate-DoubleCheck", ["LastActionTime"] = 2000,
+        },
+
+
 		{
 			["Type"] = 1, ["Name"] = "Gauss Round", ["ID"] = 2874, ["Range"] = 25, ["TargetCast"] = true, ["OGCDLimited"] = OGCDTime > 0.5, ["Charges"] = 1, ["OtherCheck"] = GaugeData1[3] > 0,
 		},
@@ -297,6 +305,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Barrel Stabilizer", ["ID"] = 7414, ["Range"] = 25, ["TargetCast"] = false, ["OGCDLimited"] = OGCDTime > 0.5, ["Charges"] = 0, ["OtherCheck"] = GaugeData1[1] < 30,
 		},
+
 
 		-- Shared CDS
 		{
