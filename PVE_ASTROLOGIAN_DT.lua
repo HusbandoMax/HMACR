@@ -97,8 +97,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	
 	local HasHoroscopeBuff = 0
 	local HasHoroscopeHeliosBuff = 0
-	local HasLightspeedBuff = 0
-	local HasDivining = 0
+	local HasLightspeedBuff = false
+	local HasDivining = false
 	for i,e in pairs(Player.buffs) do
 		local BuffID = e.id
 		if e.ownerid == PlayerID then
@@ -125,7 +125,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	  [5] = "Ewer",
 	  [6] = "Spire",
 	}
-
+1
+    
 	local CROWNS = {
 	  [0] = "None",
 	  [7] = "Lord of Crowns",
@@ -135,13 +136,13 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	local function GetHeldCards()
 	  local packed = GaugeData2[9]
 
-	  local b0 = packed & 0xFF
-	  local b1 = (packed >> 8) & 0xFF
+	  local b0 = bit.band(packed, 0xFF)
+	  local b1 = bit.band(bit.rshift(packed, 8), 0xFF)
 
-	  local card1  =  b0        & 0x0F
-	  local card2  = (b0 >> 4)  & 0x0F
-	  local card3  =  b1        & 0x0F
-	  local crowns = (b1 >> 4)  & 0x0F
+	  local card1  = bit.band(b0, 0x0F)
+	  local card2  = bit.band(bit.rshift(b0, 4), 0x0F)
+	  local card3  = bit.band(b1, 0x0F)
+	  local crowns = bit.band(bit.rshift(b1, 4), 0x0F)
 
 	  local cards = {
 		MAJOR[card1],
