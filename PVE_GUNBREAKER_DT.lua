@@ -25,8 +25,9 @@ Profile.Settings = {
     {
         ["Setting"] = "Reprisal",
         ["Options"] = {
-            { ["Name"] = "Reprisal", ["Tooltip"] = "Reprisal On", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
-            { ["Name"] = "Reprisal", ["Tooltip"] = "Reprisal Off", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Mits+", ["Tooltip"] = "Reprisal, Low Blow, Arms Length", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Mits", ["Tooltip"] = "Reprisal Only", ["Colour"] = { ["r"] = 1, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Less Mits", ["Tooltip"] = "Reprisal Off", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
         },
     },
     {
@@ -48,8 +49,8 @@ Profile.Settings = {
     {
         ["Setting"] = "DDBurn",
         ["Options"] = {
-            { ["Name"] = "DD AOE", ["Tooltip"] = "Double Down/Bow Shock AOE Save", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
-            { ["Name"] = "DD Burn", ["Tooltip"] = "Double Down/Bow Shock Burn", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "DD AOE", ["Tooltip"] = "Double Down/Bow Shock/Lion Heart AOE Save", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "DD Burn", ["Tooltip"] = "Double Down/Bow Shock/Lion Heart Burn", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
         },
     },
     {
@@ -129,16 +130,27 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		36939	Lion Heart
 	]]--
 	local BloodfestCD = self.GetActionCD(16164,true)
-	local NoMercySoon = self.GetActionCD(16138,false,20)
-	local GnashingFang = ActionList:Get(1,16146)
+	local NoMercyCD = self.GetActionCD(16138,true)
+	local NoMercySoon = NoMercyCD < 15
+	local DoubleDownCD = self.GetActionCD(25760,true)
+	local GnashingFangCD = self.GetActionCD(16146, true)
 	
 	local HasNoMercyBuff = self.TargetBuff2(Player,1831,0,"Has",PlayerID)
-
+	local HasCamouflageBuff = self.TargetBuff2(Player,1832,0,"Has",PlayerID)
+	local HasRampartBuff = self.TargetBuff2(Player,1191,0,"Has",PlayerID)
+	-- either greater or normal.
+	local HasNebulaBuff = self.TargetBuff2(Player,3838,0,"Has",PlayerID) or self.TargetBuff2(Player,1834,0,"Has",PlayerID)
+	local HasAnyStrongMit = HasCamouflageBuff or HasRampartBuff or HasNebulaBuff
+	
+	local HasReadyToBreakBuff = self.TargetBuff2(Player,3886,0,"Has",PlayerID)
+	
 	local MaxCartridges = PlayerLevel >= 88 and 3 or 2
 	local HasBloodfest = PlayerLevel >= 76
 	local HasDoubleDown = PlayerLevel >= 90
+	local HasGnashingFang = PlayerLevel >= 60
 
 	local SkillList = {
+		--[[ High priority misc --]]
 		{
 			["Type"] = 2, ["Name"] = "Royal Guard", ["ID"] = 16142, ["Range"] = 10, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Tank") == 1, ["Buff"] = self.TargetBuff2(Player,1833,-1,"Missing",PlayerID),
 		},
@@ -148,7 +160,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 2, ["Name"] = "Superbolide", ["ID"] = 16152, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Superbolide") == 1, ["OtherCheck"] = PlayerHP < 15 and PlayerInCombat == true,
 		},
-
 		{
 			["Type"] = 1, ["Name"] = "Lighting Shot", ["ID"] = 16143, ["Range"] = 20, ["TargetCast"] = true, ["OtherCheck"] = TargetDistance > 3,
 		},
@@ -156,49 +167,12 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Trajectory", ["ID"] = 36934, ["Range"] = 20, ["TargetCast"] = true,  ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
 			["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
 		},
-
+		--[[ Finish combos if already started --]]
 		{
-			["Type"] = 2, ["Name"] = "Double Down", ["ID"] = 25760, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] >= 2, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 1,
-            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Type"] = 1, ["Name"] = "Noble Blood", ["ID"] = 36938, ["Range"] = 3, ["TargetCast"] = true, 
 		},
 		{
-			["Type"] = 2, ["Name"] = "Bow Shock", ["ID"] = 16159, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 1,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-		{
-			["Type"] = 2, ["Name"] = "Double Down Burn", ["ID"] = 25760, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] >= 2, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-			["Buff"] = HasNoMercyBuff,
-		},
-		{
-			["Type"] = 2, ["Name"] = "Bow Shock Burn", ["ID"] = 16159, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-			["Buff"] = HasNoMercyBuff,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Sonic Break", ["ID"] = 16153, ["Range"] = 3, ["TargetCast"] = true,
-		},
-		{
-			["Type"] = 2, ["Name"] = "Fated Circle", ["ID"] = 16163, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["GaugeCheck"] = GaugeData1[1] >= 2,
-		},
-		--[[ Finish Lion Heart combo if already started --]]
-		{
-			["Type"] = 1, ["Name"] = "Noble Blood", ["ID"] = 36938, ["Range"] = 3, ["TargetCast"] = true,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Lion Heart", ["ID"] = 36939, ["Range"] = 3, ["TargetCast"] = true,
-		},
-		--[[ Prefer starting GF to starting Lion Heart -- ]]
-		{
-			["Type"] = 1, ["Name"] = "Gnashing Fang", ["ID"] = 16146, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = not NoMercySoon, 
-		},
-		{
-			["Type"] = 1, ["Name"] = "Burst Strike Low Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= MaxCartridges or (HasBloodfest and BloodfestCD < 20), ["OtherCheck"] = not HasDoubleDown
-		},
-		{
-			["Type"] = 1, ["Name"] = "Burst Strike High Level", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges and BloodfestCD ~= 0 and BloodfestCD < 100) or BloodfestCD < 20, ["OtherCheck"] = HasDoubleDown
+			["Type"] = 1, ["Name"] = "Lion Heart", ["ID"] = 36939, ["Range"] = 3, ["TargetCast"] = true, 
 		},
 		{
 			["Type"] = 1, ["Name"] = "Jugular Rip", ["ID"] = 16156, ["Range"] = 3, ["TargetCast"] = true,
@@ -215,6 +189,61 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		{
 			["Type"] = 1, ["Name"] = "Eye Gouge", ["ID"] = 16158, ["Range"] = 3, ["TargetCast"] = true,
 		},
+		--[[ High priority Type 2 --]]
+		{
+			["Type"] = 2, ["Name"] = "Double Down", ["ID"] = 25760, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] >= 2, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"DDBurn") == 1,
+            ["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		--[[ High priority Type 1 --]]
+		{
+			["Type"] = 1, ["Name"] = "Reign of Beasts", ["ID"] = 36937, ["Range"] = 3, ["TargetCast"] = true, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"DDBurn") == 1,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = TargetPOS, ["AOERange"] = 5, ["MaxDistance"] = 5, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 1, ["Name"] = "Sonic Break", ["ID"] = 16153, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = GaugeData1[1] >= MaxCartridges or GnashingFangCD > 0,
+		},
+		--[[ Type 2 --]]
+		{
+			["Type"] = 2, ["Name"] = "Double Down Burn", ["ID"] = 25760, ["Range"] = 0, ["TargetCast"] = false, ["GaugeCheck"] = GaugeData1[1] >= 2, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Buff"] = HasNoMercyBuff,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Fated Circle", ["ID"] = 16163, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, }, ["GaugeCheck"] = GaugeData1[1] >= 2 or (BloodfestCD < 6 and HasNoMercyBuff),
+		},
+		{
+			["Type"] = 2, ["Name"] = "Demon Slaughter", ["ID"] = 16149, ["Proc"] = true, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 2, ["Name"] = "Demon Slice", ["ID"] = 16141,  ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		--[[ Type 1 --]]
+		--[[ Prefer starting GF to starting Lion Heart single target -- ]]
+		{
+			["Type"] = 1, ["Name"] = "Gnashing Fang", ["ID"] = 16146, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = not NoMercySoon, 
+		},
+		{
+			["Type"] = 1, ["Name"] = "Reign of Beasts Burn", ["ID"] = 36937, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = GnashingFangCD > 7, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Burst Strike", ["ID"] = 16162, ["Range"] = 3, ["TargetCast"] = true, ["GaugeCheck"] = (GaugeData1[1] >= MaxCartridges or BloodfestCD < 2) and NoMercyCD > 6 and NoMercyCD < 45,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Solid Barrel", ["ID"] = 16145, ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Brutal Shell", ["ID"] = 16139, ["Proc"] = true, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Keen Edge", ["ID"] = 16137, ["Range"] = 3, ["TargetCast"] = true,
+		},
+		--[[ OGCD --]]
+		{
+			["Type"] = 1, ["Name"] = "No Mercy", ["ID"] = 16138, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true and (GnashingFangCD < 6.5 or not HasGnashingFang),
+		},
 		{
 			["Type"] = 2, ["Name"] = "Fated Brand", ["ID"] = 36936, ["Range"] = 0, ["TargetCast"] = false,
 			["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
@@ -224,32 +253,16 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Hypervelocity", ["ID"] = 25759, ["Range"] = 3, ["TargetCast"] = true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Reign of Beasts", ["ID"] = 36937, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = GnashingFang.isoncd
-		},
-
-        -- AOE
-		{
-			["Type"] = 2, ["Name"] = "Demon Slice", ["ID"] = 16141, ["ComboIDNOT"] = { [16141] = PlayerLevel >= 40, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-		{
-			["Type"] = 2, ["Name"] = "Demon Slaughter", ["ID"] = 16149, ["ComboID"] = { [16141] = true, }, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false,
-			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
-		},
-
-        -- Single Target
-		{
-			["Type"] = 1, ["Name"] = "Keen Edge", ["ID"] = 16137, ["ComboIDNOT"] = { [16137] = PlayerLevel >= 4, [16139] = PlayerLevel >= 2, }, ["Range"] = 3, ["TargetCast"] = true,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Brutal Shell", ["ID"] = 16139, ["ComboID"] = { [16137] = true }, ["Range"] = 3, ["TargetCast"] = true,
-		},
-		{
-			["Type"] = 1, ["Name"] = "Solid Barrel", ["ID"] = 16145, ["ComboID"] = { [16139] = true }, ["Range"] = 3, ["TargetCast"] = true,
-		},
-		-- OGCD
-		{
 			["Type"] = 1, ["Name"] = "Bloodfest", ["ID"] = 16164, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["GaugeCheck"] = GaugeData1[1] < 1,
+		},
+		{
+			["Type"] = 2, ["Name"] = "Bow Shock", ["ID"] = 16159, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 3, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"DDBurn") == 1,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 2, ["Name"] = "Bow Shock Burn", ["ID"] = 16159, ["Range"] = 0, ["TargetCast"] = false, ["AOECount"] = 1, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"DDBurn") == 2,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 3, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+			["Buff"] = HasNoMercyBuff and not HasReadyToBreakBuff,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Danger Zone", ["ID"] = 16144, ["Range"] = 3, ["TargetCast"] = true,
@@ -257,22 +270,27 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		},
 		{
 			["Type"] = 1, ["Name"] = "Blasting Zone", ["ID"] = 16165, ["Range"] = 3, ["TargetCast"] = true,
-			["OtherCheck"] = not NoMercySoon,
+			["OtherCheck"] = not NoMercySoon and (DoubleDownCD > 0 or not HasDoubleDown),
 		},
-		{
-			["Type"] = 1, ["Name"] = "No Mercy", ["ID"] = 16138, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerInCombat == true,
-		},
-		{
+		{ 
 			["Type"] = 1, ["Name"] = "Camouflage", ["ID"] = 16140, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 80 and PlayerInCombat == true,
+			["Buff"] = not HasAnyStrongMit,
+			["LastActionTimeout"] = "StrongMit", ["LastActionTime"] = 2000,
 		},
+		--[[
 		{
 			["Type"] = 1, ["Name"] = "Heart of Light", ["ID"] = 16160, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 75 and PlayerInCombat == true,
 		},
+		--]]
 		{
 			["Type"] = 1, ["Name"] = "Nebula", ["ID"] = 16148, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
+			["Buff"] = not HasAnyStrongMit,
+			["LastActionTimeout"] = "StrongMit", ["LastActionTime"] = 2000,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Great Nebula", ["ID"] = 36935, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
+			["Buff"] = not HasAnyStrongMit,
+			["LastActionTimeout"] = "StrongMit", ["LastActionTime"] = 2000,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Aurora", ["ID"] = 16151, ["Range"] = 0, ["TargetCast"] = false, ["Buff"] = self.TargetBuff2(Player,1835,0,"Missing",PlayerID), ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 65 and PlayerInCombat == true,
@@ -281,11 +299,9 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["Type"] = 1, ["Name"] = "Heart of Stone", ["ID"] = 16161, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 70 and PlayerInCombat == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Heart of Corundum", ["ID"] = 25758, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 35 and PlayerInCombat == true,
+			["Type"] = 1, ["Name"] = "Heart of Corundum", ["ID"] = 25758, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 50 and PlayerInCombat == true,
 		},
-
-
-		-- Shared CDS
+		--[[ OGCDs (role actions) --]]
 		{
 			["Type"] = 1, ["Name"] = "Provoke", ["ID"] = 7533, ["Range"] = 25, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"ProvokePull") == 2, 
 			["OtherCheck"] = PlayerInCombat == false and table.valid(Target) == true and PlayerInCombat == false,
@@ -295,16 +311,27 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			["OtherCheck"] = PlayerInCombat == true and TargetCastingInterruptible == true,
 		},
 		{
-			["Type"] = 1, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 5, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1,
-		},
-		{
 			["Type"] = 2, ["Name"] = "Reprisal", ["ID"] = 7535, ["Range"] = 0, ["TargetCast"] = false,
-			["OtherCheck"] = PlayerHP <= 80 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and self.GetSettingsValue(ClassTypeID,"Reprisal") == 1 and AOETimeout == false,
+			["OtherCheck"] = PlayerHP <= 80 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"Reprisal") <= 2,
 			["AOECount"] = 3,
 			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 5, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
 		},
 		{
+			["Type"] = 2, ["Name"] = "Arm's Length", ["ID"] = 7548, ["Range"] = 0, ["TargetCast"] = false,
+			["OtherCheck"] = PlayerHP <= 80 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"AOE") == 1 and AOETimeout == false and self.GetSettingsValue(ClassTypeID,"Reprisal") <= 1,
+			["AOECount"] = 3,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 20, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
+			["Type"] = 1, ["Name"] = "Low Blow", ["ID"] = 7540, ["Range"] = 3, ["TargetCast"] = true,
+			["OtherCheck"] = PlayerHP <= 80 and PlayerInCombat == true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Reprisal") <= 1,
+			["AOECount"] = 3,
+			["AOEType"] = { ["Filter"] = "Enemy", ["Name"] = "Circle", ["TargetPoint"] = PlayerPOS, ["AOERange"] = 20, ["MaxDistance"] = 0, ["LineWidth"] = 0, ["Angle"] = 0, },
+		},
+		{
 			["Type"] = 1, ["Name"] = "Rampart", ["ID"] = 7531, ["Range"] = 0, ["TargetCast"] = false, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"CDs") == 1, ["OtherCheck"] = PlayerHP < 75 and PlayerInCombat == true,
+			["Buff"] = not HasAnyStrongMit,
+			["LastActionTimeout"] = "StrongMit", ["LastActionTime"] = 2000,
 		},
 	}
 
