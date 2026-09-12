@@ -138,7 +138,11 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
             ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = (GaugeData1[2] == 0 and PlayerMP < 90) or (GaugeData1[2] > 0 and PlayerMP < 16),
 		},
 		{
-			["Type"] = 1, ["Name"] = "Blizzard III 1", ["ID"] = 154, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(154,nil,PlayerLevel), 
+			["Type"] = 1, ["Name"] = "Fire III - Opener", ["ID"] = 152, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(152,nil,PlayerLevel),
+            ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true) and PlayerMP == 100, ["GaugeCheck"] = GaugeData1[2] == 0,
+		},
+		{
+			["Type"] = 1, ["Name"] = "Blizzard III 1", ["ID"] = 154, ["Range"] = 25, ["TargetCast"] = true, ["Level"] = self.SkillAccessCheck(154,nil,PlayerLevel),
             ["OtherCheck"] = (PlayerMoving == false or HasTripleCast == true), ["GaugeCheck"] = GaugeData1[2] == 0 or (GaugeData1[2] > 0 and PlayerMP < 16),
 		},
         -- Bliz Build MP

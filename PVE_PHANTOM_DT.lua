@@ -62,6 +62,14 @@ Profile.Settings = {
 
 
 	---- Phantom Time Mage - [8
+    {
+        ["Setting"] = "Comet",
+		["PhantomID"] = 8,
+		["Options"] = {
+			{ ["Name"] = "Comet", ["Tooltip"] = "Comet ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+			{ ["Name"] = "Comet", ["Tooltip"] = "Comet OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+		},
+    },
 
 
 	---- Phantom Cannoneer - [9{
@@ -241,12 +249,21 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	CannonsAOECount = CannonAOECount[self.GetSettingsValue(ClassTypeID,"Cannons")] or -1
 	BladeblitzAOECount = CannonAOECount[self.GetSettingsValue(ClassTypeID,"Bladeblitz")] or -1
 	
-	if Player.localmapid == 1252 and GetControl("MKDInfo") ~= nil and GetControl("MKDInfo"):IsOpen() == true then
+	if (Player.localmapid == 1252 or Player.localmapid == 1346) and GetControl("MKDInfo") ~= nil and GetControl("MKDInfo"):IsOpen() == true then
 		local Data = GetControl("MKDInfo"):GetRawData()
 		if Data ~= nil then
 			Profile.LastID = Data[13] and Data[13].value or 0
 		end
+        local OccData = Duty:OccultCrescent_GetData()
+        --d("OccData")
+        --d(OccData)
+        if table.valid(OccData) == true then
+            Profile.LastID = OccData.job or Profile.LastID or 0
+	    end
 	end
+
+    --d( "Profile.LastID 2" )
+    --d( Profile.LastID )
 
 	--	[0] = { ["Name"] = "Phantom Freelancer", 
 	--	[1] = { ["Name"] = "Phantom Knight", 
@@ -424,7 +441,7 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 		--	["Buff2"] = { ["Target"] = Player, ["BuffID"] = {4249}, ["Time"] = 5, ["Type"] = "Missing", ["Owner"] = PlayerID, ["StackSize"] = nil, },
 		--},
 		{
-			["Type"] = 1, ["Name"] = "Occult Comet", ["ID"] = 41623, ["Range"] = 30, ["TargetCast"] = true,
+			["Type"] = 1, ["Name"] = "Occult Comet", ["ID"] = 41623, ["Range"] = 30, ["TargetCast"] = true, ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Comet") == 1,
 		},
 		{
 			["Type"] = 1, ["Name"] = "Occult Mage Masher", ["ID"] = 41624, ["Range"] = 30, ["TargetCast"] = true, ["OtherCheck"] = PlayerInCombat == true, 
@@ -623,9 +640,6 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 			end
 		end
 	end
-
-	--d("SettingsChecked")
-	--d(SettingsChecked)
 
 	local RaiseAction
 	if self.GetSettingsValue(ClassTypeID,"Raise") == 1 then

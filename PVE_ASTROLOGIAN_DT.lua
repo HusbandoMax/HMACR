@@ -125,8 +125,8 @@ function Profile:SkillTable(Data,Target,ClassTypeID)
 	  [5] = "Ewer",
 	  [6] = "Spire",
 	}
-1
-    
+
+
 	local CROWNS = {
 	  [0] = "None",
 	  [7] = "Lord of Crowns",
