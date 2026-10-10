@@ -1,274 +1,236 @@
 local Profile = {}
 
 Profile.Settings = {
+    {
+        ["Setting"] = "Jumps", ["Icon"] = 3925,
+        ["Options"] = {
+            { ["Name"] = "Jumps > 5", ["Short"] = ">5", ["Tooltip"] = "Shield Charge > 5y", ["Colour"] = { ["r"] = 1, ["g"] = 0.6, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Jumps > 10", ["Short"] = ">10", ["Tooltip"] = "Shield Charge > 10y", ["Colour"] = { ["r"] = 1, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Jumps > 15", ["Short"] = ">15", ["Tooltip"] = "Shield Charge > 15y", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Jumps Off", ["Short"] = "OFF", ["Tooltip"] = "Shield Charge Off", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    
+    {
+        ["Setting"] = "Snarl", ["Icon"] = 64535, ["DefaultOption"] = 2,
+        ["Options"] = {
+            { ["Name"] = "Snarl Off", ["Short"] = "OFF", ["Tooltip"] = "Neither Snarl nor Challenge", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Snarl", ["Short"] = "ON", ["Tooltip"] = "Snarl on cooldown, the familiar holds it", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Smart Snarl", ["Short"] = "SMART", ["Tooltip"] = "Snarl on cooldown, and Challenge to take it back when the familiar is at or under the HP number", ["Colour"] = { ["r"] = 0, ["g"] = 0.6, ["b"] = 1, ["a"] = 1 }, },
+        },
+        ["Value"] = {
+            ["Setting"] = "PetHP", ["Option"] = 3, ["Name"] = "Smart", ["Suffix"] = "%",
+            ["ValueMin"] = 10, ["ValueMax"] = 90, ["ValueStep"] = 5, ["ValueDefault"] = 50,
+            ["Tooltip"] = "Smart Snarl stops snarling and takes the target back with Challenge once the familiar is at or under this",
+        },
+    },
+    
+    {
+        ["Setting"] = "PetSwap", ["Icon"] = 3924, ["DefaultOption"] = 3,
+        ["Options"] = {
+            { ["Name"] = "Pet Swap Off", ["Short"] = "OFF", ["Tooltip"] = "Keep whatever is out until it dies", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Auto Swap", ["Short"] = "AUTO", ["ValueName"] = "[A] Swap", ["Tooltip"] = "Pet Swap's HP rule, and on top of it the familiars are rotated: each stays out for its share of the horns' 90 seconds (30s with three horns, 45s with two), then goes off for the next once its aether is spent, so a horn is always coming back", ["Colour"] = { ["r"] = 0, ["g"] = 0.6, ["b"] = 1, ["a"] = 1 }, },
+            { ["Name"] = "Pet Swap", ["Short"] = "ON", ["Tooltip"] = "Parting Blow a worn down familiar and call the next one", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+        },
+        ["Value"] = {
+            ["Setting"] = "SwapHP", ["Option"] = { 2, 3, }, ["Name"] = "Swap", ["Suffix"] = "%",
+            ["ValueMin"] = 5, ["ValueMax"] = 90, ["ValueStep"] = 5, ["ValueDefault"] = 30,
+            ["Tooltip"] = "How much HP the familiar has to lose from where it was called before it is swapped out",
+        },
+    },
+    
+    {
+        ["Setting"] = "Aether", ["Icon"] = 3914,
+        ["Options"] = {
+            { ["Name"] = "Borrow", ["Short"] = "BRW", ["Tooltip"] = "Spend One with Nature on Borrow, for the kin's Beast Mode action", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Release", ["Short"] = "REL", ["Tooltip"] = "Spend One with Nature on Tempered Release, the beast's own ability", ["Colour"] = { ["r"] = 0, ["g"] = 0.6, ["b"] = 1, ["a"] = 1 }, },
+            { ["Name"] = "Aether Off", ["Short"] = "OFF", ["Tooltip"] = "Spend neither", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Per Pet", ["Short"] = "LIST", ["Tooltip"] = "Each familiar does what it is set to in the Familiars window (the Familiars button on the settings page). Beasts left on Default there Borrow", ["Colour"] = { ["r"] = 1, ["g"] = 0.8, ["b"] = 0.2, ["a"] = 1 }, },
+        },
+    },
+    {
+        ["Setting"] = "BeastMode", ["Icon"] = 3944,
+        ["Options"] = {
+            { ["Name"] = "Beast Mode", ["Short"] = "ON", ["Tooltip"] = "Use the action Borrow handed over. Quelling Wave when the target is out of melee reach, Soul Crush on cooldown, the skins and Seedsower put up once, Scouring Ash when there is a debuff to cleanse. Cloud Skim is a dash and is never pressed", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "Beast Mode Off", ["Short"] = "OFF", ["Tooltip"] = "Leave the borrowed action alone", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    
+    {
+        ["Setting"] = "RallyStacks", ["Type"] = "Value", ["Name"] = "Rally", ["Suffix"] = "",
+        ["ValueMin"] = 1, ["ValueMax"] = 3, ["ValueStep"] = 1, ["ValueDefault"] = 3,
+        ["Tooltip"] = "How many Mastered Instinct stacks to bank before Rally spends them on a pair. At level 50 Rally always waits for three: that is 250 TP from empty, which under a Sunstrider or Moonstalker is Universality",
+    },
+    {
+        ["Setting"] = "CheerStacks", ["Type"] = "Value", ["Name"] = "Cheer", ["Suffix"] = "",
+        ["ValueMin"] = 1, ["ValueMax"] = 3, ["ValueStep"] = 1, ["ValueDefault"] = 3,
+        ["Tooltip"] = "How many Natural Instinct stacks to bank before Rallying Cheer spends them on the familiar bar, which is what pays for Trick. Spent whenever that makes a pair possible right away",
+    },
+    {
+        ["Setting"] = "PetFloor", ["Type"] = "Value", ["Name"] = "Away", ["Suffix"] = "%",
+        ["ValueMin"] = 1, ["ValueMax"] = 50, ["ValueStep"] = 1, ["ValueDefault"] = 10,
+        ["Tooltip"] = "Parting Blow the familiar the moment it is this low, whatever the swap rule says and whether or not a horn is ready. A dismissed familiar keeps its HP, a dead one has to be recaught",
+    },
+    
+    {
+        ["Setting"] = "Horn1", ["Icon"] = 3941,
+        ["Options"] = {
+            { ["Name"] = "1st Horn", ["Short"] = "ON", ["Tooltip"] = "First Battlehorn ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "1st Horn", ["Short"] = "OFF", ["Tooltip"] = "First Battlehorn OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    {
+        ["Setting"] = "Horn2", ["Icon"] = 3942,
+        ["Options"] = {
+            { ["Name"] = "2nd Horn", ["Short"] = "ON", ["Tooltip"] = "Second Battlehorn ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "2nd Horn", ["Short"] = "OFF", ["Tooltip"] = "Second Battlehorn OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
+    {
+        ["Setting"] = "Horn3", ["Icon"] = 3943,
+        ["Options"] = {
+            { ["Name"] = "3rd Horn", ["Short"] = "ON", ["Tooltip"] = "Third Battlehorn ON", ["Colour"] = { ["r"] = 0, ["g"] = 1, ["b"] = 0, ["a"] = 1 }, },
+            { ["Name"] = "3rd Horn", ["Short"] = "OFF", ["Tooltip"] = "Third Battlehorn OFF", ["Colour"] = { ["r"] = 1, ["g"] = 0, ["b"] = 0, ["a"] = 1 }, },
+        },
+    },
 }
 
 function Profile:SkillTable(Data,Target,ClassTypeID)
 	self.SendConsoleMessage(ClassTypeID.."PROFILE",1)
 
-    local PlayerPOS = Data.PlayerPOS
-    local TargetPOS = Data.TargetPOS
-    local TargetCastingInterruptible = Data.TargetCastingInterruptible
-    local PlayerMoving = Data.PlayerMoving
-    local PlayerInCombat = Data.PlayerInCombat
-    local PlayerID = Data.PlayerID
-    local TargetID = Data.TargetID
-    local TargetDistance = Data.TargetDistance
-    local TargetInCombat = Data.TargetInCombat
-    local TargetHP = Data.TargetHP
-    local PlayerHP = Data.PlayerHP
-    local PartySize = Data.PartySize
     local PlayerLevel = Data.PlayerLevel
-    local CastingInfo = Data.CastingInfo
-    local CurrentCast = Data.CurrentCast
-    local LastCast = Data.LastCast
-    local LastCombo = Data.LastCombo
-    local CurrentChannel = Data.CurrentChannel
-    local GaugeData1 = Data.GaugeData1
-    local GaugeData2 = Data.GaugeData2
-    local AOETimeout = Data.AOETimeout
+    local PlayerInCombat = Data.PlayerInCombat
+    local TargetDistance = Data.TargetDistance
     local JumpTimeout = Data.JumpTimeout
-    local CastTimeout = Data.CastTimeout
 
-
-    --[[
-        [1]    TPGauge                Beastmaster TP (0–250)
-        [2]    FamiliarTPGauge        Familiar TP (0–250)
-        [3]    FamiliarTPAtLastUse    Familiar TP before its last action
-        [4]    ActiveBattlehorn       Summoned Battlehorn slot (0=none, 1–3=slot)
-        [5]    InstinctualComboState  Combo state (7=Wavering Heart)
-        [6]    CurrentAffinity       Current affinity (see below)
-        [7]    ChainCount            Instinctual combo chain count
-        [8]    KinshipKinType        Borrowed kin type (see below)
-        [9]    KinshipBattlehorn     Battlehorn slot recorded when Borrow was used
-        [10]   NaturalInstinct       Natural Instinct stacks (0–3)
-        [11]   MasteredInstinct      Mastered Instinct stacks (0–3)
-
-        Affinity values — gauge[6]:
-        0=None, 1=Volant, 2=Rampant, 3=Durant,
-        4=Eldritch, 5=Sunstrider, 6=Moonstalker
-
-        Kin types — gauge[8]:
-        0=None, 1=Beastkin, 2=Vilekin, 3=Cloudkin, 4=Seedkin,
-        5=Wavekin, 6=Scalekin, 7=Soulkin, 8=Ashkin
-
-
-        HOW THE COMBO ACTUALLY WORKS
-        A combo is one of OUR actions plus one of the BEAST's actions inside a
-        7 second window -- not two axes of ours. Trick is the beast's action and
-        is paid for out of the familiar bar (gauge[2] reads 0 the moment it goes
-        out and crawls back at roughly 12 a second); the four axes are ours and
-        come out of our own TP (gauge[1]).
-
-        The Inner Compass, and clockwise is the way round it:
-            NE Volant > SE Rampant > SW Durant > NW Eldritch > back to NE
-
-        Each intentional combo lights the side of the compass it spans, and the
-        two sides of an axis share a name -- sun rises east and sets west, the
-        moon takes north and south:
-            Volant   > Rampant   East   Sunstrider   (from the job guide)
-            Rampant  > Durant    South  Moonstalker  (seen in our own log)
-            Durant   > Eldritch  West   Sunstrider   (inferred from the pair above)
-            Eldritch > Volant    North  Moonstalker  (inferred)
-        Lighting the whole compass wants all four, and that is what sets off the
-        big finish -- Infinitive Combo: Universality at 50.
-
-        The chain count under the compass (gauge[7]) raises the extra damage a
-        combo deals, so an unbroken run of them is worth more than the same
-        number of combos started fresh each time.
-        Second action follows the first clockwise  -> Intentional Combo, the
-        strong one, which resolves as Sunstrider or Moonstalker.
-        Anything else                              -> Instinctual Combo, the
-        weak one, named after an affinity. That is what the level 8 quest wants.
-
-        The game has an action per result, which is what the chat log shows:
-            44910-44913  Instinctual Combo: Volant / Rampant / Durant / Eldritch
-            44914        Intentional Combo: Sunstrider
-            44915        Intentional Combo: Moonstalker
-            44916        Infinitive Combo: Universality (lv50)
-
-        WHICH DIAMOND WE EARN
-        Whichever action finishes the combo decides it:
-            finish with our axe    -> Mastered Instinct  (gauge[11], yellow),
-                                      spent by Rally (44905, lv28) to refill our TP
-            finish with the beast  -> Natural Instinct   (gauge[10], blue),
-                                      spent by Rallying Cheer (44904, lv40) to
-                                      refill the familiar bar
-        Trick first, axe second is the default for that reason: it finishes on
-        our action, so it banks the diamonds Rally spends.
-
-        The four axes and the affinity each one applies. Levels are off the
-        Action sheet, so at the level 8 quest only Avalanche and Mistral exist:
-        44884 = Avalanche Axe - Rampant  (2) - lv4
-        44887 = Mistral Axe   - Durant   (3) - lv8
-        44888 = Spinning Axe  - Eldritch (4) - lv14
-        44889 = Gale Axe      - Volant   (1) - lv16
-
-        Affinity 5 (Sunstrider) and 6 (Moonstalker) are not on the four axe
-        wheel because they are what a finished combo leaves behind, not
-        something you build towards -- the chat log shows the combo resolving
-        and then "You lose the effect of Moonstalker" as it wears off. A chain
-        sitting on one of those is done, so Trick opens the next one.
-
-        What the combo is called says which one landed:
-          Intentional Combo  - the correct follow up, the axe the wheel wanted
-          Instinctual Combo  - a wrong one, which is what the level 8 quest
-                               asks for and what CorrectCombo = false does
-    ]]
-
-
-    -- Which affinity correctly follows another. 0 for anything off the wheel.
-    local AffinityNext = { [1] = 2, [2] = 3, [3] = 4, [4] = 1, }
-
-    -- And which side of the compass that pairing lights, for the log. Keyed by
-    -- the affinity the combo starts from.
-    local AffinityResult = { [1] = "Sunstrider (east)", [2] = "Moonstalker (south)",
-        [3] = "Sunstrider (west)", [4] = "Moonstalker (north)", }
-
-    -- Quests that want the combo done wrong on purpose. Step 0 means the whole
-    -- quest; anything else only while it is sitting on that step.
-    local PerQuestOverwrite = {
-        {
-            ["QuestID"] = 5492, ["Step"] = 1, ["Instinctual"] = true,
-        }
-    }
-
-    local CurrentAffinity = GaugeData1[6] or 0
-    local WantedAffinity = AffinityNext[CurrentAffinity] or 0
-
-    -- True: continue the chain properly. False: deliberately break it, which is
-    -- what an "instinctual" quest step asks for.
-    -- Anything outside the routine can force the wrong combo by setting this,
-    -- which is how the addon drives it -- it already knows the quest state and
-    -- Quest is not always reachable from in here.
-    local CorrectCombo = true
-
-    -- Same thing off the quest directly, when the API is available.
-    if Quest ~= nil and Quest.IsQuestCompleted ~= nil then
-        for i,e in pairs(PerQuestOverwrite) do
-            local QuestID = e.QuestID
-            if QuestID ~= nil and Quest:IsQuestCompleted(QuestID) == false and Quest:HasQuest(QuestID) == true then
-                local Step = e.Step or 0
-                if Step == 0 or Quest:GetQuestCurrentStep(QuestID) == Step then
-                    if e.Instinctual == true then CorrectCombo = false end
-                end
-            end
+    local Helper = (HusbandoMax ~= nil and HusbandoMax.ACRHandler ~= nil) and HusbandoMax.ACRHandler.Beastmaster or nil
+    if Helper == nil or Helper.State == nil or Helper.State.Read == nil then
+        if Profile.SaidNoHelper ~= true then
+            Profile.SaidNoHelper = true
+            self.SendConsoleMessage("Beastmaster helper is not loaded, so this profile can do nothing. Reload the ACR pack.",1)
         end
+        return {}
     end
-
-    -- Is an axe of this affinity the one to press right now? Correct continues
-    -- the wheel, instinctual is anything that does not. Nothing to follow
-    -- without an affinity up, which is Trick's job.
-    local function AffinityAllowed(Affinity)
-        if CurrentAffinity == 0 then return false end
-        if CorrectCombo == true then return Affinity == WantedAffinity end
-        return Affinity ~= WantedAffinity
-    end
-
-    -- Is the affinity one of the four the axes work off? Sunstrider and
-    -- Moonstalker are not: they are the result of a combo, so landing on one
-    -- means the chain is spent and the next one starts from Trick again.
-    local OnWheel = AffinityNext[CurrentAffinity] ~= nil
-
-    -- gauge[4] is the battlehorn slot that is out, 0 for nothing. No familiar
-    -- means no job at all: Trick is the beast's half of every combo, so it and
-    -- all four axes read as unusable and we are left auto attacking.
-    local NoFamiliar = (GaugeData1[4] or 0) == 0
-
-    -- Trick is what applies an affinity, so it goes out when there is nothing
-    -- to follow -- either nothing up at all, or a chain that has resolved. It
-    -- spends familiar TP: the bar reads 0 straight after it and crawls back at
-    -- roughly 12 a second, so both bars want to be up first.
-    local TrickReady = OnWheel == false
-        and (GaugeData1[1] or 0) >= 100
-        and (GaugeData1[2] or 0) >= 100
-
-    -- The axes follow Trick, so being on the wheel is the only gate they get.
-    -- The familiar bar is the one Trick just emptied: gating them on it is what
-    -- kept all four silent for the eight seconds it takes to refill. Whether
-    -- they can actually be cast is the ACR's Ready check, not ours.
-    local ComboReady = OnWheel
-
-    -- The whole gauge, printed only when a value actually moves. Watching this
-    -- against the chat log is the quickest way to pin down what each action
-    -- does: which field the Heart lives in, when the chain counts up, and
-    -- whether Trick's affinity follows the pet.
-    local GaugeLine = "BST gauge: TP "..tostring(GaugeData1[1])
-        .." fam "..tostring(GaugeData1[2]).."/"..tostring(GaugeData1[3])
-        .." horn "..tostring(GaugeData1[4])
-        .." state "..tostring(GaugeData1[5])
-        .." affinity "..tostring(GaugeData1[6])
-        .." chain "..tostring(GaugeData1[7])
-        .." kin "..tostring(GaugeData1[8]).."/"..tostring(GaugeData1[9])
-        .." instinct "..tostring(GaugeData1[10]).."/"..tostring(GaugeData1[11])
-        .."  -> wants affinity "..tostring(WantedAffinity)
-        .." for "..tostring(AffinityResult[CurrentAffinity] or "nothing")
-        .." correct combo "..tostring(CorrectCombo)
-        -- horn 0 means no familiar is out, and without one none of this works:
-        -- Trick is the beast's action, so everything reads as not ready.
-        ..(GaugeData1[4] == 0 and "  NO PET OUT" or "")
-        .."  target "..tostring(math.round(TargetDistance or 0,1)).."y"
-        .." combat "..tostring(PlayerInCombat)
-    if Profile.LastGaugeLine ~= GaugeLine then
-        Profile.LastGaugeLine = GaugeLine
-        d(GaugeLine)
-    end
+    Profile.SaidNoHelper = nil
+    local S = Helper.State.Read(self,Data,Target,ClassTypeID)
+    local Plan = S.Plan
 
 	local SkillList = {
-
-        -- Nothing out? Call something. All three horns do the same job and each
-        -- carries its own 90 second cooldown, which is why there are three --
-        -- listed in order so whichever is up goes. Casting one while a familiar
-        -- is already out recalls it, hence the gauge check.
         {
             ["Type"] = 2, ["Name"] = "First Battlehorn", ["ID"] = 44881, ["Range"] = 0, ["TargetCast"] = false,
-            ["Level"] = PlayerLevel >= 1,
-            ["OtherCheck"] = NoFamiliar,
+            ["Level"] = PlayerLevel >= 1, ["OtherCheck"] = S.NoFamiliar and S.AddonDrivingPet == false,
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Horn1") == 1,
         },
         {
             ["Type"] = 2, ["Name"] = "Second Battlehorn", ["ID"] = 44892, ["Range"] = 0, ["TargetCast"] = false,
-            ["Level"] = PlayerLevel >= 10,
-            ["OtherCheck"] = NoFamiliar,
+            ["Level"] = PlayerLevel >= 10, ["OtherCheck"] = S.NoFamiliar and S.AddonDrivingPet == false,
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Horn2") == 1,
         },
         {
             ["Type"] = 2, ["Name"] = "Third Battlehorn", ["ID"] = 44894, ["Range"] = 0, ["TargetCast"] = false,
-            ["Level"] = PlayerLevel >= 20,
-            ["OtherCheck"] = NoFamiliar,
+            ["Level"] = PlayerLevel >= 20, ["OtherCheck"] = S.NoFamiliar and S.AddonDrivingPet == false,
+            ["SettingValue"] = self.GetSettingsValue(ClassTypeID,"Horn3") == 1,
         },
 
-        -- Trick first: it puts up the affinity the axes then follow.
+
         {
-            ["Type"] = 1, ["Name"] = "Trick", ["ID"] = 47093, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = TrickReady,
+            ["Type"] = 1, ["Name"] = "Snarl", ["ID"] = 46751, ["Range"] = 25, ["TargetCast"] = true,
+            ["OtherCheck"] = S.SnarlAllowed,
+        },
+        {
+            ["Type"] = 1, ["Name"] = "Challenge", ["ID"] = 46750, ["Range"] = 25, ["TargetCast"] = true,
+            ["OtherCheck"] = S.ChallengeAllowed,
+        },
+        
+        {
+            ["Type"] = 1, ["Name"] = "Shield Charge", ["ID"] = 44893, ["Range"] = 20, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 24,
+            ["SettingValue"] = JumpTimeout == false and self.GetSettingsValue(ClassTypeID,"Jumps") ~= 4,
+            ["OtherCheck"] = (self.GetSettingsValue(ClassTypeID,"Jumps") == 1 and TargetDistance > 5) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 2 and TargetDistance > 10) or (self.GetSettingsValue(ClassTypeID,"Jumps") == 3 and TargetDistance > 15),
+        },
+
+        {
+            ["Type"] = 2, ["Name"] = "Borrow", ["ID"] = 44895, ["Range"] = 0, ["TargetCast"] = false,
+            ["Level"] = PlayerLevel >= 22,
+            ["OtherCheck"] = S.AetherMode == 1 and S.OneWithNature == true and S.NoFamiliar == false,
+        },
+        {
+            ["Type"] = 1, ["Name"] = "Tempered Release", ["ID"] = 47092, ["Range"] = 25, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 18,
+            ["OtherCheck"] = S.NoFamiliar == false and S.OneWithNature == true
+                and (S.AetherMode == 2 or (S.PartWithReleaseNow == true and S.SwapPet == true and PlayerInCombat == true)),
+        },
+
+        
+        {
+            ["Type"] = 1, ["Name"] = "Beast Mode", ["ID"] = 44886, ["Range"] = 25, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 22,
+            ["OtherCheck"] = S.BeastModeAimed == true,
+        },
+        {
+            ["Type"] = 2, ["Name"] = "Beast Mode", ["ID"] = 44886, ["Range"] = 0, ["TargetCast"] = false,
+            ["Level"] = PlayerLevel >= 22,
+            ["OtherCheck"] = S.BeastModeSelf == true,
+        },
+
+        -- Low HP
+        {
+            ["Type"] = 1, ["Name"] = "Parting Blow", ["ID"] = 44891, ["Range"] = 25, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 6,
+            ["OtherCheck"] = S.SwapPet == true and PlayerInCombat == true
+                and (S.PartWithRelease == false or (S.PetCritical == true and S.OneWithNature == false)),
+        },
+
+        {
+            ["Type"] = 2, ["Name"] = "Rally", ["ID"] = 44905, ["Range"] = 0, ["TargetCast"] = false,
+            ["Level"] = PlayerLevel >= 28,
+            ["OtherCheck"] = Plan.Rally == true and PlayerInCombat == true,
+        },
+        {
+            ["Type"] = 2, ["Name"] = "Rallying Cheer", ["ID"] = 44904, ["Range"] = 0, ["TargetCast"] = false,
+            ["Level"] = PlayerLevel >= 40,
+            ["OtherCheck"] = Plan.Cheer == true and PlayerInCombat == true,
+        },
+
+        {
+            ["Type"] = 1, ["Name"] = "Trick", ["ID"] = 47093, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 8, ["OtherCheck"] = Plan.Trick == true,
+        },
+
+        -- At 250 TP
+        {
+            ["Type"] = 1, ["Name"] = "Brutal Rage", ["ID"] = 44930, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 50, ["OtherCheck"] = Plan.Upgraded == "Sun" or Plan.Upgraded == "Any",
+        },
+        {
+            ["Type"] = 1, ["Name"] = "Risen Fall", ["ID"] = 44932, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 50, ["OtherCheck"] = Plan.Upgraded == "Sun" or Plan.Upgraded == "Any",
+        },
+        {
+            ["Type"] = 1, ["Name"] = "Hawkish Talons", ["ID"] = 44931, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 50, ["OtherCheck"] = Plan.Upgraded == "Moon" or Plan.Upgraded == "Any",
+        },
+        {
+            ["Type"] = 1, ["Name"] = "Calamity", ["ID"] = 44933, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 50, ["OtherCheck"] = Plan.Upgraded == "Moon" or Plan.Upgraded == "Any",
         },
 
         -- Combo Thing
         {
-            ["Type"] = 1, ["Name"] = "Avalanche Axe", ["ID"] = 44884, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = ComboReady and AffinityAllowed(2),
+            ["Type"] = 1, ["Name"] = "Avalanche Axe", ["ID"] = 44884, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 4, ["OtherCheck"] = Plan.Axe == 2 or Plan.AxeAny == true,
         },
         {
-            ["Type"] = 1, ["Name"] = "Mistral Axe", ["ID"] = 44887, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = ComboReady and AffinityAllowed(3),
+            ["Type"] = 1, ["Name"] = "Mistral Axe", ["ID"] = 44887, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 8, ["OtherCheck"] = Plan.Axe == 3 or Plan.AxeAny == true,
         },
         {
-            ["Type"] = 1, ["Name"] = "Spinning Axe", ["ID"] = 44888, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = ComboReady and AffinityAllowed(4),
+            ["Type"] = 1, ["Name"] = "Spinning Axe", ["ID"] = 44888, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 14, ["OtherCheck"] = Plan.Axe == 4 or Plan.AxeAny == true,
         },
         {
-            ["Type"] = 1, ["Name"] = "Gale Axe", ["ID"] = 44889, ["Range"] = 3, ["TargetCast"] = true, ["OtherCheck"] = ComboReady and AffinityAllowed(1),
-        },
-
-        -- Rally spends a Mastered Instinct diamond to refill our TP. Held for
-        -- when the bar is actually low, otherwise the diamond is wasted.
-        {
-            ["Type"] = 2, ["Name"] = "Rally", ["ID"] = 44905, ["Range"] = 0, ["TargetCast"] = false,
-            ["Level"] = PlayerLevel >= 28,
-            ["OtherCheck"] = (GaugeData1[11] or 0) >= 1 and (GaugeData1[1] or 0) <= 100,
-        },
-
-        -- Rallying Cheer does the same for the familiar bar, which is what pays
-        -- for Trick -- so a dry familiar bar is the whole rotation stalling.
-        {
-            ["Type"] = 2, ["Name"] = "Rallying Cheer", ["ID"] = 44904, ["Range"] = 0, ["TargetCast"] = false,
-            ["Level"] = PlayerLevel >= 40,
-            ["OtherCheck"] = (GaugeData1[10] or 0) >= 1 and (GaugeData1[2] or 0) <= 100,
+            ["Type"] = 1, ["Name"] = "Gale Axe", ["ID"] = 44889, ["Range"] = 3, ["TargetCast"] = true,
+            ["Level"] = PlayerLevel >= 16, ["OtherCheck"] = Plan.Axe == 1 or Plan.AxeAny == true,
         },
 
 		--Single Target
